@@ -1,0 +1,7 @@
+name: BedWarsPlugin
+version: ${project.version}
+main: com.furyhcf.bedwars.BedWarsPlugin
+prefix: BedWars
+authors: [KaYoz, Plasticono]
+description: A Bedwars Plugin
+website: furyhcf.com
