@@ -1,4 +1,4 @@
-package com.furyhcf.bedwars.utils.game;
+package me.kayoz.bedwars.utils.users;
 
 /**
  * Created by KaYoz on 7/10/2017.
@@ -6,10 +6,9 @@ package com.furyhcf.bedwars.utils.game;
  * http://www.youtube.com/c/KaYozMC/
  */
 
-public enum GameState {
-
+public enum UserState {
     LOBBY,
-    STARTING,
-    INGAME,
-    RESTARTING;
+    GAME,
+    SPECTATOR,
+    LOGGED;
 }

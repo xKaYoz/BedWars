@@ -1,7 +1,7 @@
-package com.furyhcf.bedwars;
+package me.kayoz.bedwars;
 
-import com.furyhcf.bedwars.utils.game.GameState;
-import com.furyhcf.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.game.GameState;
+import me.kayoz.bedwars.utils.users.UserManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;

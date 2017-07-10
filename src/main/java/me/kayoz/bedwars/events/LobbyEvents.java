@@ -1,7 +1,7 @@
-package com.furyhcf.bedwars.events;
+package me.kayoz.bedwars.events;
 
-import com.furyhcf.bedwars.BedWarsPlugin;
-import com.furyhcf.bedwars.utils.game.GameState;
+import me.kayoz.bedwars.BedWarsPlugin;
+import me.kayoz.bedwars.utils.game.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;

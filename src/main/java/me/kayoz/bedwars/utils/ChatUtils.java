@@ -1,4 +1,4 @@
-package com.furyhcf.bedwars.utils;
+package me.kayoz.bedwars.utils;
 
 import org.bukkit.ChatColor;
 

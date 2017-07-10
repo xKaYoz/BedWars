@@ -1,6 +1,6 @@
 name: BedWarsPlugin
 version: ${project.version}
-main: com.furyhcf.bedwars.BedWarsPlugin
+main: BedWarsPlugin
 prefix: BedWars
 authors: [KaYoz, Plasticono]
 description: A Bedwars Plugin

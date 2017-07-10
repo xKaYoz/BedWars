@@ -1,8 +1,8 @@
-package com.furyhcf.bedwars.utils.team;
+package me.kayoz.bedwars.utils.team;
 
-import com.furyhcf.bedwars.utils.ChatUtils;
-import com.furyhcf.bedwars.utils.Color;
-import com.furyhcf.bedwars.utils.users.User;
+import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.Color;
+import me.kayoz.bedwars.utils.users.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

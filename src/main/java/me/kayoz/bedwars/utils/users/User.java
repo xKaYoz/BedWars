@@ -1,6 +1,6 @@
-package com.furyhcf.bedwars.utils.users;
+package me.kayoz.bedwars.utils.users;
 
-import com.furyhcf.bedwars.utils.team.Team;
+import me.kayoz.bedwars.utils.team.Team;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;

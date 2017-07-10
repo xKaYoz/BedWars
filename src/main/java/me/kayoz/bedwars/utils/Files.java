@@ -1,6 +1,6 @@
-package com.furyhcf.bedwars.utils;
+package me.kayoz.bedwars.utils;
 
-import com.furyhcf.bedwars.BedWarsPlugin;
+import me.kayoz.bedwars.BedWarsPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

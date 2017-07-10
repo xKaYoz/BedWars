@@ -1,4 +1,4 @@
-package com.furyhcf.bedwars.utils.users;
+package me.kayoz.bedwars.utils.users;
 
 import lombok.Getter;
 import org.bukkit.entity.Player;
