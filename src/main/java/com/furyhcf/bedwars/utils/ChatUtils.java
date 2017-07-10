@@ -2,6 +2,9 @@ package com.furyhcf.bedwars.utils;
 
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by KaYoz on 7/7/2017.
  * Subscribe to me on Youtube:
@@ -10,7 +13,19 @@ import org.bukkit.ChatColor;
 
 public class ChatUtils {
 
-    public static String format(String msg){
+    public static String format(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
+    }
+
+    public static String formatWithPrefix(String msg) {
+        return format("&7[&cFury&7] " + msg);
+    }
+
+    public static List<String> format(List<String> list) {
+        List<String> Format = new ArrayList();
+        for (String String : list) {
+            Format.add(format(String));
+        }
+        return Format;
     }
 }
