@@ -16,7 +16,7 @@ public enum Color {
     PURPLE("Royal", 5, ChatColor.DARK_PURPLE),
     AQUA("Aqua", 12, ChatColor.AQUA),
     PINK("Pink", 9, ChatColor.LIGHT_PURPLE),
-    LIGHT_GRAY("Smoke", 8, ChatColor.GRAY),
+    ORANGE("Amber", 8, ChatColor.GOLD),
     GREEN("Forest", 2, ChatColor.GREEN),
     YELLOW("Dandelion", 11, ChatColor.YELLOW);
 

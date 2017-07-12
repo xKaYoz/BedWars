@@ -1,7 +1,13 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.BedWarsPlugin;
+import me.kayoz.bedwars.Configuration;
+import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.game.GameState;
+import me.kayoz.bedwars.utils.users.User;
+import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.users.UserState;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -38,10 +44,43 @@ public class LobbyEvents implements Listener {
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
+        User u;
+
+        if(UserManager.getInstance().getUser(e.getPlayer()) == null){
+            u = new User(e.getPlayer());
+        } else {
+            u = UserManager.getInstance().getUser(e.getPlayer());
+        }
+
+        if(BedWarsPlugin.getInstance().getState() == GameState.LOBBY){
+            u.setState(UserState.LOBBY);
+            e.setJoinMessage(ChatUtils.format("&7" + u.getPlayer().getDisplayName() + "&e has joined!" +
+                    " &7(&c" + Bukkit.getServer().getOnlinePlayers().size() + "&7/&c" + Configuration.MAX_PLAYERS + "&7)"));
+        } else if(BedWarsPlugin.getInstance().getState() == GameState.INGAME){
+            if(u.getState() == UserState.LOGGED){
+                u.setState(UserState.GAME);
+                e.setJoinMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&7 has reconnected!"));
+            } else {
+                u.setState(UserState.SPECTATOR);
+                e.setJoinMessage(null);
+            }
+        } else if(BedWarsPlugin.getInstance().getState() == GameState.STARTING){
+            u.setState(UserState.SPECTATOR);
+        } else if(BedWarsPlugin.getInstance().getState() == GameState.RESTARTING){
+            u.setState(UserState.LOBBY);
+        }
 
     }
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
+
+        User u = UserManager.getInstance().getUser(e.getPlayer());
+
+        if(BedWarsPlugin.getInstance().getState() == GameState.INGAME){
+            u.setState(UserState.LOGGED);
+        }
+
+        e.setQuitMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&7 has disconnected!"));
 
     }
 }

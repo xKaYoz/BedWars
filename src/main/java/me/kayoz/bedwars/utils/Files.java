@@ -1,6 +1,7 @@
 package me.kayoz.bedwars.utils;
 
 import me.kayoz.bedwars.BedWarsPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -17,13 +18,24 @@ public class Files {
     private File file;
     private YamlConfiguration config;
 
+
     public void createFile(String name) {
         this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
 
-        if (!this.file.exists()) {
+        if(!BedWarsPlugin.getInstance().getDataFolder().exists()){
+            BedWarsPlugin.getInstance().getDataFolder().mkdir();
+        }
+
+        if(!this.file.exists()){
             try {
                 this.file.createNewFile();
-                this.config = YamlConfiguration.loadConfiguration(this.file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.config = YamlConfiguration.loadConfiguration(file);
+        } else {
+            try{
+                throw new IOException();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -32,12 +44,23 @@ public class Files {
     }
 
     public void createFile(String dir, String name) {
-        this.file = new File(dir, name + ".yml");
+        File f = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir);
+        this.file = new File(f, name + ".yml");
 
-        if (!this.file.exists()) {
+        if(!f.exists()){
+            f.mkdir();
+        }
+
+        if(!this.file.exists()){
             try {
                 this.file.createNewFile();
-                this.config = YamlConfiguration.loadConfiguration(this.file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.config = YamlConfiguration.loadConfiguration(file);
+        } else {
+            try{
+                throw new IOException();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -48,12 +71,7 @@ public class Files {
         this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
 
         if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-                this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
         return this.file;
     }
