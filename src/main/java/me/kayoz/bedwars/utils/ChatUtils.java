@@ -18,7 +18,7 @@ public class ChatUtils {
     }
 
     public static String formatWithPrefix(String msg) {
-        return format("&7[&cFury&7] " + msg);
+        return format("&7[&cBedWars&7] &e" + msg);
     }
 
     public static List<String> format(List<String> list) {

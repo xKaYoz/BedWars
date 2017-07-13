@@ -1,4 +1,4 @@
-package me.kayoz.bedwars.utils.game;
+package me.kayoz.bedwars.game;
 
 /**
  * Created by KaYoz on 7/10/2017.

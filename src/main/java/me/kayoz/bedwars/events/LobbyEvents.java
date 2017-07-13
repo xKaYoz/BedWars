@@ -2,8 +2,9 @@ package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.Configuration;
+import me.kayoz.bedwars.game.timers.LobbyTimer;
 import me.kayoz.bedwars.utils.ChatUtils;
-import me.kayoz.bedwars.utils.game.GameState;
+import me.kayoz.bedwars.game.GameState;
 import me.kayoz.bedwars.utils.users.User;
 import me.kayoz.bedwars.utils.users.UserManager;
 import me.kayoz.bedwars.utils.users.UserState;
@@ -56,10 +57,14 @@ public class LobbyEvents implements Listener {
             u.setState(UserState.LOBBY);
             e.setJoinMessage(ChatUtils.format("&7" + u.getPlayer().getDisplayName() + "&e has joined!" +
                     " &7(&c" + Bukkit.getServer().getOnlinePlayers().size() + "&7/&c" + Configuration.MAX_PLAYERS + "&7)"));
+
+            if(Bukkit.getServer().getOnlinePlayers().size() >= Configuration.MAX_PLAYERS){
+                LobbyTimer.start();
+            }
         } else if(BedWarsPlugin.getInstance().getState() == GameState.INGAME){
             if(u.getState() == UserState.LOGGED){
                 u.setState(UserState.GAME);
-                e.setJoinMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&7 has reconnected!"));
+                e.setJoinMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&6 has reconnected!"));
             } else {
                 u.setState(UserState.SPECTATOR);
                 e.setJoinMessage(null);
@@ -76,11 +81,18 @@ public class LobbyEvents implements Listener {
 
         User u = UserManager.getInstance().getUser(e.getPlayer());
 
+        if(BedWarsPlugin.getInstance().getState() == GameState.LOBBY){
+            if(LobbyTimer.on){
+                LobbyTimer.stop();
+                Bukkit.broadcastMessage(ChatUtils.format("&cThere are not enough players to start the game."));
+            }
+        }
+
         if(BedWarsPlugin.getInstance().getState() == GameState.INGAME){
             u.setState(UserState.LOGGED);
         }
 
-        e.setQuitMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&7 has disconnected!"));
+        e.setQuitMessage(ChatUtils.format("&c" + u.getPlayer().getDisplayName() + "&6 has quit!"));
 
     }
 }

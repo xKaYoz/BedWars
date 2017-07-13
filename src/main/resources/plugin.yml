@@ -4,3 +4,7 @@ main: me.kayoz.bedwars.BedWarsPlugin
 prefix: BedWars
 authors: [KaYoz, Plasticono]
 description: A Bedwars Plugin
+commands:
+   bw:
+      description: BedWars Admin Command.
+      aliases: [bedwar, bedwars, bwars, bedw]

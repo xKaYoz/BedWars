@@ -73,20 +73,17 @@ public class Files {
         if (!this.file.exists()) {
             return null;
         }
+
         return this.file;
     }
 
     public File getFile(String dir, String name) {
-        this.file = new File(dir, name + ".yml");
+        this.file = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir, name + ".yml");
 
         if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-                this.file = new File(dir, name + ".yml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
+
         return this.file;
     }
 
@@ -94,27 +91,20 @@ public class Files {
         this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
 
         if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-                this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
+
         this.config = YamlConfiguration.loadConfiguration(this.file);
         return this.config;
     }
 
     public YamlConfiguration getConfig(String dir, String name) {
-        this.file = new File(dir, name + ".yml");
+        this.file = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir, name + ".yml");
 
         if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
+
         this.config = YamlConfiguration.loadConfiguration(this.file);
         return this.config;
     }
