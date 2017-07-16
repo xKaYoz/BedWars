@@ -36,6 +36,10 @@ public class Map implements Serializable{
         MapManager.register(this);
     }
 
+    public void addGenerator(Generator gen){
+        gens.add(gen);
+    }
+
     @Utility
     public java.util.Map<String, Object> serialize(){
         java.util.Map<String, Object> data = new HashMap<String, Object>();

@@ -1,17 +1,21 @@
 package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
+import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.generators.Generator;
+import me.kayoz.bedwars.utils.inventories.AddGenInv;
 import me.kayoz.bedwars.utils.maps.Map;
+import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,31 +46,68 @@ public class MapSubCommand extends SubCommand {
             if(args[1].equalsIgnoreCase("create")){
                 if(args.length == 3){
 
-                    String name = args[2];
-
-                    ArrayList<Generator> d = new ArrayList<>();
-
-                    d.add(new Generator(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), Material.DIAMOND));
-
-                    Map map = new Map(name, d);
-
                     Files files = new Files();
 
-                    if(files.getFile("maps", name) == null){
-                        files.createFile("maps", name);
+                    String name = args[2];
+
+                    if(MapManager.getMap(name) != null){
+                        p.sendMessage(ChatUtils.formatWithPrefix("&6There already is a map with that name."));
+                        return;
                     }
 
-                    YamlConfiguration config = files.getConfig("maps", name);
+                    Map map = new Map(name);
+
+                    if(files.getFile("maps/" + name, name) == null){
+
+                        File dir = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name);
+
+                        if(!dir.isDirectory()){
+                            dir.mkdirs();
+                            System.out.println(dir.toString());
+                        }
+
+                        files.createFile("maps/" + name, name);
+                        System.out.println(dir.toString());
+                    }
+
+                    File gens = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name + "/gens");
+
+                    if(!gens.isDirectory()){
+                        gens.mkdirs();
+                    }
+                    File spawns = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name + "/spawns");
+                    if(!spawns.isDirectory()){
+                        spawns.mkdirs();
+                    }
+
+                    Generator gen = new Generator("test", p.getLocation(), Material.DIAMOND);
+
+                    files.createFile("maps/" + name + "/gens", gen.getName());
+
+                    YamlConfiguration config = files.getConfig("maps/" + name, name);
+                    YamlConfiguration genConfig = files.getConfig("maps/" + name + "/gens", gen.getName());
+
+                    for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
+
+                        genConfig.set(o.getKey(), o.getValue());
+
+                    }
 
                     config.set("Map", map.serialize());
 
                     try {
-                        config.save(files.getFile("maps", name));
+                        config.save(files.getFile("maps" + File.separator + name, name));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have created a new map called &6" + map.getName() + "&e."));
+                    try {
+                        genConfig.save(files.getFile("maps/" + name + "/gens", gen.getName()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have created a new map named &6" + map.getName() + "&e."));
 
                     return;
 
@@ -83,7 +124,18 @@ public class MapSubCommand extends SubCommand {
                 if(args[2].equalsIgnoreCase("add")){
 
                     if(args.length == 4){
+
+                        Map map = MapManager.getMap(args[3]);
+
+                        if(map == null){
+                            p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not a map with that name!"));
+                            return;
+                        }
+
                         //TODO Open an inventory for the player to select a generator to place.
+
+                        AddGenInv.open(p, map);
+
                         p.sendMessage(ChatUtils.formatWithPrefix("Currently in Development."));
                         return;
                     } else {

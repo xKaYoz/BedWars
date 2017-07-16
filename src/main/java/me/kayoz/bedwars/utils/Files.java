@@ -47,8 +47,8 @@ public class Files {
         File f = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir);
         this.file = new File(f, name + ".yml");
 
-        if(!f.exists()){
-            f.mkdir();
+        if(!f.isDirectory()){
+            f.mkdirs();
         }
 
         if(!this.file.exists()){
@@ -85,6 +85,17 @@ public class Files {
         }
 
         return this.file;
+    }
+
+    public File getDir(String dir){
+        this.file = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir);
+
+        if(!this.file.exists()){
+            return null;
+        }
+
+        return this.file;
+
     }
 
     public YamlConfiguration getConfig(String name) {

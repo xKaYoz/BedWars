@@ -2,10 +2,7 @@ package me.kayoz.bedwars.utils.generators;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Utility;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;
@@ -29,14 +26,27 @@ public class Generator implements Serializable{
     private double z;
     @Getter @Setter
     private Material drop;
+    @Getter @Setter
+    private String name;
 
-    public Generator(World world, double x, double y, double z, Material type){
+    public Generator(String name, World world, double x, double y, double z, Material type){
+        this.name = name;
         this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
         this.drop = type;
     }
+
+    public Generator(String name, Location location, Material type){
+        this.name = name;
+        this.world = location.getWorld();
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
+        this.drop = type;
+    }
+
     @Utility
     public Map<String, Object> serialize(){
         Map<String, Object> data = new HashMap<>();
@@ -50,12 +60,12 @@ public class Generator implements Serializable{
         return data;
     }
 
-    public static Generator deserialize(Map<String, Object> args){
+    public static Generator deserialize(String name, Map<String, Object> args){
         World world = Bukkit.getWorld((String) args.get("world"));
         if (world == null) {
             throw new IllegalArgumentException("unknown world");
         }
-        return new Generator(world, NumberConversions.toDouble(args.get("x")),
+        return new Generator(name, world, NumberConversions.toDouble(args.get("x")),
                 NumberConversions.toDouble(args.get("y")), NumberConversions.toDouble(args.get("z")), Material.getMaterial((String) args.get("Material")));
     }
 
