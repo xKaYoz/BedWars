@@ -28,7 +28,7 @@ public class AddGenInv {
         ItemStack iron = ItemBuilder.build(Material.IRON_BLOCK, 1, "&f&lIron Generator", Arrays.asList("&7Select this to place an iron generator."));
         ItemStack gold = ItemBuilder.build(Material.GOLD_BLOCK, 1, "&6&lGold Generator", Arrays.asList("&7Select this to place a gold generator."));
         ItemStack emerald = ItemBuilder.build(Material.EMERALD_BLOCK, 1, "&a&lEmerald Generator", Arrays.asList("&7Select this to place an emerald generator."));
-        ItemStack spacer = ItemBuilder.build(Material.STAINED_GLASS_PANE, 1, 7, " ", Arrays.asList(" "));
+        ItemStack spacer = ItemBuilder.build(Material.STAINED_GLASS_PANE, 1, 7, " ", Arrays.asList(""));
 
         inv.setItem(0, spacer);
         inv.setItem(2, spacer);

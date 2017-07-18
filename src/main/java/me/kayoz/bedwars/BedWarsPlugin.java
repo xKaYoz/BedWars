@@ -5,9 +5,11 @@ import lombok.Setter;
 import me.kayoz.bedwars.commands.BedWarsCommand;
 import me.kayoz.bedwars.events.AddGeneratorEvent;
 import me.kayoz.bedwars.events.LobbyEvents;
+import me.kayoz.bedwars.events.MapListInteractEvent;
+import me.kayoz.bedwars.events.PlayerCountCheck;
 import me.kayoz.bedwars.game.GameState;
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.Files;
+import me.kayoz.bedwars.utils.VaultManager;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.users.UserManager;
@@ -19,8 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public final class BedWarsPlugin extends JavaPlugin {
 
@@ -36,21 +36,17 @@ public final class BedWarsPlugin extends JavaPlugin {
         registerListeners();
         registerCommands();
         state = GameState.LOBBY;
+        VaultManager.setup();
         loadMaps();
         new UserManager();
-        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-            @Override
-            public void run() {
-                checkFiles();
-            }
-        }, 20);
+        checkFiles();
     }
 
     private void loadMaps() {
 
         File f = new File(this.getDataFolder() + File.separator + "maps");
 
-        if(f.listFiles() == null){
+        if (f.listFiles() == null) {
             return;
         }
 
@@ -78,34 +74,34 @@ public final class BedWarsPlugin extends JavaPlugin {
              * Loading Maps
              */
 
-            Map map = new Map(str);
+            System.out.println(config.getString("creator"));
+            System.out.println(y.getPath() + "/" + str);
 
-            System.out.println("Map " + map.getName() + " has been created.");
+            Map map = new Map(config.getString("creator"), str);
+
+           //java.util.Map<String, Object> maps = config.getValues(true);
+
+            //Map map = Map.deserialize(maps);
 
             /**
              * Loading Gens
              */
 
-            if(genFiles != null) {
+            if (genFiles != null) {
 
                 for (File file : genFiles) {
-                    if(!file.isDirectory()) {
+                    if (!file.isDirectory()) {
                         YamlConfiguration genConfig = files.getConfig(gens.getPath(), file.getName().replace(".yml", ""));
 
                         java.util.Map<String, Object> genList = genConfig.getValues(false);
 
-                        Generator gen = Generator.deserialize(genConfig.getName().replace(".yml", ""), genList);
+                        Generator gen = Generator.deserialize(String.valueOf(map.getGens().size()), genList);
+
 
                         map.addGenerator(gen);
                     }
                 }
             }
-
-            //Generator gen = Generator.deserialize(genConfig.getName().replace(".yml", ""), genList);
-
-            //map.addGenerator(gen);
-
-            //getLogger().info(ChatUtils.format("&aGenerator &e" + gen + " &ahas been loaded!"));
 
             this.getLogger().info(map.getName() + " has " + map.getGens().size() + " generators named " + map.getGens());
 
@@ -127,6 +123,9 @@ public final class BedWarsPlugin extends JavaPlugin {
 
         pm.registerEvents(new LobbyEvents(), this);
         pm.registerEvents(new AddGeneratorEvent(), this);
+        pm.registerEvents(new MapListInteractEvent(), this);
+
+        pm.registerEvents(new PlayerCountCheck(), this);
     }
 
     private void checkFiles() {
@@ -135,7 +134,10 @@ public final class BedWarsPlugin extends JavaPlugin {
         if (files.getFile("config") == null) {
             files.createFile("config");
             YamlConfiguration config = files.getConfig("config");
-            config.set("MaxPlayers", 8);
+            config.set("Max Players", 8);
+            config.set("Teams", false);
+            config.set("Players Per Team", 0);
+            config.set("Number of Teams", 0);
 
             try {
                 config.save(files.getFile("config"));

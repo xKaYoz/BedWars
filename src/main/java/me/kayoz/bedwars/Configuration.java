@@ -14,6 +14,9 @@ public class Configuration {
     private static Files files = new Files();
     private static YamlConfiguration config = files.getConfig("config");
 
-    public static int MAX_PLAYERS = config.getInt("MaxPlayers");
+    public static int MAX_PLAYERS = config.getInt("Max Players");
+    public static boolean TEAM = config.getBoolean("Teams");
+    public static int PLAYERS_PER_TEAM = config.getInt("Players Per Team");
+    public static int TEAMS = config.getInt("Amount of Teams");
 
 }

@@ -1,5 +1,6 @@
 package me.kayoz.bedwars.commands;
 
+import me.kayoz.bedwars.commands.subcommands.GeneratorSubCommand;
 import me.kayoz.bedwars.commands.subcommands.MapSubCommand;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class SubCommandManager {
 
     private SubCommandManager(){
         subcommands.put("map", new MapSubCommand());
+        subcommands.put("generator", new GeneratorSubCommand());
     }
 
     public SubCommand find(String command) {

@@ -5,8 +5,11 @@ import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.Files;
+import me.kayoz.bedwars.utils.ItemBuilder;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.inventories.AddGenInv;
+import me.kayoz.bedwars.utils.inventories.AllGensInv;
+import me.kayoz.bedwars.utils.inventories.AllMapsInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.Location;
@@ -14,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +44,12 @@ public class MapSubCommand extends SubCommand {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args.length == 1){
-                p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: TODO Implement Help Command"));
+                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
+                p.sendMessage(ChatUtils.format("&6Map Help &7(Page 1/1)"));
+                p.sendMessage(ChatUtils.format("  &e/bw map help &8- &7Displays this help menu."));
+                p.sendMessage(ChatUtils.format("  &e/bw map create <name> &8- &7Create a map with the given name."));
+                p.sendMessage(ChatUtils.format("  &e/bw map list &8- &7A list of all the maps that have been created."));
+                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
                 return;
             }
             if(args[1].equalsIgnoreCase("create")){
@@ -55,7 +64,7 @@ public class MapSubCommand extends SubCommand {
                         return;
                     }
 
-                    Map map = new Map(name);
+                    Map map = new Map(p.getName(), name);
 
                     if(files.getFile("maps/" + name, name) == null){
 
@@ -80,96 +89,37 @@ public class MapSubCommand extends SubCommand {
                         spawns.mkdirs();
                     }
 
-                    Generator gen = new Generator("test", p.getLocation(), Material.DIAMOND);
-
-                    files.createFile("maps/" + name + "/gens", gen.getName());
-
                     YamlConfiguration config = files.getConfig("maps/" + name, name);
-                    YamlConfiguration genConfig = files.getConfig("maps/" + name + "/gens", gen.getName());
 
-                    for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
-
-                        genConfig.set(o.getKey(), o.getValue());
-
+                    for(java.util.Map.Entry<String, Object> o : map.serialize().entrySet()){
+                        config.set(o.getKey(), o.getValue());
                     }
-
-                    config.set("Map", map.serialize());
 
                     try {
                         config.save(files.getFile("maps" + File.separator + name, name));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    try {
-                        genConfig.save(files.getFile("maps/" + name + "/gens", gen.getName()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
                     p.sendMessage(ChatUtils.formatWithPrefix("&eYou have created a new map named &6" + map.getName() + "&e."));
-
                     return;
-
                 } else {
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: TODO Implement Help Command"));
+                    p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: /bw map create <name>"));
                 }
-            } else if(args[1].equalsIgnoreCase("generator")){
+            } else if(args.length == 2 && args[1].equalsIgnoreCase("list")){
 
-                if(args.length <= 2){
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: TODO Implement Help Command"));
-                    return;
-                }
-
-                if(args[2].equalsIgnoreCase("add")){
-
-                    if(args.length == 4){
-
-                        Map map = MapManager.getMap(args[3]);
-
-                        if(map == null){
-                            p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not a map with that name!"));
-                            return;
-                        }
-
-                        //TODO Open an inventory for the player to select a generator to place.
-
-                        AddGenInv.open(p, map);
-
-                        p.sendMessage(ChatUtils.formatWithPrefix("Currently in Development."));
-                        return;
-                    } else {
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: /bw map generator add <mapName>"));
-                        return;
-                    }
-
-                } else if(args[2].equalsIgnoreCase("list")){
-                    if(args.length == 3){
-                        //TODO Give the players a list of all generators and their locations.
-                        p.sendMessage(ChatUtils.formatWithPrefix("Currently in Development."));
-                        return;
-                    } else {
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: /bw map generator remove <mapName>"));
-                        return;
-                    }
-                } else if(args[2].equalsIgnoreCase("remove")){
-                    if(args.length == 4){
-                        //TODO Give the player a block to remove a generator.
-                        p.sendMessage(ChatUtils.formatWithPrefix("Currently in Development."));
-                        return;
-                    } else {
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: /bw map generator remove <mapName>"));
-                        return;
-                    }
-                }
+                AllMapsInv.create(p);
 
             } else {
-                p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: TODO Implement Help Command"));
+                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
+                p.sendMessage(ChatUtils.format("&6Map Help &7(Page 1/1)"));
+                p.sendMessage(ChatUtils.format("  &e/bw map help &8- &7Displays this help menu."));
+                p.sendMessage(ChatUtils.format("  &e/bw map create <name> &8- &7Create a map with the given name."));
+                p.sendMessage(ChatUtils.format("  &e/bw map list &8- &7A list of all the maps that have been created."));
+                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
             }
         } else {
             sender.sendMessage(ChatUtils.format("&cYou must be a player to execute this command."));
         }
-
     }
 
     @Override
