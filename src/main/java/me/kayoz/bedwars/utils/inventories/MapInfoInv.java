@@ -51,9 +51,18 @@ public class MapInfoInv {
                 ""
         ));
 
+        ItemStack spawn = ItemBuilder.build(Material.BEACON, 1, "&6Spawn Points", Arrays.asList(
+                "&7There are &6" + map.getSpawns().size() + " &7spawn points."
+        ));
+
+        ItemStack location = ItemBuilder.build(Material.COMPASS, 1, "&6Location", Arrays.asList("" +
+                "&7Click to Teleport. &7(&4&lIn Development&7)"));
+
         inv.setItem(13, mapItem);
-        inv.setItem(29, gens);
-        inv.setItem(31, createdBy);
+        inv.setItem(28, gens);
+        inv.setItem(30, spawn);
+        inv.setItem(32, createdBy);
+        inv.setItem(34, location);
 
         p.openInventory(inv);
     }

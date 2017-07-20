@@ -3,17 +3,14 @@ package me.kayoz.bedwars;
 import lombok.Getter;
 import lombok.Setter;
 import me.kayoz.bedwars.commands.BedWarsCommand;
-import me.kayoz.bedwars.events.AddGeneratorEvent;
-import me.kayoz.bedwars.events.LobbyEvents;
-import me.kayoz.bedwars.events.MapListInteractEvent;
-import me.kayoz.bedwars.events.PlayerCountCheck;
+import me.kayoz.bedwars.events.*;
 import me.kayoz.bedwars.game.GameState;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.VaultManager;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
+import me.kayoz.bedwars.utils.spawns.Spawn;
 import me.kayoz.bedwars.utils.users.UserManager;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,11 +61,12 @@ public final class BedWarsPlugin extends JavaPlugin {
             File gens = new File(y.getPath() + "/gens");
             File gensD = new File(this.getDataFolder() + y.getPath() + "/gens");
             File spawns = new File(y.getPath() + "/spawns");
+            File spawnsD = new File(this.getDataFolder() + y.getPath() + "/spawns");
             Files files = new Files();
             YamlConfiguration config = files.getConfig(y.getPath(), str);
 
             File[] genFiles = gensD.listFiles();
-            File[] spawnFiles = spawns.listFiles();
+            File[] spawnFiles = spawnsD.listFiles();
 
             /**
              * Loading Maps
@@ -79,7 +77,7 @@ public final class BedWarsPlugin extends JavaPlugin {
 
             Map map = new Map(config.getString("creator"), str);
 
-           //java.util.Map<String, Object> maps = config.getValues(true);
+            //java.util.Map<String, Object> maps = config.getValues(true);
 
             //Map map = Map.deserialize(maps);
 
@@ -97,8 +95,25 @@ public final class BedWarsPlugin extends JavaPlugin {
 
                         Generator gen = Generator.deserialize(String.valueOf(map.getGens().size()), genList);
 
-
                         map.addGenerator(gen);
+                    }
+                }
+            }
+
+            if (spawnFiles != null) {
+
+                for (File file : spawnFiles) {
+                    if (!file.isDirectory()) {
+                        YamlConfiguration spawnConfig = files.getConfig(spawns.getPath(), file.getName().replace(".yml", ""));
+
+                        java.util.Map<String, Object> spawnList = spawnConfig.getValues(false);
+
+                        Spawn spawn = Spawn.deserialize(String.valueOf(map.getSpawns().size()), spawnList);
+
+                        map.addSpawn(spawn);
+
+                        getLogger().info("The spawn " + spawn.getName() + " has been loaded for map " + spawn.getMap().getName());
+
                     }
                 }
             }
@@ -124,6 +139,10 @@ public final class BedWarsPlugin extends JavaPlugin {
         pm.registerEvents(new LobbyEvents(), this);
         pm.registerEvents(new AddGeneratorEvent(), this);
         pm.registerEvents(new MapListInteractEvent(), this);
+        pm.registerEvents(new GenListInteractEvent(), this);
+        pm.registerEvents(new GenInfoInteractEvent(), this);
+        pm.registerEvents(new SpawnListInteractEvent(), this);
+        pm.registerEvents(new SpawnInfoInteractEvent(), this);
 
         pm.registerEvents(new PlayerCountCheck(), this);
     }

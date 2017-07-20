@@ -22,7 +22,7 @@ public class AllGensInv {
 
     public static void create(Player p, Map map){
 
-        Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.format("&6Generators"));
+        Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.format("&6Generators for " + map.getName()));
 
         for(Generator gen : map.getGens()){
 

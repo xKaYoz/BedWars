@@ -1,5 +1,6 @@
 package me.kayoz.bedwars.commands;
 
+import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import org.bukkit.command.CommandSender;
  */
 
 public class BedWarsCommand implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
