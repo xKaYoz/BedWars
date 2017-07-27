@@ -1,8 +1,9 @@
 package me.kayoz.bedwars.utils.users;
 
-import me.kayoz.bedwars.utils.team.Team;
 import lombok.Getter;
 import lombok.Setter;
+import me.kayoz.bedwars.utils.team.Team;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,16 +15,23 @@ import org.bukkit.entity.Player;
 public class User {
     @Getter
     private Player player;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int kills;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int deaths;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Team team;
-    @Getter @Setter
+    @Getter
+    @Setter
     private UserState state;
+    @Getter
+    @Setter
+    private Color color;
 
-    public User(Player p){
+    public User(Player p) {
         this.player = p;
         UserManager.getInstance().register(this);
     }

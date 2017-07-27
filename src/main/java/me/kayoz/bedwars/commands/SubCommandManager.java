@@ -1,8 +1,6 @@
 package me.kayoz.bedwars.commands;
 
-import me.kayoz.bedwars.commands.subcommands.GeneratorSubCommand;
-import me.kayoz.bedwars.commands.subcommands.MapSubCommand;
-import me.kayoz.bedwars.commands.subcommands.SpawnSubCommand;
+import me.kayoz.bedwars.commands.subcommands.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,20 +14,21 @@ import java.util.Map;
 public class SubCommandManager {
 
     private static SubCommandManager ourInstance = new SubCommandManager();
+    private Map<String, SubCommand> subcommands = new HashMap<>();
 
-    public static SubCommandManager getInstance(){
-        return ourInstance;
-    }
-
-    private SubCommandManager(){
+    private SubCommandManager() {
         subcommands.put("map", new MapSubCommand());
         subcommands.put("generator", new GeneratorSubCommand());
         subcommands.put("spawn", new SpawnSubCommand());
+        subcommands.put("bed", new BedSubCommand());
+        subcommands.put("help", new HelpSubCommand());
+    }
+
+    public static SubCommandManager getInstance() {
+        return ourInstance;
     }
 
     public SubCommand find(String command) {
-        return  subcommands.get(command);
+        return subcommands.get(command);
     }
-
-    private Map<String, SubCommand> subcommands = new HashMap<>();
 }

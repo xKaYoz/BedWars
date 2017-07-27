@@ -1,7 +1,6 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.ChatUtils;
-import me.kayoz.bedwars.utils.generators.Generator;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.MapInfoInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
@@ -15,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +38,7 @@ public class SpawnInfoInteractEvent implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if (inv.getName().contains(ChatUtils.format(" Info")) &&
+        if (inv.getName().contains(Chat.format(" Info")) &&
                 (inv.getItem(13) != null && inv.getItem(13).getType() == Material.BEACON) &&
                 (inv.getItem(30) != null && inv.getItem(30).getType() == Material.EMPTY_MAP) &&
                 (inv.getItem(32) != null && inv.getItem(32).getType() == Material.COMPASS)) {
@@ -59,13 +57,13 @@ public class SpawnInfoInteractEvent implements Listener {
                 }
 
             }
-            if(item.getType() == Material.COMPASS){
+            if (item.getType() == Material.COMPASS) {
                 String spawnName = ChatColor.stripColor(inv.getName()).replace(" Info", "");
-                for(Spawn s : map.getSpawns()){
+                for (Spawn s : map.getSpawns()) {
 
-                    if(s.getName().equalsIgnoreCase(spawnName)){
+                    if (s.getName().equalsIgnoreCase(spawnName)) {
                         p.teleport(new Location(s.getWorld(), s.getX(), s.getY(), s.getZ(), s.getYaw(), s.getPitch()));
-                        p.sendMessage(ChatUtils.format("&eYou have been teleported to the spawn point " + spawnName));
+                        p.sendMessage(Chat.format("&eYou have been teleported to the spawn point " + spawnName));
                         p.getOpenInventory().close();
                     }
 

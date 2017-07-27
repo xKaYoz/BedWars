@@ -1,12 +1,11 @@
 package me.kayoz.bedwars.utils.team;
 
-import me.kayoz.bedwars.utils.ChatUtils;
-import me.kayoz.bedwars.utils.Color;
-import me.kayoz.bedwars.utils.users.User;
 import lombok.Getter;
 import lombok.Setter;
+import me.kayoz.bedwars.utils.chat.Chat;
+import me.kayoz.bedwars.utils.users.User;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
+import org.bukkit.Color;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
@@ -20,23 +19,33 @@ import java.util.ArrayList;
 public class Team {
 
     @Getter
-    private ArrayList<User> members;
-    @Getter @Setter
+    private ArrayList<User> members = new ArrayList<>();
+    @Getter
+    @Setter
     private int kills;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int deaths;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean canRespawn = true;
-    @Getter @Setter
-    private Block bed;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Inventory backpack;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Color color;
+    @Getter
+    @Setter
+    private int colorRGB;
+    @Getter
+    @Setter
+    private String name;
 
-    public Team(User member){
+    public Team(User member) {
         this.members.add(member);
-        backpack = Bukkit.createInventory(null, 27, ChatUtils.format("&cBackpack"));
+        member.setTeam(this);
+        backpack = Bukkit.createInventory(null, 27, Chat.format("&cBackpack"));
+        TeamManager.register(this);
     }
-
 }

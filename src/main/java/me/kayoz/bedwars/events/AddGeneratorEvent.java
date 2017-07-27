@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
@@ -19,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +38,7 @@ public class AddGeneratorEvent implements Listener {
     public HashMap<Player, Map> genMap = new HashMap<>();
 
     @EventHandler
-    public void onInventorySelect(InventoryClickEvent e){
+    public void onInventorySelect(InventoryClickEvent e) {
 
         if (e.getWhoClicked().getType() != EntityType.PLAYER
                 || e.getSlotType() == InventoryType.SlotType.OUTSIDE
@@ -51,29 +50,29 @@ public class AddGeneratorEvent implements Listener {
         Inventory inv = e.getInventory();
         ItemStack item = e.getCurrentItem();
 
-        if(inv.getName().contains(ChatUtils.format("&eGenerator: "))){
+        if (inv.getName().contains(Chat.format("&eGenerator: "))) {
 
-            if(item.getType() == Material.DIAMOND_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(ChatUtils.format("&b&lDiamond Generator"))){
+            if (item.getType() == Material.DIAMOND_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(Chat.format("&b&lDiamond Generator"))) {
                 e.setCancelled(true);
                 p.getOpenInventory().close();
                 int i = p.getInventory().firstEmpty();
 
                 Map map = MapManager.getMap(ChatColor.stripColor(inv.getName().replace("Generator: ", "")));
 
-                if(map == null){
-                    p.sendMessage(ChatUtils.formatWithPrefix("The map could not be found. Please report this to the developer."));
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "The map could not be found. Please report this to the developer.");
                     return;
                 }
 
-                if(i == -1){
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not an empty slot in your inventory."));
+                if (i == -1) {
+                    Chat.sendPrefixMessage(p, "&cThere is not an empty slot in your inventory.");
                     return;
                 } else {
                     ItemStack gen = ItemBuilder.build(Material.DIAMOND_BLOCK, 1, "&b&lDiamond Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if(genMap.containsKey(p)){
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cYou have not placed the previous generator."));
+                    if (genMap.containsKey(p)) {
+                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
                         return;
                     }
 
@@ -84,11 +83,11 @@ public class AddGeneratorEvent implements Listener {
                     Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
                         @Override
                         public void run() {
-                            if(p != null && genMap.containsKey(p)){
+                            if (p != null && genMap.containsKey(p)) {
 
                                 genMap.remove(p);
 
-                                p.sendMessage(ChatUtils.formatWithPrefix("&cWe have removed the Generator from your inventory."));
+                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
 
                                 p.getInventory().remove(gen);
 
@@ -96,30 +95,31 @@ public class AddGeneratorEvent implements Listener {
                         }
                     }, 20 * 20);
 
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have been given a &b&lDiamond Generator&e. Place the item where you would like a generator to be. You have 20 seconds to place it."));
+                    Chat.sendPrefixMessage(p, "&eYou have been given a &b&lDiamond Generator&e. " +
+                            "Place the item where you would like a generator to be. You have 20 seconds to place it.");
                 }
 
-            } else if(item.getType() == Material.IRON_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(ChatUtils.format("&f&lIron Generator"))){
+            } else if (item.getType() == Material.IRON_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(Chat.format("&f&lIron Generator"))) {
                 e.setCancelled(true);
                 p.getOpenInventory().close();
                 int i = p.getInventory().firstEmpty();
 
                 Map map = MapManager.getMap(ChatColor.stripColor(inv.getName().replace("Generator: ", "")));
 
-                if(map == null){
-                    p.sendMessage(ChatUtils.formatWithPrefix("The map could not be found. Please report this to the developer."));
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "The map could not be found. Please report this to the developer.");
                     return;
                 }
 
-                if(i == -1){
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not an empty slot in your inventory."));
+                if (i == -1) {
+                    Chat.sendPrefixMessage(p, "&cThere is not an empty slot in your inventory.");
                     return;
                 } else {
                     ItemStack gen = ItemBuilder.build(Material.IRON_BLOCK, 1, "&f&lIron Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if(genMap.containsKey(p)){
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cYou have not placed the previous generator."));
+                    if (genMap.containsKey(p)) {
+                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
                         return;
                     }
 
@@ -130,11 +130,11 @@ public class AddGeneratorEvent implements Listener {
                     Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
                         @Override
                         public void run() {
-                            if(p != null && genMap.containsKey(p)){
+                            if (p != null && genMap.containsKey(p)) {
 
                                 genMap.remove(p);
 
-                                p.sendMessage(ChatUtils.formatWithPrefix("&cWe have removed the Generator from your inventory."));
+                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
 
                                 p.getInventory().remove(gen);
 
@@ -142,29 +142,30 @@ public class AddGeneratorEvent implements Listener {
                         }
                     }, 20 * 20);
 
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have been given an &f&lIron Generator&e. Place the item where you would like a generator to be. You have 20 seconds to place it."));
+                    Chat.sendPrefixMessage(p, "&eYou have been given an &f&lIron Generator&e. " +
+                            "Place the item where you would like a generator to be. You have 20 seconds to place it.");
                 }
-            } else if(item.getType() == Material.GOLD_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(ChatUtils.format("&6&lGold Generator"))){
+            } else if (item.getType() == Material.GOLD_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(Chat.format("&6&lGold Generator"))) {
                 e.setCancelled(true);
                 p.getOpenInventory().close();
                 int i = p.getInventory().firstEmpty();
 
                 Map map = MapManager.getMap(ChatColor.stripColor(inv.getName().replace("Generator: ", "")));
 
-                if(map == null){
-                    p.sendMessage(ChatUtils.formatWithPrefix("The map could not be found. Please report this to the developer."));
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "The map could not be found. Please report this to the developer.");
                     return;
                 }
 
-                if(i == -1){
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not an empty slot in your inventory."));
+                if (i == -1) {
+                    Chat.sendPrefixMessage(p, "&cThere is not an empty slot in your inventory.");
                     return;
                 } else {
                     ItemStack gen = ItemBuilder.build(Material.GOLD_BLOCK, 1, "&6&lGold Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if(genMap.containsKey(p)){
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cYou have not placed the previous generator."));
+                    if (genMap.containsKey(p)) {
+                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
                         return;
                     }
 
@@ -175,11 +176,11 @@ public class AddGeneratorEvent implements Listener {
                     Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
                         @Override
                         public void run() {
-                            if(p != null && genMap.containsKey(p)){
+                            if (p != null && genMap.containsKey(p)) {
 
                                 genMap.remove(p);
 
-                                p.sendMessage(ChatUtils.formatWithPrefix("&cWe have removed the Generator from your inventory."));
+                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
 
                                 p.getInventory().remove(gen);
 
@@ -187,29 +188,30 @@ public class AddGeneratorEvent implements Listener {
                         }
                     }, 20 * 20);
 
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have been given a &6&lGold Generator&e. Place the item where you would like a generator to be. You have 20 seconds to place it."));
+                    Chat.sendPrefixMessage(p, "&eYou have been given a &6&lGold Generator&e. " +
+                            "Place the item where you would like a generator to be. You have 20 seconds to place it.");
                 }
-            } else if(item.getType() == Material.EMERALD_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(ChatUtils.format("&a&lEmerald Generator"))){
+            } else if (item.getType() == Material.EMERALD_BLOCK && item.getItemMeta().getDisplayName().equalsIgnoreCase(Chat.format("&a&lEmerald Generator"))) {
                 e.setCancelled(true);
                 p.getOpenInventory().close();
                 int i = p.getInventory().firstEmpty();
 
                 Map map = MapManager.getMap(ChatColor.stripColor(inv.getName().replace("Generator: ", "")));
 
-                if(map == null){
-                    p.sendMessage(ChatUtils.formatWithPrefix("The map could not be found. Please report this to the developer."));
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "The map could not be found. Please report this to the developer.");
                     return;
                 }
 
-                if(i == -1){
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not an empty slot in your inventory."));
+                if (i == -1) {
+                    Chat.sendPrefixMessage(p, "&cThere is not an empty slot in your inventory.");
                     return;
                 } else {
                     ItemStack gen = ItemBuilder.build(Material.EMERALD_BLOCK, 1, "&a&lEmerald Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if(genMap.containsKey(p)){
-                        p.sendMessage(ChatUtils.formatWithPrefix("&cYou have not placed the previous generator."));
+                    if (genMap.containsKey(p)) {
+                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
                         return;
                     }
 
@@ -220,11 +222,11 @@ public class AddGeneratorEvent implements Listener {
                     Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
                         @Override
                         public void run() {
-                            if(p != null && genMap.containsKey(p)){
+                            if (p != null && genMap.containsKey(p)) {
 
                                 genMap.remove(p);
 
-                                p.sendMessage(ChatUtils.formatWithPrefix("&cWe have removed the Generator from your inventory."));
+                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
 
                                 p.getInventory().remove(gen);
 
@@ -232,20 +234,22 @@ public class AddGeneratorEvent implements Listener {
                         }
                     }, 20 * 20);
 
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have been given an &a&lEmerald Generator&e. Place the item where you would like a generator to be. You have 20 seconds to place it."));
+                    Chat.sendPrefixMessage(p, "&eYou have been given an &a&lEmerald Generator&e. " +
+                            "Place the item where you would like a generator to be. You have 20 seconds to place it.");
                 }
 
             }
         }
     }
+
     @EventHandler(ignoreCancelled = true)
-    public void onPlace(BlockPlaceEvent e){
+    public void onPlace(BlockPlaceEvent e) {
         Location loc = e.getBlock().getLocation();
         Player p = e.getPlayer();
         Block block = e.getBlock();
 
-        if(block.getType() == Material.DIAMOND_BLOCK && p.getItemInHand().hasItemMeta() &&
-                p.getItemInHand().getItemMeta().getDisplayName().equals(ChatUtils.format("&b&lDiamond Generator"))){
+        if (block.getType() == Material.DIAMOND_BLOCK && p.getItemInHand().hasItemMeta() &&
+                p.getItemInHand().getItemMeta().getDisplayName().equals(Chat.format("&b&lDiamond Generator"))) {
             e.setCancelled(true);
 
             Map map = genMap.get(p);
@@ -254,13 +258,13 @@ public class AddGeneratorEvent implements Listener {
 
             map.addGenerator(gen);
 
-            p.sendMessage(ChatUtils.formatWithPrefix("&eA &b&lDiamond Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + + loc.getZ() + " for map " + map.getName()));
+            Chat.sendPrefixMessage(p, "&eA &b&lDiamond Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + +loc.getZ() + " for map " + map.getName());
 
             Files files = new Files();
             files.createFile("maps/" + map.getName() + "/gens", gen.getName());
             YamlConfiguration genConfig = files.getConfig("maps/" + map.getName() + "/gens", gen.getName());
 
-            for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
+            for (java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()) {
                 genConfig.set(o.getKey(), o.getValue());
             }
 
@@ -274,8 +278,8 @@ public class AddGeneratorEvent implements Listener {
 
             genMap.remove(p);
 
-        } else if(block.getType() == Material.IRON_BLOCK && p.getItemInHand().hasItemMeta() &&
-                p.getItemInHand().getItemMeta().getDisplayName().equals(ChatUtils.format("&f&lIron Generator"))){
+        } else if (block.getType() == Material.IRON_BLOCK && p.getItemInHand().hasItemMeta() &&
+                p.getItemInHand().getItemMeta().getDisplayName().equals(Chat.format("&f&lIron Generator"))) {
             e.setCancelled(true);
 
             Map map = genMap.get(p);
@@ -284,13 +288,13 @@ public class AddGeneratorEvent implements Listener {
 
             map.addGenerator(gen);
 
-            p.sendMessage(ChatUtils.formatWithPrefix("&eAn &f&lIron Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + + loc.getZ() + " for map " + map.getName()));
+            Chat.sendPrefixMessage(p, "&eAn &f&lIron Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + +loc.getZ() + " for map " + map.getName());
 
             Files files = new Files();
             files.createFile("maps/" + map.getName() + "/gens", gen.getName());
             YamlConfiguration genConfig = files.getConfig("maps/" + map.getName() + "/gens", gen.getName());
 
-            for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
+            for (java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()) {
                 genConfig.set(o.getKey(), o.getValue());
             }
 
@@ -304,8 +308,8 @@ public class AddGeneratorEvent implements Listener {
 
             genMap.remove(p);
 
-        } else if(block.getType() == Material.GOLD_BLOCK && p.getItemInHand().hasItemMeta() &&
-                p.getItemInHand().getItemMeta().getDisplayName().equals(ChatUtils.format("&6&lGold Generator"))){
+        } else if (block.getType() == Material.GOLD_BLOCK && p.getItemInHand().hasItemMeta() &&
+                p.getItemInHand().getItemMeta().getDisplayName().equals(Chat.format("&6&lGold Generator"))) {
             e.setCancelled(true);
 
             Map map = genMap.get(p);
@@ -314,13 +318,13 @@ public class AddGeneratorEvent implements Listener {
 
             map.addGenerator(gen);
 
-            p.sendMessage(ChatUtils.formatWithPrefix("&eA &6&lGold Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + + loc.getZ() + " for map " + map.getName()));
+            Chat.sendPrefixMessage(p, "&eA &6&lGold Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + +loc.getZ() + " for map " + map.getName());
 
             Files files = new Files();
             files.createFile("maps/" + map.getName() + "/gens", gen.getName());
             YamlConfiguration genConfig = files.getConfig("maps/" + map.getName() + "/gens", gen.getName());
 
-            for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
+            for (java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()) {
                 genConfig.set(o.getKey(), o.getValue());
             }
 
@@ -334,7 +338,7 @@ public class AddGeneratorEvent implements Listener {
 
             genMap.remove(p);
 
-        } else if(block.getType() == Material.EMERALD_BLOCK && p.getItemInHand().hasItemMeta() && p.getItemInHand().getItemMeta().getDisplayName().equals(ChatUtils.format("&a&lEmerald Generator"))){
+        } else if (block.getType() == Material.EMERALD_BLOCK && p.getItemInHand().hasItemMeta() && p.getItemInHand().getItemMeta().getDisplayName().equals(Chat.format("&a&lEmerald Generator"))) {
             e.setCancelled(true);
 
             Map map = genMap.get(p);
@@ -343,13 +347,13 @@ public class AddGeneratorEvent implements Listener {
 
             map.addGenerator(gen);
 
-            p.sendMessage(ChatUtils.formatWithPrefix("&eAn &a&lEmerald Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + + loc.getZ() + " for map " + map.getName()));
+            Chat.sendPrefixMessage(p, "&eAn &a&lEmerald Generator&e has been placed at: &6X:&e" + loc.getX() + " &6Y:&e" + loc.getY() + " &6Z:&e" + +loc.getZ() + " for map " + map.getName());
 
             Files files = new Files();
             files.createFile("maps/" + map.getName() + "/gens", gen.getName());
             YamlConfiguration genConfig = files.getConfig("maps/" + map.getName() + "/gens", gen.getName());
 
-            for(java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()){
+            for (java.util.Map.Entry<String, Object> o : gen.serialize().entrySet()) {
                 genConfig.set(o.getKey(), o.getValue());
             }
 

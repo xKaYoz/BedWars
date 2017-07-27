@@ -1,7 +1,6 @@
 package me.kayoz.bedwars.commands;
 
-import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.chat.Chat;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,19 +18,21 @@ public class BedWarsCommand implements CommandExecutor {
 
 
         if (args.length == 0) {
+            SubCommandManager.getInstance().find("help").execute(sender, null);
             return false;
         }
 
         SubCommand subCommand = SubCommandManager.getInstance().find(args[0]);
 
         if (subCommand == null) {
+            SubCommandManager.getInstance().find("help").execute(sender, null);
             return false;
         }
 
         if (sender.hasPermission(subCommand.getPermission())) {
             subCommand.execute(sender, args);
         } else {
-            sender.sendMessage(ChatUtils.format("&cYou do not have permission to execute this command."));
+            Chat.sendPrefixMessage(sender, "&cYou do not have permission to execute this command.");
         }
 
 

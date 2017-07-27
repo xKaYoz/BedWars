@@ -3,25 +3,17 @@ package me.kayoz.bedwars.commands.subcommands;
 import lombok.Getter;
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.inventories.AddGenInv;
-import me.kayoz.bedwars.utils.inventories.AllGensInv;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.AllMapsInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by KaYoz on 7/12/2017.
@@ -31,7 +23,9 @@ import java.util.ArrayList;
 
 public class MapSubCommand extends SubCommand {
 
+    @Getter
     private String name = "map";
+    @Getter
     private String permission = "bedwars.admin.map";
 
     public MapSubCommand() {
@@ -41,36 +35,29 @@ public class MapSubCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if(args.length == 1){
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
-                p.sendMessage(ChatUtils.format("&6Map Help &7(Page 1/1)"));
-                p.sendMessage(ChatUtils.format("  &e/bw map help &8- &7Displays this help menu."));
-                p.sendMessage(ChatUtils.format("  &e/bw map create <name> &8- &7Create a map with the given name."));
-                p.sendMessage(ChatUtils.format("  &e/bw map list &8- &7A list of all the maps that have been created."));
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
-                return;
-            }
-            if(args[1].equalsIgnoreCase("create")){
-                if(args.length == 3){
+            if (args[1].equalsIgnoreCase("create")) {
+                if (args.length == 3) {
 
                     Files files = new Files();
 
                     String name = args[2];
 
-                    if(MapManager.getMap(name) != null){
-                        p.sendMessage(ChatUtils.formatWithPrefix("&6There already is a map with that name."));
+                    if (MapManager.getMap(name) != null) {
+                        Chat.sendPrefixMessage(p, "&6There already is a map with that name.");
                         return;
                     }
 
                     Map map = new Map(p.getName(), name);
 
-                    if(files.getFile("maps/" + name, name) == null){
+                    map.setLoc(p.getLocation());
+
+                    if (files.getFile("maps/" + name, name) == null) {
 
                         File dir = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name);
 
-                        if(!dir.isDirectory()){
+                        if (!dir.isDirectory()) {
                             dir.mkdirs();
                             System.out.println(dir.toString());
                         }
@@ -81,17 +68,17 @@ public class MapSubCommand extends SubCommand {
 
                     File gens = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name + "/gens");
 
-                    if(!gens.isDirectory()){
+                    if (!gens.isDirectory()) {
                         gens.mkdirs();
                     }
                     File spawns = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name + "/spawns");
-                    if(!spawns.isDirectory()){
+                    if (!spawns.isDirectory()) {
                         spawns.mkdirs();
                     }
 
                     YamlConfiguration config = files.getConfig("maps/" + name, name);
 
-                    for(java.util.Map.Entry<String, Object> o : map.serialize().entrySet()){
+                    for (java.util.Map.Entry<String, Object> o : map.serialize().entrySet()) {
                         config.set(o.getKey(), o.getValue());
                     }
 
@@ -100,35 +87,81 @@ public class MapSubCommand extends SubCommand {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    p.sendMessage(ChatUtils.formatWithPrefix("&eYou have created a new map named &6" + map.getName() + "&e."));
+                    Chat.sendPrefixMessage(p, "&eYou have created a new map named &6" + map.getName() + "&e.");
                     return;
                 } else {
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cIncorrect Usage: /bw map create <name>"));
+                    Chat.sendPrefixMessage(p, "&cIncorrect Usage: /bw map create <name>");
                 }
-            } else if(args.length == 2 && args[1].equalsIgnoreCase("list")){
+            } else if (args.length == 3 && args[1].equalsIgnoreCase("remove")) {
+
+                String name = args[2];
+
+                Map map = MapManager.getMap(name);
+
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
+                    return;
+                }
+
+                File dir = new File(BedWarsPlugin.getInstance().getDataFolder() + "/maps/" + name);
+                File[] contents = dir.listFiles();
+                if (contents != null) {
+                    for (File f : contents) {
+
+                        if (f.isDirectory()) {
+                            File[] fc = f.listFiles();
+
+                            if (fc == null) {
+                                f.delete();
+                            } else {
+                                for (File g : fc) {
+                                    g.delete();
+                                }
+                                f.delete();
+                            }
+
+                        } else {
+                            f.delete();
+                        }
+                    }
+                    dir.delete();
+                } else {
+                    dir.delete();
+                }
+                MapManager.unregister(map);
+
+                Chat.sendPrefixMessage(p, "&eYou have deleted the map &6" + name + "&e.");
+
+            } else if (args.length == 2 && args[1].equalsIgnoreCase("list")) {
 
                 AllMapsInv.create(p);
 
+            } else if (args.length == 3 && args[1].equalsIgnoreCase("tp")) {
+
+                String name = args[2];
+
+                Map map = MapManager.getMap(name);
+
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
+                    return;
+                }
+
+                p.teleport(map.getLoc());
+
+                Chat.sendPrefixMessage(p, "&eYou have been teleported to the map &6" + map.getName() + "&e.");
+
             } else {
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
-                p.sendMessage(ChatUtils.format("&6Map Help &7(Page 1/1)"));
-                p.sendMessage(ChatUtils.format("  &e/bw map help &8- &7Displays this help menu."));
-                p.sendMessage(ChatUtils.format("  &e/bw map create <name> &8- &7Create a map with the given name."));
-                p.sendMessage(ChatUtils.format("  &e/bw map list &8- &7A list of all the maps that have been created."));
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
+                Chat.sendColoredMessage(p, Chat.createLine("&8"));
+                Chat.sendColoredMessage(p, "&6Map Help &7(Page 1/1)");
+                Chat.sendColoredMessage(p, "  &e/bw map help &8- &7Displays this help menu.");
+                Chat.sendColoredMessage(p, "  &e/bw map create <name> &8- &7Create a map with the given name.");
+                Chat.sendColoredMessage(p, "  &e/bw map list &8- &7A list of all the maps that have been created.");
+                Chat.sendColoredMessage(p, "  &e/bw map tp <map> &8- &7Teleport to the selected map.");
+                Chat.sendColoredMessage(p, Chat.createLine("&8"));
             }
         } else {
-            sender.sendMessage(ChatUtils.format("&cYou must be a player to execute this command."));
+            Chat.sendPrefixMessage(sender, "&cYou must be a player to execute this command.");
         }
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getPermission() {
-        return permission;
     }
 }

@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.maps.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -20,9 +19,9 @@ import java.util.Arrays;
 
 public class AddGenInv {
 
-    public static void open(Player p, Map map){
+    public static void open(Player p, Map map) {
 
-        Inventory inv = Bukkit.createInventory(null, 9, ChatUtils.format("&eGenerator: " + map.getName()));
+        Inventory inv = Bukkit.createInventory(null, 9, Chat.format("&eGenerator: " + map.getName()));
 
         ItemStack diamond = ItemBuilder.build(Material.DIAMOND_BLOCK, 1, "&b&lDiamond Generator", Arrays.asList("&7Select this to place a diamond generator."));
         ItemStack iron = ItemBuilder.build(Material.IRON_BLOCK, 1, "&f&lIron Generator", Arrays.asList("&7Select this to place an iron generator."));

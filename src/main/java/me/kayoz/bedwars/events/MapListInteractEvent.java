@@ -1,7 +1,6 @@
 package me.kayoz.bedwars.events;
 
-import jdk.nashorn.internal.ir.Block;
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.MapInfoInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
@@ -24,7 +23,7 @@ import org.bukkit.inventory.ItemStack;
 public class MapListInteractEvent implements Listener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) {
 
         if (e.getWhoClicked().getType() != EntityType.PLAYER
                 || e.getSlotType() == InventoryType.SlotType.OUTSIDE
@@ -36,7 +35,7 @@ public class MapListInteractEvent implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if(inv.getName().equals(ChatUtils.format("&6Maps"))){
+        if (inv.getName().equals(Chat.format("&6Maps"))) {
 
             e.setCancelled(true);
             p.getOpenInventory().close();

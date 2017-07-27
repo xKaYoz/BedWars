@@ -13,7 +13,7 @@ public abstract class SubCommand {
     private final String name;
     private final String permission;
 
-    public SubCommand(String name, String permission){
+    public SubCommand(String name, String permission) {
         this.name = name;
         this.permission = permission;
     }

@@ -2,10 +2,10 @@ package me.kayoz.bedwars.utils.spawns;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.*;
+import org.bukkit.block.BlockState;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;
@@ -17,26 +17,43 @@ import java.util.HashMap;
  * http://www.youtube.com/c/KaYozMC/
  */
 
-public class Spawn implements Serializable{
+public class Spawn implements Serializable {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Map map;
-    @Getter @Setter
+    @Getter
+    @Setter
+    private Color color;
+    @Getter
+    @Setter
+    private int colorRGB;
+    @Getter
+    @Setter
     private World world;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double x;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double y;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double z;
-    @Getter @Setter
+    @Getter
+    @Setter
     private float pitch;
-    @Getter @Setter
+    @Getter
+    @Setter
     private float yaw;
+    @Getter
+    @Setter
+    private BlockState bed;
 
-    public Spawn(String name, Map map, Location location){
+    public Spawn(String name, Color color, Map map, Location location) {
         this.name = name;
         this.map = map;
         this.world = location.getWorld();
@@ -45,9 +62,11 @@ public class Spawn implements Serializable{
         this.z = location.getZ();
         this.pitch = location.getPitch();
         this.yaw = location.getYaw();
+        this.color = color;
+        this.colorRGB = color.asRGB();
     }
 
-    public Spawn(String name, Map map, World world, double x, double y, double z, float pitch, float yaw){
+    public Spawn(String name, Color color, Map map, World world, double x, double y, double z, float pitch, float yaw) {
         this.name = name;
         this.map = map;
         this.world = world;
@@ -56,10 +75,21 @@ public class Spawn implements Serializable{
         this.z = z;
         this.pitch = pitch;
         this.yaw = yaw;
+        this.color = color;
+        this.colorRGB = color.asRGB();
+    }
+
+    public static Spawn deserialize(String name, java.util.Map<String, Object> args) {
+        World world = Bukkit.getWorld((String) args.get("world"));
+        if (world == null) {
+            throw new IllegalArgumentException("unknown world");
+        }
+        return new Spawn(name, Color.fromRGB((Integer) args.get("Color")), MapManager.getMap(args.get("Map").toString()), world, NumberConversions.toDouble(args.get("x")),
+                NumberConversions.toDouble(args.get("y")), NumberConversions.toDouble(args.get("z")), NumberConversions.toFloat("pitch"), NumberConversions.toFloat("yaw"));
     }
 
     @Utility
-    public java.util.Map<String, Object> serialize(){
+    public java.util.Map<String, Object> serialize() {
         java.util.Map<String, Object> data = new HashMap<>();
 
         data.put("world", this.world.getName());
@@ -69,16 +99,8 @@ public class Spawn implements Serializable{
         data.put("pitch", this.pitch);
         data.put("yaw", this.yaw);
         data.put("Map", this.map.getName());
+        data.put("Color", this.getColor().asRGB());
 
         return data;
-    }
-
-    public static Spawn deserialize(String name, java.util.Map<String, Object> args){
-        World world = Bukkit.getWorld((String) args.get("world"));
-        if (world == null) {
-            throw new IllegalArgumentException("unknown world");
-        }
-        return new Spawn(name, MapManager.getMap(args.get("Map").toString()), world, NumberConversions.toDouble(args.get("x")),
-                NumberConversions.toDouble(args.get("y")), NumberConversions.toDouble(args.get("z")), NumberConversions.toFloat("pitch"), NumberConversions.toFloat("yaw"));
     }
 }

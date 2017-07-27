@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import org.bukkit.Bukkit;
@@ -20,22 +20,22 @@ import java.util.Arrays;
 
 public class MapInfoInv {
 
-    public static void create(Player p, Map map){
-        Inventory inv = Bukkit.createInventory(null, 45, ChatUtils.format("&6" + map.getName() + " Info"));
+    public static void create(Player p, Map map) {
+        Inventory inv = Bukkit.createInventory(null, 45, Chat.format("&6" + map.getName() + " Info"));
 
         int ironGens = 0;
         int goldGens = 0;
         int diamondGens = 0;
         int emeraldGens = 0;
 
-        for (Generator gen : map.getGens()){
-            if(gen.getDrop() == Material.IRON_INGOT){
+        for (Generator gen : map.getGens()) {
+            if (gen.getDrop() == Material.IRON_INGOT) {
                 ironGens++;
-            } else if(gen.getDrop() == Material.GOLD_INGOT){
+            } else if (gen.getDrop() == Material.GOLD_INGOT) {
                 goldGens++;
-            } else if(gen.getDrop() == Material.DIAMOND){
+            } else if (gen.getDrop() == Material.DIAMOND) {
                 diamondGens++;
-            } else if(gen.getDrop() == Material.EMERALD){
+            } else if (gen.getDrop() == Material.EMERALD) {
                 emeraldGens++;
             }
         }

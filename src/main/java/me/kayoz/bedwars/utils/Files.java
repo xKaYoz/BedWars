@@ -1,7 +1,6 @@
 package me.kayoz.bedwars.utils;
 
 import me.kayoz.bedwars.BedWarsPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -22,11 +21,11 @@ public class Files {
     public void createFile(String name) {
         this.file = new File(BedWarsPlugin.getInstance().getDataFolder(), name + ".yml");
 
-        if(!BedWarsPlugin.getInstance().getDataFolder().exists()){
+        if (!BedWarsPlugin.getInstance().getDataFolder().exists()) {
             BedWarsPlugin.getInstance().getDataFolder().mkdir();
         }
 
-        if(!this.file.exists()){
+        if (!this.file.exists()) {
             try {
                 this.file.createNewFile();
             } catch (IOException e) {
@@ -34,7 +33,7 @@ public class Files {
             }
             this.config = YamlConfiguration.loadConfiguration(file);
         } else {
-            try{
+            try {
                 throw new IOException();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -47,11 +46,11 @@ public class Files {
         File f = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir);
         this.file = new File(f, name + ".yml");
 
-        if(!f.isDirectory()){
+        if (!f.isDirectory()) {
             f.mkdirs();
         }
 
-        if(!this.file.exists()){
+        if (!this.file.exists()) {
             try {
                 this.file.createNewFile();
             } catch (IOException e) {
@@ -59,7 +58,7 @@ public class Files {
             }
             this.config = YamlConfiguration.loadConfiguration(file);
         } else {
-            try{
+            try {
                 throw new IOException();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -87,10 +86,10 @@ public class Files {
         return this.file;
     }
 
-    public File getDir(String dir){
+    public File getDir(String dir) {
         this.file = new File(BedWarsPlugin.getInstance().getDataFolder() + File.separator + dir);
 
-        if(!this.file.exists()){
+        if (!this.file.exists()) {
             return null;
         }
 

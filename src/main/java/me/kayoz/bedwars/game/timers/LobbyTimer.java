@@ -1,7 +1,8 @@
 package me.kayoz.bedwars.game.timers;
 
 import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.game.GameManager;
+import me.kayoz.bedwars.utils.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,47 +15,44 @@ import org.bukkit.entity.Player;
 
 public class LobbyTimer {
 
-    private static int id;
-    static int time = 10;
-
     public static boolean on = false;
+    static int time = 10;
+    private static int id;
 
-    public static void start(){
+    public static void start() {
+        on = true;
+        id = Bukkit.getScheduler().scheduleSyncRepeatingTask(BedWarsPlugin.getInstance(), new Runnable() {
+            int tick = 10;
 
-        if(!on){
-            id = Bukkit.getScheduler().scheduleSyncRepeatingTask(BedWarsPlugin.getInstance(), new Runnable() {
-                int tick = 10;
-                @Override
-                public void run() {
-                    if(tick > 0){
-                        if(tick == 10 || (tick <= 5 && tick != 1)){
-                            Bukkit.getServer().broadcastMessage(ChatUtils.format("&7The game will start in &c" + tick + " &7seconds."));
-                            for(Player p : Bukkit.getServer().getOnlinePlayers()){
-                                p.playSound(p.getLocation(), Sound.CLICK, 1, 1);
-                            }
+            @Override
+            public void run() {
+                if (tick > 0) {
+                    if (tick == 10 || (tick <= 5 && tick != 1)) {
+                        Bukkit.getServer().broadcastMessage(Chat.format("&eThe game will start in &6" + tick + " &eseconds."));
+                        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                            p.playSound(p.getLocation(), Sound.CLICK, 1, 1);
                         }
-
-                        if(tick == 1){
-                            Bukkit.getServer().broadcastMessage(ChatUtils.format("&7The game will start in &c" + tick + " &7second."));
-                            for(Player p : Bukkit.getServer().getOnlinePlayers()){
-                                p.playSound(p.getLocation(), Sound.CLICK, 1, 1);
-                            }
-                        }
-
-                        tick --;
-                        time = tick;
-                    } else {
-                        stop();
                     }
 
-                }
-            }, 0, 20);
-            on = true;
-        }
+                    if (tick == 1) {
+                        Bukkit.getServer().broadcastMessage(Chat.format("&eThe game will start in &6" + tick + " &esecond."));
+                        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                            p.playSound(p.getLocation(), Sound.CLICK, 1, 1);
+                        }
+                    }
 
+                    tick--;
+                    time = tick;
+                } else {
+                    stop();
+                    GameManager.start();
+                }
+
+            }
+        }, 0, 20);
     }
 
-    public static void stop(){
+    public static void stop() {
         on = false;
         Bukkit.getServer().getScheduler().cancelTask(id);
     }

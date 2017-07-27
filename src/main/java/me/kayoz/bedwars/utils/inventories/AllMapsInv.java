@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.Bukkit;
@@ -21,11 +21,11 @@ import java.util.Arrays;
 public class AllMapsInv {
 
 
-    public static void create(Player p){
+    public static void create(Player p) {
 
-        Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.format("&6Maps"));
+        Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6Maps"));
 
-        for(Map map : MapManager.getMaps()){
+        for (Map map : MapManager.getMaps()) {
 
             ItemStack item = ItemBuilder.build(Material.EMPTY_MAP, 1, "&6" + map.getName(), Arrays.asList("&7Click for more options."));
 

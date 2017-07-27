@@ -1,8 +1,8 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.Configuration;
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.VaultManager;
+import me.kayoz.bedwars.utils.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -27,7 +27,7 @@ public class PlayerCountCheck implements Listener {
 
             if (Bukkit.getServer().getOnlinePlayers().size() >= Configuration.MAX_PLAYERS) {
                 if (!pb.hasPermission(new org.bukkit.permissions.Permission("bedwars.join"))) {
-                    e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatUtils.format("&cThe server is currently full."));
+                    e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, Chat.format("&cThe server is currently full."));
                 } else {
                     e.allow();
                 }

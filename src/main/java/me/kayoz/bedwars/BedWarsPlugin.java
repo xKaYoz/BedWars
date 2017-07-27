@@ -72,14 +72,9 @@ public final class BedWarsPlugin extends JavaPlugin {
              * Loading Maps
              */
 
-            System.out.println(config.getString("creator"));
-            System.out.println(y.getPath() + "/" + str);
+            java.util.Map<String, Object> mapList = config.getValues(false);
 
-            Map map = new Map(config.getString("creator"), str);
-
-            //java.util.Map<String, Object> maps = config.getValues(true);
-
-            //Map map = Map.deserialize(maps);
+            Map map = Map.deserialize(mapList);
 
             /**
              * Loading Gens
@@ -112,11 +107,13 @@ public final class BedWarsPlugin extends JavaPlugin {
 
                         map.addSpawn(spawn);
 
-                        getLogger().info("The spawn " + spawn.getName() + " has been loaded for map " + spawn.getMap().getName());
+                        getLogger().info("The spawn " + spawn.getName() + " has been loaded for map " + spawn.getMap().getName() + " with the color of " + spawn.getColor() + " " + spawn.getColorRGB());
 
                     }
                 }
             }
+
+            getConfig().getName();
 
             this.getLogger().info(map.getName() + " has " + map.getGens().size() + " generators named " + map.getGens());
 
@@ -143,6 +140,7 @@ public final class BedWarsPlugin extends JavaPlugin {
         pm.registerEvents(new GenInfoInteractEvent(), this);
         pm.registerEvents(new SpawnListInteractEvent(), this);
         pm.registerEvents(new SpawnInfoInteractEvent(), this);
+        pm.registerEvents(new AddBedEvent(), this);
 
         pm.registerEvents(new PlayerCountCheck(), this);
     }
@@ -157,6 +155,7 @@ public final class BedWarsPlugin extends JavaPlugin {
             config.set("Teams", false);
             config.set("Players Per Team", 0);
             config.set("Number of Teams", 0);
+            config.set("Admin Mode", true);
 
             try {
                 config.save(files.getFile("config"));

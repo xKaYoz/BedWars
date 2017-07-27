@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import org.bukkit.Bukkit;
@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -23,7 +22,7 @@ public class GenInfoInv {
 
     public static void create(Player p, Map map, Generator gen){
 
-        Inventory inv = Bukkit.createInventory(null, 45, ChatUtils.format("&6" + gen.getName() + " Info"));
+        Inventory inv = Bukkit.createInventory(null, 45, Chat.format("&6" + gen.getName() + " Info"));
 
         Material block;
 

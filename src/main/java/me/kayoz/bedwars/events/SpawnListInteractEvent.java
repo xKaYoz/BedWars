@@ -1,6 +1,6 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.SpawnInfoInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
@@ -22,7 +22,7 @@ import org.bukkit.inventory.ItemStack;
  * http://www.youtube.com/c/KaYozMC/
  */
 
-public class SpawnListInteractEvent  implements Listener {
+public class SpawnListInteractEvent implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
@@ -37,7 +37,7 @@ public class SpawnListInteractEvent  implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if (inv.getName().startsWith(ChatUtils.format("&6Spawns for ")) && item.getType() == Material.BEACON) {
+        if (inv.getName().startsWith(Chat.format("&6Spawns for ")) && item.getType() == Material.BEACON) {
 
             e.setCancelled(true);
             p.getOpenInventory().close();
@@ -48,15 +48,14 @@ public class SpawnListInteractEvent  implements Listener {
             Map map = MapManager.getMap(mapName);
             Spawn spawn = null;
 
-            for(Spawn s : map.getSpawns()){
+            for (Spawn s : map.getSpawns()) {
 
-                if(s.getName().equalsIgnoreCase(spawnName)){
+                if (s.getName().equalsIgnoreCase(spawnName)) {
                     spawn = s;
                     SpawnInfoInv.create(p, map, spawn);
                 }
 
             }
-
 
 
         }

@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.spawns.Spawn;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class SpawnInfoInv {
 
     public static void create(Player p, Map map, Spawn spawn) {
-        Inventory inv = Bukkit.createInventory(null, 45, ChatUtils.format("&6" + spawn.getName() + " Info"));
+        Inventory inv = Bukkit.createInventory(null, 45, Chat.format("&6" + spawn.getName() + " Info"));
 
         ItemStack spawnItem = ItemBuilder.build(Material.BEACON, 1, "&6" + spawn.getName(), Arrays.asList(
                 "&7Information about the spawn point &6" + spawn.getName()

@@ -2,7 +2,7 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.AddGenInv;
 import me.kayoz.bedwars.utils.inventories.AllGensInv;
 import me.kayoz.bedwars.utils.maps.Map;
@@ -37,7 +37,7 @@ public class GeneratorSubCommand extends SubCommand {
                 Map map = MapManager.getMap(args[2]);
 
                 if (map == null) {
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not a map with that name!"));
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
 
@@ -48,7 +48,7 @@ public class GeneratorSubCommand extends SubCommand {
                 Map map = MapManager.getMap(args[2]);
 
                 if (map == null) {
-                    p.sendMessage(ChatUtils.formatWithPrefix("&cThere is not a map with that name!"));
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
 
@@ -57,14 +57,21 @@ public class GeneratorSubCommand extends SubCommand {
                 return;
             } else if (args.length == 3 && args[1].equalsIgnoreCase("remove")) {
 
+                Map map = MapManager.getMap(args[2]);
+
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
+                    return;
+                }
+
             } else {
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
-                p.sendMessage(ChatUtils.format("&6Generator Help &7(Page 1/1)"));
-                p.sendMessage(ChatUtils.format("  &e/bw generator help &8- &7Displays this help menu."));
-                p.sendMessage(ChatUtils.format("  &e/bw generator list <name> &8- &7A list of all generators created within the map specified."));
-                p.sendMessage(ChatUtils.format("  &e/bw generator create <name> &8- &7Create a generator within the map specified."));
-                p.sendMessage(ChatUtils.format("  &e/bw generator remove <name> &8- &7Remove a generator within the map specified."));
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
+                p.sendMessage(Chat.createLine("&8"));
+                Chat.sendColoredMessage(p, "&6&lGenerator Help &7(Page 1/1)");
+                Chat.sendColoredMessage(p, "  &e/bw generator help &8- &7Displays this help menu.");
+                Chat.sendColoredMessage(p, "  &e/bw generator list <name> &8- &7A list of all generators created within the map specified.");
+                Chat.sendColoredMessage(p, "  &e/bw generator create <name> &8- &7Create a generator within the map specified.");
+                Chat.sendColoredMessage(p, "  &e/bw generator remove <name> &8- &7Remove a generator within the map specified.");
+                p.sendMessage(Chat.createLine("&8"));
             }
 
         }

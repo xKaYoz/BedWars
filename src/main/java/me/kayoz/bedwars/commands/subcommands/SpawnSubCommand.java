@@ -2,12 +2,14 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.Files;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.inventories.AllSpawnsInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import me.kayoz.bedwars.utils.spawns.Spawn;
+import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -37,24 +39,39 @@ public class SpawnSubCommand extends SubCommand {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args.length == 1){
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
-                p.sendMessage(ChatUtils.format("&6Spawn Help &7(Page 1/1)"));
-                p.sendMessage(ChatUtils.format("  &e/bw spawn help &8- &7Displays this help menu."));
-                p.sendMessage(ChatUtils.format("  &e/bw spawn create <name> &8- &7Create a map with the given name."));
-                p.sendMessage(ChatUtils.format("  &e/bw spawn remove <name> &8- &7Select a spawn position to remove."));
-                p.sendMessage(ChatUtils.format("  &e/bw spawn list <name> &8- &7A list of all the maps that have been created."));
-                p.sendMessage(ChatUtils.format("&8&l&m--------------------------------------------"));
+                Chat.sendColoredMessage(p, Chat.createLine("&8"));
+                Chat.sendColoredMessage(p, "&6Spawn Help &7(Page 1/1)");
+                Chat.sendColoredMessage(p, "  &e/bw spawn help &8- &7Displays this help menu.");
+                Chat.sendColoredMessage(p, "  &e/bw spawn create <name> <color> &8- &7Create a spawn on the given map.");
+                Chat.sendColoredMessage(p, "  &e/bw spawn remove <name> &8- &7Select a spawn position to remove.");
+                Chat.sendColoredMessage(p, "  &e/bw spawn list <name> &8- &7A list of all the maps that have been created.");
+                Chat.sendColoredMessage(p, Chat.createLine("&8"));
                 return;
-            } else if(args[1].equalsIgnoreCase("create") && args.length == 3){
+            } else if(args[1].equalsIgnoreCase("create") && args.length == 4){
 
                 Map map = MapManager.getMap(args[2]);
 
                 if(map == null){
-                    p.sendMessage(ChatUtils.format("&cThere is not a map with that name!"));
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
 
-                Spawn spawn = new Spawn(String.valueOf(map.getSpawns().size()), map, p.getLocation());
+                String colorStr = args[3];
+                Color color = ColorManager.getColor(colorStr);
+
+                if(color == null){
+                    Chat.sendPrefixMessage(p, "&cIncorrect Color Type, please refer to this link for the colors. TODO ADD LINK");
+                    return;
+                }
+
+                for(Spawn spawn : map.getSpawns()){
+                    if(spawn.getColor() == color || spawn.getColorRGB() == color.asRGB()){
+                        Chat.sendPrefixMessage(p, "&cThere is already a spawnpoint for the color " + colorStr.toLowerCase());
+                        return;
+                    }
+                }
+
+                Spawn spawn = new Spawn(String.valueOf(map.getSpawns().size()), color, map, p.getLocation());
 
                 map.addSpawn(spawn);
 
@@ -71,8 +88,7 @@ public class SpawnSubCommand extends SubCommand {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
-                p.sendMessage(ChatUtils.format("&eYou have created a new &6Spawn Point &e for the map &6" + map.getName()));
+                Chat.sendPrefixMessage(p, "&eYou have created a new &6Spawn Point &e for the map &6" + map.getName() + "&e.");
 
             } else if(args[1].equalsIgnoreCase("remove") && args.length == 3){
 
@@ -83,7 +99,7 @@ public class SpawnSubCommand extends SubCommand {
                 Map map = MapManager.getMap(args[2]);
 
                 if(map == null){
-                    p.sendMessage(ChatUtils.format("&cThere is not a map with that name!"));
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
 

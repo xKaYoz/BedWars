@@ -1,7 +1,7 @@
 package me.kayoz.bedwars.utils.inventories;
 
-import me.kayoz.bedwars.utils.ChatUtils;
 import me.kayoz.bedwars.utils.ItemBuilder;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import org.bukkit.Bukkit;
@@ -20,25 +20,25 @@ import java.util.Arrays;
 
 public class AllGensInv {
 
-    public static void create(Player p, Map map){
+    public static void create(Player p, Map map) {
 
-        Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.format("&6Generators for " + map.getName()));
+        Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6Generators for " + map.getName()));
 
-        for(Generator gen : map.getGens()){
+        for (Generator gen : map.getGens()) {
 
             Material block;
 
-            if(gen.getDrop() == Material.DIAMOND){
+            if (gen.getDrop() == Material.DIAMOND) {
                 block = Material.DIAMOND_BLOCK;
-            } else if(gen.getDrop() == Material.EMERALD){
+            } else if (gen.getDrop() == Material.EMERALD) {
                 block = Material.EMERALD_BLOCK;
-            } else if(gen.getDrop() == Material.IRON_INGOT){
+            } else if (gen.getDrop() == Material.IRON_INGOT) {
                 block = Material.IRON_BLOCK;
             } else {
                 block = Material.GOLD_BLOCK;
             }
 
-            ItemStack item = ItemBuilder.build(block, 1, ChatUtils.format("&6" + gen.getName()), Arrays.asList(
+            ItemStack item = ItemBuilder.build(block, 1, Chat.format("&6" + gen.getName()), Arrays.asList(
                     "&7Click for more options."));
 
             inv.addItem(item);

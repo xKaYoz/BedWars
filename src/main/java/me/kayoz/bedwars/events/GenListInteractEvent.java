@@ -1,9 +1,8 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.ChatUtils;
+import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.inventories.GenInfoInv;
-import me.kayoz.bedwars.utils.inventories.MapInfoInv;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.ChatColor;
@@ -25,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 public class GenListInteractEvent implements Listener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) {
 
         if (e.getWhoClicked().getType() != EntityType.PLAYER
                 || e.getSlotType() == InventoryType.SlotType.OUTSIDE
@@ -37,7 +36,7 @@ public class GenListInteractEvent implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if(inv.getName().startsWith(ChatUtils.format("&6Generators for "))){
+        if (inv.getName().startsWith(Chat.format("&6Generators for "))) {
 
             e.setCancelled(true);
             p.getOpenInventory().close();
@@ -48,16 +47,17 @@ public class GenListInteractEvent implements Listener {
             Map map = MapManager.getMap(mapName);
             Generator generator = null;
 
-            for(Generator gen : map.getGens()){
+            for (Generator gen : map.getGens()) {
 
-                if(gen.getName().equals(genName)) {
+                if (gen.getName().equals(genName)) {
                     generator = gen;
                     GenInfoInv.create(p, map, generator);
                 }
             }
 
-            if(generator == null){
-                p.sendMessage(ChatUtils.format("&cIt seems something went wrong with the selected generator, please try again."));
+            if (generator == null) {
+                Chat.sendPrefixMessage(p, "&cIt seems something went wrong with the selected generator, please try again.");
+                return;
             }
 
             //MapInfoInv.create(p, map);
