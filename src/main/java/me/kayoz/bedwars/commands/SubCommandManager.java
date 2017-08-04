@@ -20,8 +20,10 @@ public class SubCommandManager {
         subcommands.put("map", new MapSubCommand());
         subcommands.put("generator", new GeneratorSubCommand());
         subcommands.put("spawn", new SpawnSubCommand());
-        subcommands.put("bed", new BedSubCommand());
         subcommands.put("help", new HelpSubCommand());
+        subcommands.put("lobby", new LobbySubCommand());
+        subcommands.put("adminmode", new AdminSubCommand());
+        subcommands.put("shop", new ShopSubCommand());
     }
 
     public static SubCommandManager getInstance() {

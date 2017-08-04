@@ -92,16 +92,14 @@ public class Generator implements Serializable {
 
         time = base / getLevel();
 
-        Bukkit.getServer().getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
+        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(BedWarsPlugin.getInstance(), new Runnable() {
             @Override
             public void run() {
 
                 getWorld().dropItemNaturally(new Location(getWorld(), getX(), getY(), getZ()).add(.5, 0, .5), new ItemStack(getDrop()));
 
-                update();
-
             }
-        }, time * 20);
+        },0, time * 20);
 
     }
 

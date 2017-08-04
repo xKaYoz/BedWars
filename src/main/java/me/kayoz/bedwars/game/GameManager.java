@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.Configuration;
+import me.kayoz.bedwars.events.MapResetEvents;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
 import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.generators.Generator;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.shops.Shop;
 import me.kayoz.bedwars.utils.spawns.Spawn;
 import me.kayoz.bedwars.utils.team.Team;
 import me.kayoz.bedwars.utils.team.TeamManager;
@@ -21,10 +23,16 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
@@ -51,9 +59,17 @@ public class GameManager {
 
         manageTeams();
 
+        spawnShops();
+
         teleport();
 
         manageInventory();
+
+    }
+
+    public static void stop(){
+
+        Bukkit.getServer().reload();
 
     }
 
@@ -70,14 +86,6 @@ public class GameManager {
     public static void placeGens() {
         for (Generator gen : map.getGens()) {
             gen.update();
-        }
-    }
-
-    public static void placeBeds(){
-        for(Spawn spawn : map.getSpawns()){
-            Material mat = spawn.getBed().getType();
-
-
         }
     }
 
@@ -100,10 +108,26 @@ public class GameManager {
 
                 u.setColor(color);
 
-                ColorManager.setNameColor(u.getPlayer());
-
             }
         }
+    }
+
+    public static void spawnShops(){
+
+        for(Shop shop : map.getShops()){
+
+            Villager villager = (Villager) map.getLoc().getWorld().spawnEntity(new Location(shop.getWorld(), shop.getX(), shop.getY(), shop.getZ()), EntityType.VILLAGER);
+
+            villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 1000));
+
+            villager.setCustomName(Chat.format("&e&lShop"));
+
+            villager.setCustomNameVisible(true);
+
+            map.addVillager(villager);
+
+        }
+
     }
 
     public static void teleport() {
@@ -116,6 +140,8 @@ public class GameManager {
                     if (s.getColorRGB() == team.getColorRGB()) {
                         Player p = u.getPlayer();
 
+                        Location loc = new Location(s.getWorld(), s.getX(), s.getY(), s.getZ(), s.getYaw(), s.getPitch()).add(.5, 1, .5);
+
                         p.sendMessage(Chat.createLine("&8"));
                         Chat.sendCenteredMessage(p, "&6&lBedWars");
                         Chat.sendCenteredMessage(p, "&eYou have spawned on an island with a bed on it.");
@@ -126,7 +152,7 @@ public class GameManager {
                         Chat.sendCenteredMessage(p, "&eGood luck!");
                         p.sendMessage(Chat.createLine("&8"));
 
-                        p.teleport(new Location(s.getWorld(), s.getX(), s.getY(), s.getZ(), s.getYaw(), s.getPitch()).add(.5, 1, .5));
+                        p.teleport(loc);
                     }
                 }
             }
@@ -162,9 +188,13 @@ public class GameManager {
                 bootsmeta.setColor(u.getColor());
                 boots.setItemMeta(bootsmeta);
 
+                ItemStack bed = ItemBuilder.build(Material.BED, 1, ColorManager.getChatColor(u.getColor().asRGB()) + "&l" + ColorManager.getColorName(u.getColor().asRGB()) + "'s Bed",
+                        Arrays.asList("&7Place this where you would like your bed to be."));
+
                 ItemStack sword = ItemBuilder.build(Material.WOOD_SWORD, 1, "&eStarting Sword", Arrays.asList("&7This is your beginning sword"));
 
                 u.getPlayer().getInventory().setItem(0, sword);
+                u.getPlayer().getInventory().setItem(8, bed);
                 u.getPlayer().getInventory().setHelmet(helm);
                 u.getPlayer().getInventory().setChestplate(chest);
                 u.getPlayer().getInventory().setLeggings(leg);
@@ -173,6 +203,16 @@ public class GameManager {
                 u.getPlayer().updateInventory();
 
             }
+
+        }
+
+    }
+
+    public static void stopGenerators(){
+
+        for(Generator gen : map.getGens()){
+
+            Bukkit.getServer().getScheduler().cancelTask(gen.getTimerID());
 
         }
 

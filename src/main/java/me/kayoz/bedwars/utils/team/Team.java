@@ -6,6 +6,7 @@ import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.users.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Team {
     private int deaths;
     @Getter
     @Setter
-    private boolean canRespawn = true;
+    private boolean canRespawn = false;
     @Getter
     @Setter
     private Inventory backpack;
@@ -41,11 +42,21 @@ public class Team {
     @Getter
     @Setter
     private String name;
+    @Getter @Setter
+    private ArrayList<Location> bed = new ArrayList<>();
+    @Getter @Setter
+    private boolean hasPlacedBed = false;
 
     public Team(User member) {
         this.members.add(member);
         member.setTeam(this);
         backpack = Bukkit.createInventory(null, 27, Chat.format("&cBackpack"));
         TeamManager.register(this);
+    }
+
+    public void msg(String str){
+        for(User u : members){
+            u.getPlayer().sendMessage(Chat.format(str));
+        }
     }
 }

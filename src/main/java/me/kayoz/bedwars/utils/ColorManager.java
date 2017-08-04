@@ -8,6 +8,7 @@ import me.kayoz.bedwars.utils.team.TeamManager;
 import me.kayoz.bedwars.utils.users.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -91,6 +92,25 @@ public class ColorManager {
         }
     }
 
+    public static void setNameColor(Player p, Color color) {
+
+        Scoreboard sb = p.getScoreboard();
+
+        if (sb == null) {
+            sb = Bukkit.getScoreboardManager().getNewScoreboard();
+        }
+
+        org.bukkit.scoreboard.Team t = sb.registerNewTeam(UUID.randomUUID().toString().substring(0, 16));
+
+        t.setPrefix(Chat.format(getChatColor(color.asRGB())));
+
+        t.addEntry(p.getName());
+
+
+        p.setScoreboard(sb);
+
+    }
+
     public static void setNameColor(Player p) {
 
         Scoreboard sb = p.getScoreboard();
@@ -141,6 +161,30 @@ public class ColorManager {
             return Color.SILVER;
         }
         return null;
+    }
+
+    public static short getColorID(int rgb){
+        if (rgb == Color.AQUA.asRGB()) {
+            return DyeColor.CYAN.getData();
+        } else if (rgb == Color.BLUE.asRGB()) {
+            return DyeColor.BLUE.getData();
+        } else if (rgb == Color.ORANGE.asRGB()) {
+            return DyeColor.ORANGE.getData();
+        } else if (rgb == Color.YELLOW.asRGB()) {
+            return DyeColor.YELLOW.getData();
+        } else if (rgb == Color.PURPLE.asRGB()) {
+            return DyeColor.PURPLE.getData();
+        } else if (rgb == Color.GREEN.asRGB()) {
+            return DyeColor.GREEN.getData();
+        } else if (rgb == Color.WHITE.asRGB()) {
+            return DyeColor.WHITE.getData();
+        } else if (rgb == Color.GRAY.asRGB()) {
+            return DyeColor.GRAY.getData();
+        } else if (rgb == Color.SILVER.asRGB()) {
+            return DyeColor.SILVER.getData();
+        } else {
+            return 0;
+        }
     }
 
 }

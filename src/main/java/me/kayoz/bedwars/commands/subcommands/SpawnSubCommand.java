@@ -88,7 +88,7 @@ public class SpawnSubCommand extends SubCommand {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                Chat.sendPrefixMessage(p, "&eYou have created a new &6Spawn Point &e for the map &6" + map.getName() + "&e.");
+                Chat.sendPrefixMessage(p, "&eYou have created a new &6Spawn Point&e for the map &6" + map.getName() + "&e.");
 
             } else if(args[1].equalsIgnoreCase("remove") && args.length == 3){
 

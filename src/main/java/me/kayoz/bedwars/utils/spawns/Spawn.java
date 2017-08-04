@@ -49,9 +49,6 @@ public class Spawn implements Serializable {
     @Getter
     @Setter
     private float yaw;
-    @Getter
-    @Setter
-    private BlockState bed;
 
     public Spawn(String name, Color color, Map map, Location location) {
         this.name = name;
@@ -82,7 +79,7 @@ public class Spawn implements Serializable {
     public static Spawn deserialize(String name, java.util.Map<String, Object> args) {
         World world = Bukkit.getWorld((String) args.get("world"));
         if (world == null) {
-            throw new IllegalArgumentException("unknown world");
+            throw new IllegalArgumentException("Unknown Spawn World");
         }
         return new Spawn(name, Color.fromRGB((Integer) args.get("Color")), MapManager.getMap(args.get("Map").toString()), world, NumberConversions.toDouble(args.get("x")),
                 NumberConversions.toDouble(args.get("y")), NumberConversions.toDouble(args.get("z")), NumberConversions.toFloat("pitch"), NumberConversions.toFloat("yaw"));

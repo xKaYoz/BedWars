@@ -2,7 +2,7 @@ name: BedWars
 version: 0.0.1
 main: me.kayoz.bedwars.BedWarsPlugin
 prefix: BedWars
-authors: [KaYoz, Plasticono]
+author: KaYoz
 description: A Bedwars Plugin
 depend: [Vault]
 commands:

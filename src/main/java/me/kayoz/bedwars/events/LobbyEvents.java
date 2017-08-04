@@ -10,7 +10,10 @@ import me.kayoz.bedwars.utils.users.User;
 import me.kayoz.bedwars.utils.users.UserManager;
 import me.kayoz.bedwars.utils.users.UserState;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -41,17 +44,19 @@ public class LobbyEvents implements Listener {
     }
 
     @EventHandler
-    public void onHunger(FoodLevelChangeEvent e) {
-        if (BedWarsPlugin.getInstance().getState() == GameState.LOBBY) {
-            e.setFoodLevel(20);
-            e.setCancelled(true);
-        }
+    public void onHunger(FoodLevelChangeEvent e){
+
+        Player p = (Player) e.getEntity();
+
+        p.setFoodLevel(20);
+        e.setCancelled(true);
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Files files = new Files();
         YamlConfiguration config = files.getConfig("config");
+        YamlConfiguration lobby = files.getConfig("lobby");
 
         if (!config.getBoolean("Admin Mode")) {
             User u;
@@ -66,6 +71,15 @@ public class LobbyEvents implements Listener {
                 u.setState(UserState.LOBBY);
                 e.setJoinMessage(Chat.format("&7" + u.getPlayer().getDisplayName() + "&e has joined!" +
                         " &7(&c" + Bukkit.getServer().getOnlinePlayers().size() + "&7/&c" + Configuration.MAX_PLAYERS + "&7)"));
+
+                World world = Bukkit.getWorld(lobby.getString("lobby.world"));
+                double x = lobby.getDouble("lobby.x");
+                double y = lobby.getDouble("lobby.y");
+                double z = lobby.getDouble("lobby.z");
+                float yaw = (float) lobby.getDouble("lobby.yaw");
+                float pitch = (float) lobby.getDouble("lobby.pitch");
+
+                u.getPlayer().teleport(new Location(world, x, y, z, yaw, pitch));
 
                 if (Bukkit.getServer().getOnlinePlayers().size() >= Configuration.MAX_PLAYERS) {
                     LobbyTimer.start();

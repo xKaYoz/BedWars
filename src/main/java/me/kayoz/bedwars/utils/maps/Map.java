@@ -3,14 +3,17 @@ package me.kayoz.bedwars.utils.maps;
 import lombok.Getter;
 import lombok.Setter;
 import me.kayoz.bedwars.utils.generators.Generator;
+import me.kayoz.bedwars.utils.shops.Shop;
 import me.kayoz.bedwars.utils.spawns.Spawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Utility;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,6 +31,10 @@ public class Map implements Serializable {
     private ArrayList<Generator> gens = new ArrayList<>();
     @Getter
     private ArrayList<Spawn> spawns = new ArrayList<>();
+    @Getter
+    private ArrayList<Shop> shops = new ArrayList<>();
+    @Getter
+    private ArrayList<Entity> villagers = new ArrayList<>();
     @Getter
     private String creator;
     @Getter
@@ -83,6 +90,13 @@ public class Map implements Serializable {
         gens.add(gen);
     }
 
+    public void addShop(Shop shop) {
+        shops.add(shop);
+    }
+    public void addVillager(Entity entity) {
+        villagers.add(entity);
+    }
+
     @Utility
     public java.util.Map<String, Object> serialize() {
         java.util.Map<String, Object> data = new HashMap<String, Object>();
@@ -104,5 +118,4 @@ public class Map implements Serializable {
         data.put("spawns", sp);
         return data;
     }
-
 }

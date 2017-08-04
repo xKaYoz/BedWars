@@ -16,6 +16,8 @@ public class TeamManager {
 
     @Getter
     private static ArrayList<Team> teams = new ArrayList<>();
+    @Getter
+    private static ArrayList<Team> alive = new ArrayList<>();
 
     public static Team getTeam(Color color) {
 
@@ -43,12 +45,16 @@ public class TeamManager {
     public static void register(Team team) {
         if (!teams.contains(team)) {
             teams.add(team);
+            alive.add(team);
         }
     }
 
     public static void unregister(Team team) {
         if (teams.contains(team)) {
             teams.remove(team);
+        }
+        if(!alive.contains(team)){
+            alive.remove(team);
         }
     }
 }
