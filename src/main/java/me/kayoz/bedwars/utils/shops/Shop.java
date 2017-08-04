@@ -2,9 +2,6 @@ package me.kayoz.bedwars.utils.shops;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.spawns.Spawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Utility;
@@ -12,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -21,18 +17,22 @@ import java.util.HashMap;
  * http://www.youtube.com/c/KaYozMC/
  */
 
-public class Shop implements Serializable{
+public class Shop implements Serializable {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private World world;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double x;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double y;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double z;
 
-    public Shop(Location location){
+    public Shop(Location location) {
 
         this.world = location.getWorld();
         this.x = location.getX();
@@ -41,7 +41,7 @@ public class Shop implements Serializable{
 
     }
 
-    public Shop(World world, double x, double y, double z){
+    public Shop(World world, double x, double y, double z) {
 
         this.world = world;
         this.x = x;

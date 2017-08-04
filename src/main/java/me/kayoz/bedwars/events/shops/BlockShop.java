@@ -28,215 +28,6 @@ import java.util.Arrays;
 
 public class BlockShop implements Listener {
 
-    @EventHandler
-    public void onSelect(InventoryClickEvent e) {
-
-        if (e.getWhoClicked().getType() != EntityType.PLAYER
-                || e.getSlotType() == InventoryType.SlotType.OUTSIDE
-                || !e.getCurrentItem().hasItemMeta()) {
-            return;
-        }
-
-        Player p = (Player) e.getWhoClicked();
-        Inventory inv = e.getClickedInventory();
-        ItemStack item = e.getCurrentItem();
-        User u = UserManager.getInstance().getUser(p);
-        Team team = u.getTeam();
-
-        if (inv.getName().equals(Chat.format("&6&lBlocks"))) {
-
-            int iron = 0;
-            int gold = 0;
-            int diamond = 0;
-            int emerald = 0;
-
-            for (ItemStack t : p.getInventory().getContents()) {
-
-                if (t != null && t.getType() == Material.IRON_INGOT) {
-                    iron += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.DIAMOND) {
-                    diamond += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.GOLD_INGOT) {
-                    gold += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.EMERALD) {
-                    emerald += t.getAmount();
-                }
-
-            }
-
-            if(!team.isHasPlacedBed()){
-                Chat.sendColoredMessage(p, "&cYou must place your bed before you can buy blocks.");
-                e.setCancelled(true);
-                return;
-            }
-
-            if (item.getType() == Material.WOOL) {
-
-                e.setCancelled(true);
-
-                if (iron >= 5) {
-
-                    int next = p.getInventory().firstEmpty();
-
-                    if (next == -1) {
-                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
-                        return;
-                    }
-
-                    if(ShopEvents.removeItems(p.getInventory(), Material.IRON_INGOT, 5) == 0) {
-
-                        p.getInventory().addItem(new ItemStack(Material.WOOL, 8, ColorManager.getColorID(u.getTeam().getColorRGB())));
-
-                        Chat.sendColoredMessage(p, "&eYou have purchased &616 Wool&e.");
-
-                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-
-                        p.updateInventory();
-                    } else {
-                        Chat.sendColoredMessage(p, "&cError");
-                    }
-
-                } else {
-
-                    Chat.sendColoredMessage(p, "&cYou do not have enough Iron to purchase this.");
-
-                }
-
-            } else if (item.getType() == Material.COBBLESTONE) {
-
-                e.setCancelled(true);
-
-                if (iron >= 20) {
-
-                    int next = p.getInventory().firstEmpty();
-
-                    if (next == -1) {
-                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
-                        return;
-                    }
-
-                    if(ShopEvents.removeItems(p.getInventory(), Material.IRON_INGOT, 20) == 0) {
-
-                        p.getInventory().addItem(new ItemStack(Material.COBBLESTONE, 12));
-
-                        Chat.sendColoredMessage(p, "&eYou have purchased &612 Cobblestone&e.");
-
-                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-
-                        p.updateInventory();
-                    } else {
-                        Chat.sendColoredMessage(p, "&cError");
-                    }
-
-                } else {
-
-                    Chat.sendColoredMessage(p, "&cYou do not have enough Iron to purchase this.");
-
-                }
-
-            } else if (item.getType() == Material.WOOD) {
-
-                e.setCancelled(true);
-
-                if (gold >= 4) {
-
-                    int next = p.getInventory().firstEmpty();
-
-                    if (next == -1) {
-                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
-                        return;
-                    }
-
-                    if(ShopEvents.removeItems(p.getInventory(), Material.GOLD_INGOT, 4) == 0) {
-
-                        p.getInventory().addItem(new ItemStack(Material.WOOD, 8));
-
-                        Chat.sendColoredMessage(p, "&eYou have purchased &68 Wood&e.");
-
-                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-
-                        p.updateInventory();
-                    } else {
-                        Chat.sendColoredMessage(p, "&cError");
-                    }
-
-                } else {
-                    Chat.sendColoredMessage(p, "&cYou do not have enough Gold to purchase this.");
-                }
-
-            } else if (item.getType() == Material.SAND) {
-
-                e.setCancelled(true);
-
-                if (gold >= 10) {
-
-                    int next = p.getInventory().firstEmpty();
-
-                    if (next == -1) {
-                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
-                        return;
-                    }
-
-                    if(ShopEvents.removeItems(p.getInventory(), Material.GOLD_INGOT, 10) == 0) {
-
-                        p.getInventory().addItem(new ItemStack(Material.SAND, 12));
-
-                        Chat.sendColoredMessage(p, "&eYou have purchased &612 Sand&e.");
-
-                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-
-                        p.updateInventory();
-                    } else {
-                        Chat.sendColoredMessage(p, "&cError");
-                    }
-
-                } else {
-                    Chat.sendColoredMessage(p, "&cYou do not have enough Gold to purchase this.");
-                }
-
-            } else if (item.getType() == Material.OBSIDIAN) {
-
-                e.setCancelled(true);
-
-                if (emerald >= 5) {
-
-                    int next = p.getInventory().firstEmpty();
-
-                    if (next == -1) {
-                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
-                        return;
-                    }
-
-                    if(ShopEvents.removeItems(p.getInventory(), Material.EMERALD, 5) == 0) {
-
-                        p.getInventory().addItem(new ItemStack(Material.OBSIDIAN, 5));
-
-                        Chat.sendColoredMessage(p, "&eYou have purchased &65 Obsidian&e.");
-
-                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-
-                        p.updateInventory();
-                    } else {
-                        Chat.sendColoredMessage(p, "&cError");
-                    }
-
-                } else {
-                    Chat.sendColoredMessage(p, "&cYou do not have enough Emerald to purchase this.");
-                }
-            } else if (item.getType() == Material.BARRIER) {
-
-                e.setCancelled(true);
-
-                p.getOpenInventory().close();
-
-                ShopEvents.openMain(p);
-            }
-        }
-    }
-
     public static void openShop(Player player) {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lBlocks"));
@@ -316,5 +107,214 @@ public class BlockShop implements Listener {
         inv.setItem(22, back);
 
         player.openInventory(inv);
+    }
+
+    @EventHandler
+    public void onSelect(InventoryClickEvent e) {
+
+        if (e.getWhoClicked().getType() != EntityType.PLAYER
+                || e.getSlotType() == InventoryType.SlotType.OUTSIDE
+                || !e.getCurrentItem().hasItemMeta()) {
+            return;
+        }
+
+        Player p = (Player) e.getWhoClicked();
+        Inventory inv = e.getClickedInventory();
+        ItemStack item = e.getCurrentItem();
+        User u = UserManager.getInstance().getUser(p);
+        Team team = u.getTeam();
+
+        if (inv.getName().equals(Chat.format("&6&lBlocks"))) {
+
+            int iron = 0;
+            int gold = 0;
+            int diamond = 0;
+            int emerald = 0;
+
+            for (ItemStack t : p.getInventory().getContents()) {
+
+                if (t != null && t.getType() == Material.IRON_INGOT) {
+                    iron += t.getAmount();
+                }
+                if (t != null && t.getType() == Material.DIAMOND) {
+                    diamond += t.getAmount();
+                }
+                if (t != null && t.getType() == Material.GOLD_INGOT) {
+                    gold += t.getAmount();
+                }
+                if (t != null && t.getType() == Material.EMERALD) {
+                    emerald += t.getAmount();
+                }
+
+            }
+
+            if (!team.isHasPlacedBed()) {
+                Chat.sendColoredMessage(p, "&cYou must place your bed before you can buy blocks.");
+                e.setCancelled(true);
+                return;
+            }
+
+            if (item.getType() == Material.WOOL) {
+
+                e.setCancelled(true);
+
+                if (iron >= 5) {
+
+                    int next = p.getInventory().firstEmpty();
+
+                    if (next == -1) {
+                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
+                        return;
+                    }
+
+                    if (ShopEvents.removeItems(p.getInventory(), Material.IRON_INGOT, 5) == 0) {
+
+                        p.getInventory().addItem(new ItemStack(Material.WOOL, 8, ColorManager.getColorID(u.getTeam().getColorRGB())));
+
+                        Chat.sendColoredMessage(p, "&eYou have purchased &616 Wool&e.");
+
+                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
+
+                        p.updateInventory();
+                    } else {
+                        Chat.sendColoredMessage(p, "&cError");
+                    }
+
+                } else {
+
+                    Chat.sendColoredMessage(p, "&cYou do not have enough Iron to purchase this.");
+
+                }
+
+            } else if (item.getType() == Material.COBBLESTONE) {
+
+                e.setCancelled(true);
+
+                if (iron >= 20) {
+
+                    int next = p.getInventory().firstEmpty();
+
+                    if (next == -1) {
+                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
+                        return;
+                    }
+
+                    if (ShopEvents.removeItems(p.getInventory(), Material.IRON_INGOT, 20) == 0) {
+
+                        p.getInventory().addItem(new ItemStack(Material.COBBLESTONE, 12));
+
+                        Chat.sendColoredMessage(p, "&eYou have purchased &612 Cobblestone&e.");
+
+                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
+
+                        p.updateInventory();
+                    } else {
+                        Chat.sendColoredMessage(p, "&cError");
+                    }
+
+                } else {
+
+                    Chat.sendColoredMessage(p, "&cYou do not have enough Iron to purchase this.");
+
+                }
+
+            } else if (item.getType() == Material.WOOD) {
+
+                e.setCancelled(true);
+
+                if (gold >= 4) {
+
+                    int next = p.getInventory().firstEmpty();
+
+                    if (next == -1) {
+                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
+                        return;
+                    }
+
+                    if (ShopEvents.removeItems(p.getInventory(), Material.GOLD_INGOT, 4) == 0) {
+
+                        p.getInventory().addItem(new ItemStack(Material.WOOD, 8));
+
+                        Chat.sendColoredMessage(p, "&eYou have purchased &68 Wood&e.");
+
+                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
+
+                        p.updateInventory();
+                    } else {
+                        Chat.sendColoredMessage(p, "&cError");
+                    }
+
+                } else {
+                    Chat.sendColoredMessage(p, "&cYou do not have enough Gold to purchase this.");
+                }
+
+            } else if (item.getType() == Material.SAND) {
+
+                e.setCancelled(true);
+
+                if (gold >= 10) {
+
+                    int next = p.getInventory().firstEmpty();
+
+                    if (next == -1) {
+                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
+                        return;
+                    }
+
+                    if (ShopEvents.removeItems(p.getInventory(), Material.GOLD_INGOT, 10) == 0) {
+
+                        p.getInventory().addItem(new ItemStack(Material.SAND, 12));
+
+                        Chat.sendColoredMessage(p, "&eYou have purchased &612 Sand&e.");
+
+                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
+
+                        p.updateInventory();
+                    } else {
+                        Chat.sendColoredMessage(p, "&cError");
+                    }
+
+                } else {
+                    Chat.sendColoredMessage(p, "&cYou do not have enough Gold to purchase this.");
+                }
+
+            } else if (item.getType() == Material.OBSIDIAN) {
+
+                e.setCancelled(true);
+
+                if (emerald >= 5) {
+
+                    int next = p.getInventory().firstEmpty();
+
+                    if (next == -1) {
+                        Chat.sendColoredMessage(p, "&cYou do not have an open slot in your inventory.");
+                        return;
+                    }
+
+                    if (ShopEvents.removeItems(p.getInventory(), Material.EMERALD, 5) == 0) {
+
+                        p.getInventory().addItem(new ItemStack(Material.OBSIDIAN, 5));
+
+                        Chat.sendColoredMessage(p, "&eYou have purchased &65 Obsidian&e.");
+
+                        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
+
+                        p.updateInventory();
+                    } else {
+                        Chat.sendColoredMessage(p, "&cError");
+                    }
+
+                } else {
+                    Chat.sendColoredMessage(p, "&cYou do not have enough Emerald to purchase this.");
+                }
+            } else if (item.getType() == Material.BARRIER) {
+
+                e.setCancelled(true);
+
+                p.getOpenInventory().close();
+
+                ShopEvents.openMain(p);
+            }
+        }
     }
 }

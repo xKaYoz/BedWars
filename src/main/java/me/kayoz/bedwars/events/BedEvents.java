@@ -1,6 +1,5 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.team.Team;
@@ -28,6 +27,11 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
  */
 
 public class BedEvents implements Listener {
+
+    public static Block getBedHead(Block b) {
+        byte data = b.getData();
+        return data == 8 || data == 9 || data == 10 || data == 11 ? b : b.getWorld().getBlockAt(b.getX() + (data == 3 ? 1 : data == 1 ? -1 : 0), b.getY(), b.getZ() + (data == 0 ? 1 : data == 2 ? -1 : 0));
+    }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
@@ -66,18 +70,18 @@ public class BedEvents implements Listener {
     }
 
     @EventHandler
-    public void onCheckPlace(BlockPlaceEvent e){
+    public void onCheckPlace(BlockPlaceEvent e) {
 
         Player p = e.getPlayer();
         Block block = e.getBlock();
 
-        if (!(block.getType() == Material.BED || block.getType() == Material.BED_BLOCK)){
+        if (!(block.getType() == Material.BED || block.getType() == Material.BED_BLOCK)) {
 
             User u = UserManager.getInstance().getUser(p);
-            if(u.getTeam() != null){
+            if (u.getTeam() != null) {
                 Team team = u.getTeam();
 
-                if(!team.isHasPlacedBed()){
+                if (!team.isHasPlacedBed()) {
 
                     e.setCancelled(true);
                     Chat.sendColoredMessage(p, "&cYou must place your bed before you can build.");
@@ -127,10 +131,10 @@ public class BedEvents implements Listener {
     }
 
     @EventHandler
-    public void onPickup(PlayerPickupItemEvent e){
+    public void onPickup(PlayerPickupItemEvent e) {
         Item item = e.getItem();
 
-        if(item.getItemStack().getType() == Material.BED_BLOCK || item.getItemStack().getType() == Material.BED){
+        if (item.getItemStack().getType() == Material.BED_BLOCK || item.getItemStack().getType() == Material.BED) {
 
             e.setCancelled(true);
 
@@ -138,19 +142,14 @@ public class BedEvents implements Listener {
     }
 
     @EventHandler
-    public void onDrop(PlayerDropItemEvent e){
+    public void onDrop(PlayerDropItemEvent e) {
         Item item = e.getItemDrop();
 
-        if(item.getItemStack().getType() == Material.BED_BLOCK || item.getItemStack().getType() == Material.BED){
+        if (item.getItemStack().getType() == Material.BED_BLOCK || item.getItemStack().getType() == Material.BED) {
 
             e.setCancelled(true);
 
         }
-    }
-
-    public static Block getBedHead(Block b) {
-        byte data = b.getData();
-        return data == 8 || data == 9 || data == 10 || data == 11 ? b : b.getWorld().getBlockAt(b.getX() + (data == 3 ? 1 : data == 1 ? -1 : 0), b.getY(), b.getZ() + (data == 0 ? 1 : data == 2 ? -1 : 0));
     }
 
 }

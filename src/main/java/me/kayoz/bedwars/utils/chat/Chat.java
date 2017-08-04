@@ -83,8 +83,9 @@ public final class Chat {
         }
         return Format;
     }
+
     public static void sendColoredMessages(CommandSender target, ArrayList<String> messages) {
-        for(String message : messages){
+        for (String message : messages) {
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }

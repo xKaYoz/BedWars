@@ -42,9 +42,11 @@ public class Team {
     @Getter
     @Setter
     private String name;
-    @Getter @Setter
+    @Getter
+    @Setter
     private ArrayList<Location> bed = new ArrayList<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean hasPlacedBed = false;
 
     public Team(User member) {
@@ -54,8 +56,8 @@ public class Team {
         TeamManager.register(this);
     }
 
-    public void msg(String str){
-        for(User u : members){
+    public void msg(String str) {
+        for (User u : members) {
             u.getPlayer().sendMessage(Chat.format(str));
         }
     }

@@ -13,7 +13,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -93,6 +92,7 @@ public class Map implements Serializable {
     public void addShop(Shop shop) {
         shops.add(shop);
     }
+
     public void addVillager(Entity entity) {
         villagers.add(entity);
     }

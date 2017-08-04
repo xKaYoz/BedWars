@@ -44,7 +44,7 @@ public class LobbyEvents implements Listener {
     }
 
     @EventHandler
-    public void onHunger(FoodLevelChangeEvent e){
+    public void onHunger(FoodLevelChangeEvent e) {
 
         Player p = (Player) e.getEntity();
 

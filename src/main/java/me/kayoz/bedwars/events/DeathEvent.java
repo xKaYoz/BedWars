@@ -19,8 +19,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.util.ArrayList;
-
 /**
  * Created by KaYoz on 7/27/2017.
  * Subscribe to me on Youtube:
@@ -258,13 +256,13 @@ public class DeathEvent implements Listener {
 
     }
 
-    public void checkEnd(){
+    public void checkEnd() {
 
-        if(TeamManager.getAlive().size() <= 1){
+        if (TeamManager.getAlive().size() <= 1) {
 
             Team win = TeamManager.getAlive().get(0);
 
-            if(TeamManager.getAlive().size() == 0){
+            if (TeamManager.getAlive().size() == 0) {
                 Bukkit.broadcastMessage("Something went wrong.");
                 GameManager.stop();
             }

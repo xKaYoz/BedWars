@@ -8,7 +8,10 @@ import me.kayoz.bedwars.utils.chat.Chat;
 import me.kayoz.bedwars.utils.spawns.Spawn;
 import me.kayoz.bedwars.utils.users.User;
 import me.kayoz.bedwars.utils.users.UserManager;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -29,22 +32,22 @@ public class RespawnTimer {
 
     public static void start(Player p) {
 
-        if(!task.containsKey(p)){
+        if (!task.containsKey(p)) {
 
             time.put(p, 5);
 
             task.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(BedWarsPlugin.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    if(time.get(p) == 0){
+                    if (time.get(p) == 0) {
 
                         User u = UserManager.getInstance().getUser(p);
 
                         Chat.sendColoredMessage(p, "&eRespawning...");
 
-                        for(Spawn spawn : GameManager.getMap().getSpawns()){
+                        for (Spawn spawn : GameManager.getMap().getSpawns()) {
 
-                            if(spawn.getColorRGB() == u.getTeam().getColorRGB()){
+                            if (spawn.getColorRGB() == u.getTeam().getColorRGB()) {
 
                                 p.teleport(new Location(spawn.getWorld(), spawn.getX(), spawn.getY(), spawn.getZ(), spawn.getYaw(), spawn.getPitch()).add(0, 2, 0));
 

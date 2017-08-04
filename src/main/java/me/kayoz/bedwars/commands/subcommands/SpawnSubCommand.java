@@ -36,9 +36,9 @@ public class SpawnSubCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if(args.length == 1){
+            if (args.length == 1) {
                 Chat.sendColoredMessage(p, Chat.createLine("&8"));
                 Chat.sendColoredMessage(p, "&6Spawn Help &7(Page 1/1)");
                 Chat.sendColoredMessage(p, "  &e/bw spawn help &8- &7Displays this help menu.");
@@ -47,11 +47,11 @@ public class SpawnSubCommand extends SubCommand {
                 Chat.sendColoredMessage(p, "  &e/bw spawn list <name> &8- &7A list of all the maps that have been created.");
                 Chat.sendColoredMessage(p, Chat.createLine("&8"));
                 return;
-            } else if(args[1].equalsIgnoreCase("create") && args.length == 4){
+            } else if (args[1].equalsIgnoreCase("create") && args.length == 4) {
 
                 Map map = MapManager.getMap(args[2]);
 
-                if(map == null){
+                if (map == null) {
                     Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
@@ -59,13 +59,13 @@ public class SpawnSubCommand extends SubCommand {
                 String colorStr = args[3];
                 Color color = ColorManager.getColor(colorStr);
 
-                if(color == null){
+                if (color == null) {
                     Chat.sendPrefixMessage(p, "&cIncorrect Color Type, please refer to this link for the colors. TODO ADD LINK");
                     return;
                 }
 
-                for(Spawn spawn : map.getSpawns()){
-                    if(spawn.getColor() == color || spawn.getColorRGB() == color.asRGB()){
+                for (Spawn spawn : map.getSpawns()) {
+                    if (spawn.getColor() == color || spawn.getColorRGB() == color.asRGB()) {
                         Chat.sendPrefixMessage(p, "&cThere is already a spawnpoint for the color " + colorStr.toLowerCase());
                         return;
                     }
@@ -79,7 +79,7 @@ public class SpawnSubCommand extends SubCommand {
                 files.createFile("maps/" + map.getName() + "/spawns", String.valueOf(map.getSpawns().size()));
                 YamlConfiguration config = files.getConfig("maps/" + map.getName() + "/spawns", String.valueOf(map.getSpawns().size()));
 
-                for(java.util.Map.Entry<String, Object> o : spawn.serialize().entrySet()){
+                for (java.util.Map.Entry<String, Object> o : spawn.serialize().entrySet()) {
                     config.set(o.getKey(), o.getValue());
                 }
 
@@ -90,15 +90,14 @@ public class SpawnSubCommand extends SubCommand {
                 }
                 Chat.sendPrefixMessage(p, "&eYou have created a new &6Spawn Point&e for the map &6" + map.getName() + "&e.");
 
-            } else if(args[1].equalsIgnoreCase("remove") && args.length == 3){
+            } else if (args[1].equalsIgnoreCase("remove") && args.length == 3) {
 
 
-
-            } else if(args[1].equalsIgnoreCase("list") && args.length == 3){
+            } else if (args[1].equalsIgnoreCase("list") && args.length == 3) {
 
                 Map map = MapManager.getMap(args[2]);
 
-                if(map == null){
+                if (map == null) {
                     Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }

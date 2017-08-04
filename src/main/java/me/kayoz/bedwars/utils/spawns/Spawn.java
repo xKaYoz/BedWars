@@ -5,7 +5,6 @@ import lombok.Setter;
 import me.kayoz.bedwars.utils.maps.Map;
 import me.kayoz.bedwars.utils.maps.MapManager;
 import org.bukkit.*;
-import org.bukkit.block.BlockState;
 import org.bukkit.util.NumberConversions;
 
 import java.io.Serializable;

@@ -7,7 +7,6 @@ import me.kayoz.bedwars.utils.users.User;
 import me.kayoz.bedwars.utils.users.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +27,44 @@ import java.util.Arrays;
  */
 
 public class ShopEvents implements Listener {
+
+    public static void openMain(Player player) {
+
+        Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6&lShop"));
+
+        User u = UserManager.getInstance().getUser(player);
+
+        ItemStack blocks = ItemBuilder.build(Material.WOOL, 1, ColorManager.getColorID(u.getTeam().getColorRGB()), "&eBlocks", Arrays.asList("&7Purchase Blocks"));
+        ItemStack weapons = ItemBuilder.build(Material.DIAMOND_SWORD, 1, "&eSwords", Arrays.asList("&7Purchase Swords"));
+        ItemStack ranged = ItemBuilder.build(Material.BOW, 1, "&eRanged", Arrays.asList("&7Purchase Ranged Items"));
+        ItemStack food = ItemBuilder.build(Material.COOKED_BEEF, 1, "&eFood", Arrays.asList("&7Purchase Food"));
+        ItemStack armor = ItemBuilder.build(Material.DIAMOND_CHESTPLATE, 1, "&eArmor", Arrays.asList("&7Purchase Armor"));
+
+        inv.setItem(11, blocks);
+        inv.setItem(12, weapons);
+        inv.setItem(13, ranged);
+        inv.setItem(14, food);
+        inv.setItem(15, armor);
+
+        player.openInventory(inv);
+
+    }
+
+    public static int removeItems(Inventory inventory, Material type, int amount) {
+
+        if (type == null || inventory == null)
+            return -1;
+        if (amount <= 0)
+            return -1;
+
+        if (amount == Integer.MAX_VALUE) {
+            inventory.remove(type);
+            return 0;
+        }
+
+        inventory.removeItem(new ItemStack(type, amount));
+        return 0;
+    }
 
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
@@ -89,51 +126,12 @@ public class ShopEvents implements Listener {
             } else if (item.getType() == Material.COOKED_BEEF) {
                 p.getOpenInventory().close();
                 FoodShop.openShop(p);
-            }
-            else if (item.getType() == Material.DIAMOND_CHESTPLATE) {
+            } else if (item.getType() == Material.DIAMOND_CHESTPLATE) {
                 p.getOpenInventory().close();
                 ArmorShop.openShop(p);
             }
 
         }
-    }
-
-    public static void openMain(Player player) {
-
-        Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6&lShop"));
-
-        User u = UserManager.getInstance().getUser(player);
-
-        ItemStack blocks = ItemBuilder.build(Material.WOOL, 1, ColorManager.getColorID(u.getTeam().getColorRGB()), "&eBlocks", Arrays.asList("&7Purchase Blocks"));
-        ItemStack weapons = ItemBuilder.build(Material.DIAMOND_SWORD, 1, "&eSwords", Arrays.asList("&7Purchase Swords"));
-        ItemStack ranged = ItemBuilder.build(Material.BOW, 1, "&eRanged", Arrays.asList("&7Purchase Ranged Items"));
-        ItemStack food = ItemBuilder.build(Material.COOKED_BEEF, 1, "&eFood", Arrays.asList("&7Purchase Food"));
-        ItemStack armor = ItemBuilder.build(Material.DIAMOND_CHESTPLATE, 1, "&eArmor", Arrays.asList("&7Purchase Armor"));
-
-        inv.setItem(11, blocks);
-        inv.setItem(12, weapons);
-        inv.setItem(13, ranged);
-        inv.setItem(14, food);
-        inv.setItem(15, armor);
-
-        player.openInventory(inv);
-
-    }
-
-    public static int removeItems(Inventory inventory, Material type, int amount) {
-
-        if(type == null || inventory == null)
-            return -1;
-        if (amount <= 0)
-            return -1;
-
-        if (amount == Integer.MAX_VALUE) {
-            inventory.remove(type);
-            return 0;
-        }
-
-        inventory.removeItem(new ItemStack(type,amount));
-        return 0;
     }
 
 }

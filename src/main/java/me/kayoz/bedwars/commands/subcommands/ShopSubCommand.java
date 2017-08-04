@@ -34,15 +34,15 @@ public class ShopSubCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
 
             Player p = (Player) sender;
 
-            if(args.length == 3 && args[1].equalsIgnoreCase("create")){
+            if (args.length == 3 && args[1].equalsIgnoreCase("create")) {
 
                 Map map = MapManager.getMap(args[2]);
 
-                if(map == null){
+                if (map == null) {
                     Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
                     return;
                 }
@@ -55,7 +55,7 @@ public class ShopSubCommand extends SubCommand {
                 YamlConfiguration config = files.getConfig("maps/" + map.getName() + "/shops", String.valueOf(map.getShops().size()));
 
 
-                for(java.util.Map.Entry<String, Object> o : shop.serialize().entrySet()){
+                for (java.util.Map.Entry<String, Object> o : shop.serialize().entrySet()) {
                     config.set(o.getKey(), o.getValue());
                 }
 

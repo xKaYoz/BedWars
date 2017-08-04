@@ -99,7 +99,7 @@ public class Generator implements Serializable {
                 getWorld().dropItemNaturally(new Location(getWorld(), getX(), getY(), getZ()).add(.5, 0, .5), new ItemStack(getDrop()));
 
             }
-        },0, time * 20);
+        }, 0, time * 20);
 
     }
 

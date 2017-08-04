@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.Configuration;
-import me.kayoz.bedwars.events.MapResetEvents;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
 import me.kayoz.bedwars.utils.chat.Chat;
@@ -22,8 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -32,10 +29,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Created by KaYoz on 7/11/2017.
@@ -67,7 +62,7 @@ public class GameManager {
 
     }
 
-    public static void stop(){
+    public static void stop() {
 
         Bukkit.getServer().reload();
 
@@ -112,9 +107,9 @@ public class GameManager {
         }
     }
 
-    public static void spawnShops(){
+    public static void spawnShops() {
 
-        for(Shop shop : map.getShops()){
+        for (Shop shop : map.getShops()) {
 
             Villager villager = (Villager) map.getLoc().getWorld().spawnEntity(new Location(shop.getWorld(), shop.getX(), shop.getY(), shop.getZ()), EntityType.VILLAGER);
 
@@ -208,9 +203,9 @@ public class GameManager {
 
     }
 
-    public static void stopGenerators(){
+    public static void stopGenerators() {
 
-        for(Generator gen : map.getGens()){
+        for (Generator gen : map.getGens()) {
 
             Bukkit.getServer().getScheduler().cancelTask(gen.getTimerID());
 

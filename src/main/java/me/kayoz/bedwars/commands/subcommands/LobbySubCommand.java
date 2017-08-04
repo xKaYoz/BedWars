@@ -33,17 +33,17 @@ public class LobbySubCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
 
             Player p = (Player) sender;
 
             Files files = new Files();
-            if(files.getFile("lobby") == null){
+            if (files.getFile("lobby") == null) {
                 files.createFile("lobby");
             }
             YamlConfiguration config = files.getConfig("lobby");
 
-            if(args.length == 2 && args[1].equalsIgnoreCase("set")){
+            if (args.length == 2 && args[1].equalsIgnoreCase("set")) {
 
                 World world = p.getLocation().getWorld();
                 double x = p.getLocation().getX();
@@ -66,7 +66,7 @@ public class LobbySubCommand extends SubCommand {
                 }
 
                 Chat.sendPrefixMessage(p, "&eYou have set the &6Lobby Spawn&e.");
-            } else if(args.length == 2 && args[1].equalsIgnoreCase("teleport")){
+            } else if (args.length == 2 && args[1].equalsIgnoreCase("teleport")) {
 
                 World world = Bukkit.getWorld(config.getString("lobby.world"));
                 double x = config.getDouble("lobby.x");

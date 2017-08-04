@@ -53,7 +53,7 @@ public class TeamManager {
         if (teams.contains(team)) {
             teams.remove(team);
         }
-        if(!alive.contains(team)){
+        if (!alive.contains(team)) {
             alive.remove(team);
         }
     }

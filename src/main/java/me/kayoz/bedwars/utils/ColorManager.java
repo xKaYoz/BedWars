@@ -163,7 +163,7 @@ public class ColorManager {
         return null;
     }
 
-    public static short getColorID(int rgb){
+    public static short getColorID(int rgb) {
         if (rgb == Color.AQUA.asRGB()) {
             return DyeColor.CYAN.getData();
         } else if (rgb == Color.BLUE.asRGB()) {
