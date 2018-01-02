@@ -26,24 +26,13 @@ import java.util.Arrays;
 
 public class RangedShop implements Listener {
 
-    public static void openShop(Player player) {
+    public static void openShop(Player p) {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lRanged"));
 
         String canBuy;
-        int iron = 0;
-        int gold = 0;
-
-        for (ItemStack item : player.getInventory().getContents()) {
-
-            if (item != null && item.getType() == Material.IRON_INGOT) {
-                iron += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.GOLD_INGOT) {
-                gold += item.getAmount();
-            }
-
-        }
+        int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+        int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
 
         if (gold >= 3) {
             canBuy = Chat.format("&aYou can purchase this item.");
@@ -75,7 +64,7 @@ public class RangedShop implements Listener {
         inv.setItem(14, egg);
         inv.setItem(22, back);
 
-        player.openInventory(inv);
+        p.openInventory(inv);
     }
 
     @EventHandler
@@ -93,27 +82,8 @@ public class RangedShop implements Listener {
 
         if (inv.getName().equals(Chat.format("&6&lRanged"))) {
 
-            int iron = 0;
-            int gold = 0;
-            int diamond = 0;
-            int emerald = 0;
-
-            for (ItemStack t : p.getInventory().getContents()) {
-
-                if (t != null && t.getType() == Material.IRON_INGOT) {
-                    iron += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.GOLD_INGOT) {
-                    gold += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.DIAMOND) {
-                    diamond += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.EMERALD) {
-                    emerald += t.getAmount();
-                }
-
-            }
+            int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+            int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
 
             if (item.getType() == Material.BOW) {
 

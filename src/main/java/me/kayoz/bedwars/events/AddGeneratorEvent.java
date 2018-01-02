@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -71,29 +72,7 @@ public class AddGeneratorEvent implements Listener {
                     ItemStack gen = ItemBuilder.build(Material.DIAMOND_BLOCK, 1, "&b&lDiamond Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if (genMap.containsKey(p)) {
-                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
-                        return;
-                    }
-
-                    p.getInventory().setItem(i, gen);
-
-                    genMap.put(p, map);
-
-                    Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
-                        @Override
-                        public void run() {
-                            if (p != null && genMap.containsKey(p)) {
-
-                                genMap.remove(p);
-
-                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
-
-                                p.getInventory().remove(gen);
-
-                            }
-                        }
-                    }, 20 * 20);
+                    addTask(map, p, gen);
 
                     Chat.sendPrefixMessage(p, "&eYou have been given a &b&lDiamond Generator&e. " +
                             "Place the item where you would like a generator to be. You have 20 seconds to place it.");
@@ -118,29 +97,7 @@ public class AddGeneratorEvent implements Listener {
                     ItemStack gen = ItemBuilder.build(Material.IRON_BLOCK, 1, "&f&lIron Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if (genMap.containsKey(p)) {
-                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
-                        return;
-                    }
-
-                    p.getInventory().setItem(i, gen);
-
-                    genMap.put(p, map);
-
-                    Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
-                        @Override
-                        public void run() {
-                            if (p != null && genMap.containsKey(p)) {
-
-                                genMap.remove(p);
-
-                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
-
-                                p.getInventory().remove(gen);
-
-                            }
-                        }
-                    }, 20 * 20);
+                    addTask(map, p, gen);
 
                     Chat.sendPrefixMessage(p, "&eYou have been given an &f&lIron Generator&e. " +
                             "Place the item where you would like a generator to be. You have 20 seconds to place it.");
@@ -164,29 +121,7 @@ public class AddGeneratorEvent implements Listener {
                     ItemStack gen = ItemBuilder.build(Material.GOLD_BLOCK, 1, "&6&lGold Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if (genMap.containsKey(p)) {
-                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
-                        return;
-                    }
-
-                    p.getInventory().setItem(i, gen);
-
-                    genMap.put(p, map);
-
-                    Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
-                        @Override
-                        public void run() {
-                            if (p != null && genMap.containsKey(p)) {
-
-                                genMap.remove(p);
-
-                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
-
-                                p.getInventory().remove(gen);
-
-                            }
-                        }
-                    }, 20 * 20);
+                    addTask(map, p, gen);
 
                     Chat.sendPrefixMessage(p, "&eYou have been given a &6&lGold Generator&e. " +
                             "Place the item where you would like a generator to be. You have 20 seconds to place it.");
@@ -210,29 +145,7 @@ public class AddGeneratorEvent implements Listener {
                     ItemStack gen = ItemBuilder.build(Material.EMERALD_BLOCK, 1, "&a&lEmerald Generator",
                             Arrays.asList("&7Place this item on the ground", "&7where you want this type of generator."));
 
-                    if (genMap.containsKey(p)) {
-                        Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
-                        return;
-                    }
-
-                    p.getInventory().setItem(i, gen);
-
-                    genMap.put(p, map);
-
-                    Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
-                        @Override
-                        public void run() {
-                            if (p != null && genMap.containsKey(p)) {
-
-                                genMap.remove(p);
-
-                                Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
-
-                                p.getInventory().remove(gen);
-
-                            }
-                        }
-                    }, 20 * 20);
+                    addTask(map, p, gen);
 
                     Chat.sendPrefixMessage(p, "&eYou have been given an &a&lEmerald Generator&e. " +
                             "Place the item where you would like a generator to be. You have 20 seconds to place it.");
@@ -368,5 +281,35 @@ public class AddGeneratorEvent implements Listener {
             genMap.remove(p);
 
         }
+    }
+
+    private void addTask(Map map, Player p, ItemStack gen){
+
+        int i = p.getInventory().firstEmpty();
+
+        if (genMap.containsKey(p)) {
+            Chat.sendPrefixMessage(p, "&cYou have not placed the previous generator.");
+            return;
+        }
+
+        p.getInventory().setItem(i, gen);
+
+        genMap.put(p, map);
+
+        Bukkit.getScheduler().runTaskLater(BedWarsPlugin.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                if (p != null && genMap.containsKey(p)) {
+
+                    genMap.remove(p);
+
+                    Chat.sendPrefixMessage(p, "&cThe generator has been removed from your inventory.");
+
+                    p.getInventory().remove(gen);
+
+                }
+            }
+        }, 20 * 20);
+
     }
 }

@@ -26,24 +26,13 @@ import java.util.Arrays;
 
 public class ArmorShop implements Listener {
 
-    public static void openShop(Player player) {
+    public static void openShop(Player p) {
 
         Inventory inv = Bukkit.createInventory(null, 63, Chat.format("&6&lArmor"));
 
         String canBuy;
-        int iron = 0;
-        int gold = 0;
-
-        for (ItemStack item : player.getInventory().getContents()) {
-
-            if (item != null && item.getType() == Material.IRON_INGOT) {
-                iron += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.GOLD_INGOT) {
-                gold += item.getAmount();
-            }
-
-        }
+        int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+        int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
 
         if (iron >= 5) {
             canBuy = Chat.format("&aYou can purchase this item.");
@@ -98,7 +87,7 @@ public class ArmorShop implements Listener {
         //BACK
         inv.setItem(49, back);
 
-        player.openInventory(inv);
+        p.openInventory(inv);
     }
 
     @EventHandler
@@ -116,27 +105,9 @@ public class ArmorShop implements Listener {
 
         if (inv.getName().equals(Chat.format("&6&lArmor"))) {
 
-            int iron = 0;
-            int gold = 0;
-            int diamond = 0;
-            int emerald = 0;
-
-            for (ItemStack t : p.getInventory().getContents()) {
-
-                if (t != null && t.getType() == Material.IRON_INGOT) {
-                    iron += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.GOLD_INGOT) {
-                    gold += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.DIAMOND) {
-                    diamond += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.EMERALD) {
-                    emerald += t.getAmount();
-                }
-
-            }
+            int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+            int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
+            int emerald = ShopEvents.getItem(Material.EMERALD, p);
 
             if (item.getType() == Material.CHAINMAIL_HELMET) {
 
@@ -202,7 +173,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (iron >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -232,7 +203,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (iron >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -262,7 +233,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (gold >= 5) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -292,7 +263,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (gold >= 5) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -322,7 +293,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (gold >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -352,7 +323,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (gold >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -382,7 +353,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (emerald >= 5) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -412,7 +383,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (emerald >= 5) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -442,7 +413,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (emerald >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 
@@ -472,7 +443,7 @@ public class ArmorShop implements Listener {
 
                 e.setCancelled(true);
 
-                if (iron >= 5) {
+                if (emerald >= 10) {
 
                     int next = p.getInventory().firstEmpty();
 

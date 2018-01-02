@@ -26,32 +26,13 @@ import java.util.Arrays;
 
 public class FoodShop implements Listener {
 
-    public static void openShop(Player player) {
+    public static void openShop(Player p) {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lFood"));
 
         String canBuy;
-        int iron = 0;
-        int gold = 0;
-        int diamond = 0;
-        int emerald = 0;
-
-        for (ItemStack item : player.getInventory().getContents()) {
-
-            if (item != null && item.getType() == Material.IRON_INGOT) {
-                iron += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.GOLD_INGOT) {
-                gold += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.DIAMOND) {
-                diamond += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.EMERALD) {
-                emerald += item.getAmount();
-            }
-
-        }
+        int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+        int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
 
         if (iron >= 5) {
             canBuy = Chat.format("&aYou can purchase this item.");
@@ -83,7 +64,7 @@ public class FoodShop implements Listener {
         inv.setItem(14, gapple);
         inv.setItem(22, back);
 
-        player.openInventory(inv);
+        p.openInventory(inv);
     }
 
     @EventHandler
@@ -101,27 +82,8 @@ public class FoodShop implements Listener {
 
         if (inv.getName().equals(Chat.format("&6&lFood"))) {
 
-            int iron = 0;
-            int gold = 0;
-            int diamond = 0;
-            int emerald = 0;
-
-            for (ItemStack t : p.getInventory().getContents()) {
-
-                if (t != null && t.getType() == Material.IRON_INGOT) {
-                    iron += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.GOLD_INGOT) {
-                    gold += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.DIAMOND) {
-                    diamond += t.getAmount();
-                }
-                if (t != null && t.getType() == Material.EMERALD) {
-                    emerald += t.getAmount();
-                }
-
-            }
+            int iron = ShopEvents.getItem(Material.IRON_INGOT, p);
+            int gold = ShopEvents.getItem(Material.GOLD_INGOT, p);
 
             if (item.getType() == Material.CARROT_ITEM) {
 

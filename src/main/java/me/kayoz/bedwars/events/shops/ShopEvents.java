@@ -96,6 +96,16 @@ public class ShopEvents implements Listener {
 
     }
 
+    public static int getItem(Material i, Player p){
+        int item = 0;
+        for(ItemStack t : p.getInventory().getContents()){
+            if(t != null && t.getType() == i){
+                item += t.getAmount();
+            }
+        }
+        return item;
+    }
+
     @EventHandler
     public void onSelect(InventoryClickEvent e) {
 
