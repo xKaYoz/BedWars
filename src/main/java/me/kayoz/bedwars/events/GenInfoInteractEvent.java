@@ -1,10 +1,10 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.inventories.MapInfoInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Generator;
+import me.kayoz.bedwars.inventories.MapInfoInv;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,10 +60,10 @@ public class GenInfoInteractEvent implements Listener {
             }
             if (item.getType() == Material.COMPASS) {
                 String genName = ChatColor.stripColor(inv.getName()).replace(" Info", "");
-                for (Generator gen : map.getGens()) {
+                for (Generator gen : map.getGenerators()) {
 
                     if (gen.getName().equalsIgnoreCase(genName)) {
-                        p.teleport(new Location(gen.getWorld(), gen.getX(), gen.getY(), gen.getZ()));
+                        p.teleport(new Location(gen.getLoc().getWorld(), gen.getLoc().getX(), gen.getLoc().getY(), gen.getLoc().getZ()));
                         Chat.sendPrefixMessage(p, "&eYou have been teleported to the generator " + genName);
                         p.getOpenInventory().close();
                     }

@@ -1,4 +1,4 @@
-package me.kayoz.bedwars.utils.users;
+package me.kayoz.bedwars.managers;
 
 /**
  * Created by KaYoz on 7/10/2017.

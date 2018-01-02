@@ -1,9 +1,9 @@
-package me.kayoz.bedwars.utils.inventories;
+package me.kayoz.bedwars.inventories;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

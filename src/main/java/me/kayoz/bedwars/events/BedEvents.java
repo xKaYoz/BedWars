@@ -1,11 +1,11 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.utils.ColorManager;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.team.Team;
-import me.kayoz.bedwars.utils.team.TeamManager;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Team;
+import me.kayoz.bedwars.managers.TeamManager;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,12 +20,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
+import java.util.Random;
+
 /**
  * Created by KaYoz on 7/25/2017.
  * Subscribe to me on Youtube:
  * http://www.youtube.com/c/KaYozMC/
  */
-
+@Deprecated
 public class BedEvents implements Listener {
 
     public static Block getBedHead(Block b) {
@@ -43,12 +45,12 @@ public class BedEvents implements Listener {
         if ((block.getType() == Material.BED || block.getType() == Material.BED_BLOCK) && p.getItemInHand().hasItemMeta()
                 && ChatColor.stripColor(p.getItemInHand().getItemMeta().getDisplayName()).contains("'s Bed")) {
 
-            User u = UserManager.getInstance().getUser(p);
+            User u = UserManager.getUser(p);
             Team team = u.getTeam();
 
             team.setCanRespawn(true);
 
-            team.setHasPlacedBed(true);
+            //team.setHasPlacedBed(true);
 
             team.getBed().add(loc);
 
@@ -56,7 +58,7 @@ public class BedEvents implements Listener {
 
             team.getBed().add(nextLoc);
 
-            team.msg("&6" + p.getName() + "&e has placed the team's bed.");
+            //team.msg("&6" + p.getName() + "&e has placed the team's bed.");
 
             for (User user : team.getMembers()) {
 
@@ -77,18 +79,6 @@ public class BedEvents implements Listener {
 
         if (!(block.getType() == Material.BED || block.getType() == Material.BED_BLOCK)) {
 
-            User u = UserManager.getInstance().getUser(p);
-            if (u.getTeam() != null) {
-                Team team = u.getTeam();
-
-                if (!team.isHasPlacedBed()) {
-
-                    e.setCancelled(true);
-                    Chat.sendColoredMessage(p, "&cYou must place your bed before you can build.");
-
-                }
-            }
-
         }
 
     }
@@ -102,7 +92,7 @@ public class BedEvents implements Listener {
 
         if ((block.getType() == Material.BED || block.getType() == Material.BED_BLOCK)) {
 
-            User u = UserManager.getInstance().getUser(p);
+            User u = UserManager.getUser(p);
             Team breakTeam = u.getTeam();
 
             for (Team team : TeamManager.getTeams()) {
@@ -123,6 +113,10 @@ public class BedEvents implements Listener {
                         team.setCanRespawn(false);
 
                         team.getBed().clear();
+
+                        Random ran = new Random();
+
+                        ran.nextInt(10);
 
                     }
                 }

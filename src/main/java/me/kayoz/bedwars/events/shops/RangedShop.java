@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.events.shops;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -30,13 +30,9 @@ public class RangedShop implements Listener {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lRanged"));
 
-        User u = UserManager.getInstance().getUser(player);
-
         String canBuy;
         int iron = 0;
         int gold = 0;
-        int diamond = 0;
-        int emerald = 0;
 
         for (ItemStack item : player.getInventory().getContents()) {
 
@@ -45,12 +41,6 @@ public class RangedShop implements Listener {
             }
             if (item != null && item.getType() == Material.GOLD_INGOT) {
                 gold += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.DIAMOND) {
-                diamond += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.EMERALD) {
-                emerald += item.getAmount();
             }
 
         }

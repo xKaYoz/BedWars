@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.inventories.MapInfoInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.inventories.MapInfoInv;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

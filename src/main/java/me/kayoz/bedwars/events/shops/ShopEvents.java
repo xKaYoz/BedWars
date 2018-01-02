@@ -2,9 +2,9 @@ package me.kayoz.bedwars.events.shops;
 
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -32,7 +32,7 @@ public class ShopEvents implements Listener {
 
         Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6&lShop"));
 
-        User u = UserManager.getInstance().getUser(player);
+        User u = UserManager.getUser(player);
 
         ItemStack blocks = ItemBuilder.build(Material.WOOL, 1, ColorManager.getColorID(u.getTeam().getColorRGB()), "&eBlocks", Arrays.asList("&7Purchase Blocks"));
         ItemStack weapons = ItemBuilder.build(Material.DIAMOND_SWORD, 1, "&eSwords", Arrays.asList("&7Purchase Swords"));
@@ -108,7 +108,6 @@ public class ShopEvents implements Listener {
         Player p = (Player) e.getWhoClicked();
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
-        User u = UserManager.getInstance().getUser(p);
 
         if (inv.getName().equals(Chat.format("&6&lShop"))) {
 

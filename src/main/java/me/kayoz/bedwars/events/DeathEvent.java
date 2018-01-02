@@ -4,12 +4,12 @@ import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.game.GameManager;
 import me.kayoz.bedwars.game.timers.RespawnTimer;
 import me.kayoz.bedwars.utils.ColorManager;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.team.Team;
-import me.kayoz.bedwars.utils.team.TeamManager;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
-import me.kayoz.bedwars.utils.users.UserState;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Team;
+import me.kayoz.bedwars.managers.TeamManager;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.managers.UserState;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
@@ -38,7 +38,7 @@ public class DeathEvent implements Listener {
 
                 e.setCancelled(true);
 
-                User u = UserManager.getInstance().getUser(p);
+                User u = UserManager.getUser(p);
 
                 Team team = u.getTeam();
 
@@ -182,7 +182,7 @@ public class DeathEvent implements Listener {
 
                 e.setCancelled(true);
 
-                User u = UserManager.getInstance().getUser(p);
+                User u = UserManager.getUser(p);
 
                 Team team = u.getTeam();
 
@@ -210,7 +210,7 @@ public class DeathEvent implements Listener {
 
                                 Player d = (Player) entity;
 
-                                User ud = UserManager.getInstance().getUser(d);
+                                User ud = UserManager.getUser(d);
 
                                 Bukkit.getServer().broadcastMessage(Chat.format(ColorManager.getChatColor(team.getColorRGB()) + p.getName()
                                         + "&7 has been eliminated by " + ColorManager.getChatColor(ud.getColor().asRGB()) + d.getName()));
@@ -238,7 +238,7 @@ public class DeathEvent implements Listener {
 
                             Player d = (Player) entity;
 
-                            User ud = UserManager.getInstance().getUser(d);
+                            User ud = UserManager.getUser(d);
 
                             Bukkit.getServer().broadcastMessage(Chat.format(ColorManager.getChatColor(team.getColorRGB()) + p.getName()
                                     + "&7 has been killed by " + ColorManager.getChatColor(ud.getColor().asRGB()) + d.getName()));

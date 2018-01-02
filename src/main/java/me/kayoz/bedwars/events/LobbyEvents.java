@@ -1,14 +1,14 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.Configuration;
+import me.kayoz.bedwars.Settings;
 import me.kayoz.bedwars.game.GameState;
 import me.kayoz.bedwars.game.timers.LobbyTimer;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
-import me.kayoz.bedwars.utils.users.UserState;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.managers.UserState;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -61,16 +61,16 @@ public class LobbyEvents implements Listener {
         if (!config.getBoolean("Admin Mode")) {
             User u;
 
-            if (UserManager.getInstance().getUser(e.getPlayer()) == null) {
+            if (UserManager.getUser(e.getPlayer()) == null) {
                 u = new User(e.getPlayer());
             } else {
-                u = UserManager.getInstance().getUser(e.getPlayer());
+                u = UserManager.getUser(e.getPlayer());
             }
 
             if (BedWarsPlugin.getInstance().getState() == GameState.LOBBY) {
                 u.setState(UserState.LOBBY);
                 e.setJoinMessage(Chat.format("&7" + u.getPlayer().getDisplayName() + "&e has joined!" +
-                        " &7(&c" + Bukkit.getServer().getOnlinePlayers().size() + "&7/&c" + Configuration.MAX_PLAYERS + "&7)"));
+                        " &7(&c" + Bukkit.getServer().getOnlinePlayers().size() + "&7/&c" + Settings.MAX_PLAYERS + "&7)"));
 
                 World world = Bukkit.getWorld(lobby.getString("lobby.world"));
                 double x = lobby.getDouble("lobby.x");
@@ -81,7 +81,7 @@ public class LobbyEvents implements Listener {
 
                 u.getPlayer().teleport(new Location(world, x, y, z, yaw, pitch));
 
-                if (Bukkit.getServer().getOnlinePlayers().size() >= Configuration.MAX_PLAYERS) {
+                if (Bukkit.getServer().getOnlinePlayers().size() >= Settings.MAX_PLAYERS) {
                     LobbyTimer.start();
                 }
             } else if (BedWarsPlugin.getInstance().getState() == GameState.INGAME) {
@@ -98,7 +98,7 @@ public class LobbyEvents implements Listener {
                 u.setState(UserState.LOBBY);
             }
         } else {
-            Bukkit.getServer().broadcastMessage("&cThe game will not start due to the server being in admin mode.");
+            Chat.sendPrefixBroadcast("&cThe game will not start due to the server being in admin mode.");
         }
 
     }
@@ -106,12 +106,12 @@ public class LobbyEvents implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
 
-        User u = UserManager.getInstance().getUser(e.getPlayer());
+        User u = UserManager.getUser(e.getPlayer());
 
         if (BedWarsPlugin.getInstance().getState() == GameState.LOBBY) {
             if (LobbyTimer.on) {
                 LobbyTimer.stop();
-                Bukkit.broadcastMessage(Chat.format("&cThere are not enough players to start the game."));
+                Chat.sendColoredBroadcast("&cThere are not enough players to start the game.");
             }
         }
 
@@ -119,7 +119,7 @@ public class LobbyEvents implements Listener {
             u.setState(UserState.LOGGED);
         }
 
-        e.setQuitMessage(Chat.format("&c" + u.getPlayer().getDisplayName() + "&6 has quit!"));
+        e.setQuitMessage(Chat.format("&c" + e.getPlayer().getDisplayName() + "&6 has quit!"));
 
     }
 }

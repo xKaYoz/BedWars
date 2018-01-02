@@ -2,7 +2,7 @@ package me.kayoz.bedwars.game.timers;
 
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.game.GameManager;
-import me.kayoz.bedwars.utils.chat.Chat;
+import me.kayoz.bedwars.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

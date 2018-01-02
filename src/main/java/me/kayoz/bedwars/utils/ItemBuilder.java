@@ -1,6 +1,5 @@
 package me.kayoz.bedwars.utils;
 
-import me.kayoz.bedwars.utils.chat.Chat;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

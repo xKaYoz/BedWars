@@ -3,9 +3,9 @@ package me.kayoz.bedwars.commands.subcommands;
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -63,7 +63,7 @@ public class AdminSubCommand extends SubCommand {
                     allowed = false;
                     errors.add("&cThere are not enough spawns in map " + map.getName() + ". There are " + map.getSpawns().size() + " spawns, but there must be " + config.getInt("Max Players"));
                     errors.add(Chat.createLine("&8"));
-                } else if (map.getGens().size() == 0) {
+                } else if (map.getGenerators().size() == 0) {
                     allowed = false;
                     errors.add("&cGenerators have not been setup for the map " + map.getName());
                     errors.add(Chat.createLine("&8"));

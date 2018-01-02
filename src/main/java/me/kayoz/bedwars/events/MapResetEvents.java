@@ -1,6 +1,7 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.game.GameManager;
+import me.kayoz.bedwars.objects.Shop;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -42,9 +43,10 @@ public class MapResetEvents implements Listener {
         World world = GameManager.getMap().getLoc().getWorld();
         List<Entity> entList = world.getEntities();
 
-        for (Entity en : GameManager.getMap().getVillagers()) {
+        for (Shop s : GameManager.getMap().getShops()) {
 
-            en.remove();
+            s.despawn();
+            s.getV().setHealth(0.0);
 
         }
 

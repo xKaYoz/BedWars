@@ -2,11 +2,11 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.inventories.AddGenInv;
-import me.kayoz.bedwars.utils.inventories.AllGensInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.inventories.AddGenInv;
+import me.kayoz.bedwars.inventories.AllGensInv;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

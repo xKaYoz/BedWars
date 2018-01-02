@@ -1,7 +1,7 @@
-package me.kayoz.bedwars.utils.chat;
+package me.kayoz.bedwars.utils;
 
 /**
- * Created by KaYoz on 7/23/2017.
+ * Created by KaYoz on 8/7/2017.
  * Subscribe to me on Youtube:
  * http://www.youtube.com/c/KaYozMC/
  */

@@ -2,7 +2,7 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.chat.Chat;
+import me.kayoz.bedwars.utils.Chat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

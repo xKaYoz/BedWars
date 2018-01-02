@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.events.shops;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -29,8 +29,6 @@ public class FoodShop implements Listener {
     public static void openShop(Player player) {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lFood"));
-
-        User u = UserManager.getInstance().getUser(player);
 
         String canBuy;
         int iron = 0;

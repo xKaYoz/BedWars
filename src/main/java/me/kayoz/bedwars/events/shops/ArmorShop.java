@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.events.shops;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -30,13 +30,9 @@ public class ArmorShop implements Listener {
 
         Inventory inv = Bukkit.createInventory(null, 63, Chat.format("&6&lArmor"));
 
-        User u = UserManager.getInstance().getUser(player);
-
         String canBuy;
         int iron = 0;
         int gold = 0;
-        int diamond = 0;
-        int emerald = 0;
 
         for (ItemStack item : player.getInventory().getContents()) {
 
@@ -45,12 +41,6 @@ public class ArmorShop implements Listener {
             }
             if (item != null && item.getType() == Material.GOLD_INGOT) {
                 gold += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.DIAMOND) {
-                diamond += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.EMERALD) {
-                emerald += item.getAmount();
             }
 
         }
@@ -62,9 +52,9 @@ public class ArmorShop implements Listener {
         }
 
         ItemStack ihelmet = ItemBuilder.build(Material.IRON_HELMET, 1, "&eIron Helmet", Arrays.asList("&eWill Recieve:", "  &71 Iron Helmet", "", "&7Cost: &65 Gold", "", canBuy));
-        ItemStack iboots = ItemBuilder.build(Material.IRON_BOOTS, 1, "&eIron Boots", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &65 Gold", "", canBuy));
-        ItemStack ichestplate = ItemBuilder.build(Material.IRON_CHESTPLATE, 1, "&eIron Chestplate", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Gold", "", canBuy));
-        ItemStack ileggings = ItemBuilder.build(Material.IRON_LEGGINGS, 1, "&eIron Leggings", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Gold", "", canBuy));
+        ItemStack iboots = ItemBuilder.build(Material.IRON_BOOTS, 1, "&eIron Boots", Arrays.asList("&eWill Recieve:", "  &71 Iron Boots", "", "&7Cost: &65 Gold", "", canBuy));
+        ItemStack ichestplate = ItemBuilder.build(Material.IRON_CHESTPLATE, 1, "&eIron Chestplate", Arrays.asList("&eWill Recieve:", "  &71 Iron Chestplate", "", "&7Cost: &610 Gold", "", canBuy));
+        ItemStack ileggings = ItemBuilder.build(Material.IRON_LEGGINGS, 1, "&eIron Leggings", Arrays.asList("&eWill Recieve:", "  &71 Iron Leggings", "", "&7Cost: &610 Gold", "", canBuy));
 
 
         if (iron >= 15) {
@@ -73,10 +63,10 @@ public class ArmorShop implements Listener {
             canBuy = Chat.format("&cYou do not have enough Iron to purchase this.");
         }
 
-        ItemStack chelmet = ItemBuilder.build(Material.CHAINMAIL_HELMET, 1, "&eChain Helmet", Arrays.asList("&eWill Recieve:", "  &71 Iron Helmet", "", "&7Cost: &65 Iron", "", canBuy));
-        ItemStack cboots = ItemBuilder.build(Material.CHAINMAIL_BOOTS, 1, "&eChain Boots", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &65 Iron", "", canBuy));
-        ItemStack cchestplate = ItemBuilder.build(Material.CHAINMAIL_CHESTPLATE, 1, "&eChain Chestplate", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Iron", "", canBuy));
-        ItemStack cleggings = ItemBuilder.build(Material.CHAINMAIL_LEGGINGS, 1, "&eChain Leggings", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Iron", "", canBuy));
+        ItemStack chelmet = ItemBuilder.build(Material.CHAINMAIL_HELMET, 1, "&eChain Helmet", Arrays.asList("&eWill Recieve:", "  &71 Chain Helmet", "", "&7Cost: &65 Iron", "", canBuy));
+        ItemStack cboots = ItemBuilder.build(Material.CHAINMAIL_BOOTS, 1, "&eChain Boots", Arrays.asList("&eWill Recieve:", "  &71 Chain Boots", "", "&7Cost: &65 Iron", "", canBuy));
+        ItemStack cchestplate = ItemBuilder.build(Material.CHAINMAIL_CHESTPLATE, 1, "&eChain Chestplate", Arrays.asList("&eWill Recieve:", "  &71 Chain Chestplate", "", "&7Cost: &610 Iron", "", canBuy));
+        ItemStack cleggings = ItemBuilder.build(Material.CHAINMAIL_LEGGINGS, 1, "&eChain Leggings", Arrays.asList("&eWill Recieve:", "  &71 Chain Leggings", "", "&7Cost: &610 Iron", "", canBuy));
 
         if (gold >= 5) {
             canBuy = Chat.format("&aYou can purchase this item.");
@@ -84,10 +74,10 @@ public class ArmorShop implements Listener {
             canBuy = Chat.format("&cYou do not have enough Gold to purchase this.");
         }
 
-        ItemStack dhelmet = ItemBuilder.build(Material.DIAMOND_HELMET, 1, "&eDiamond Helmet", Arrays.asList("&eWill Recieve:", "  &71 Iron Helmet", "", "&7Cost: &65 Gold", "", canBuy));
-        ItemStack dboots = ItemBuilder.build(Material.DIAMOND_BOOTS, 1, "&eDiamond Boots", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &65 Gold", "", canBuy));
-        ItemStack dchestplate = ItemBuilder.build(Material.DIAMOND_CHESTPLATE, 1, "&eDiamond Chestplate", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Gold", "", canBuy));
-        ItemStack dleggings = ItemBuilder.build(Material.DIAMOND_LEGGINGS, 1, "&eDiamond Leggings", Arrays.asList("&eWill Recieve:", "  &74 Carrots", "", "&7Cost: &610 Gold", "", canBuy));
+        ItemStack dhelmet = ItemBuilder.build(Material.DIAMOND_HELMET, 1, "&eDiamond Helmet", Arrays.asList("&eWill Recieve:", "  &71 Diamond Helmet", "", "&7Cost: &65 Emerald", "", canBuy));
+        ItemStack dboots = ItemBuilder.build(Material.DIAMOND_BOOTS, 1, "&eDiamond Boots", Arrays.asList("&eWill Recieve:", "  &71 Diamond Boots", "", "&7Cost: &65 Emerald", "", canBuy));
+        ItemStack dchestplate = ItemBuilder.build(Material.DIAMOND_CHESTPLATE, 1, "&eDiamond Chestplate", Arrays.asList("&eWill Recieve:", "  &71 Diamond Chestplate", "", "&7Cost: &610 Emerald", "", canBuy));
+        ItemStack dleggings = ItemBuilder.build(Material.DIAMOND_LEGGINGS, 1, "&eDiamond Leggings", Arrays.asList("&eWill Recieve:", "  &71 Diamond Leggings", "", "&7Cost: &610 Emerald", "", canBuy));
 
         ItemStack back = ItemBuilder.build(Material.BARRIER, 1, "&cBack", Arrays.asList("&7Go to the previous menu."));
         //IRON
@@ -124,7 +114,7 @@ public class ArmorShop implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if (inv.getName().equals(Chat.format("&6&lRanged"))) {
+        if (inv.getName().equals(Chat.format("&6&lArmor"))) {
 
             int iron = 0;
             int gold = 0;

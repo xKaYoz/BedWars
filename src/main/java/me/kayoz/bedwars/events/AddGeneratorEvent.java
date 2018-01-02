@@ -3,10 +3,10 @@ package me.kayoz.bedwars.events;
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Generator;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -254,7 +254,7 @@ public class AddGeneratorEvent implements Listener {
 
             Map map = genMap.get(p);
 
-            Generator gen = new Generator(String.valueOf(map.getGens().size()), loc, Material.DIAMOND);
+            Generator gen = new Generator(String.valueOf(map.getGenerators().size()), loc, Material.DIAMOND);
 
             map.addGenerator(gen);
 
@@ -284,7 +284,7 @@ public class AddGeneratorEvent implements Listener {
 
             Map map = genMap.get(p);
 
-            Generator gen = new Generator(String.valueOf(map.getGens().size()), loc, Material.IRON_INGOT);
+            Generator gen = new Generator(String.valueOf(map.getGenerators().size()), loc, Material.IRON_INGOT);
 
             map.addGenerator(gen);
 
@@ -314,7 +314,7 @@ public class AddGeneratorEvent implements Listener {
 
             Map map = genMap.get(p);
 
-            Generator gen = new Generator(String.valueOf(map.getGens().size()), loc, Material.GOLD_INGOT);
+            Generator gen = new Generator(String.valueOf(map.getGenerators().size()), loc, Material.GOLD_INGOT);
 
             map.addGenerator(gen);
 
@@ -343,7 +343,7 @@ public class AddGeneratorEvent implements Listener {
 
             Map map = genMap.get(p);
 
-            Generator gen = new Generator(String.valueOf(map.getGens().size()), loc, Material.EMERALD);
+            Generator gen = new Generator(String.valueOf(map.getGenerators().size()), loc, Material.EMERALD);
 
             map.addGenerator(gen);
 

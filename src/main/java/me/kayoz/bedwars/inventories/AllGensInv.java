@@ -1,9 +1,9 @@
-package me.kayoz.bedwars.utils.inventories;
+package me.kayoz.bedwars.inventories;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Generator;
+import me.kayoz.bedwars.objects.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class AllGensInv {
 
         Inventory inv = Bukkit.createInventory(null, 27, Chat.format("&6Generators for " + map.getName()));
 
-        for (Generator gen : map.getGens()) {
+        for (Generator gen : map.getGenerators()) {
 
             Material block;
 

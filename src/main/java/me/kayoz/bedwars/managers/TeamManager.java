@@ -1,7 +1,8 @@
-package me.kayoz.bedwars.utils.team;
+package me.kayoz.bedwars.managers;
 
 import lombok.Getter;
-import me.kayoz.bedwars.utils.users.User;
+import me.kayoz.bedwars.objects.Team;
+import me.kayoz.bedwars.objects.User;
 import org.bukkit.Color;
 
 import java.util.ArrayList;

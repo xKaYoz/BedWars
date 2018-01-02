@@ -4,11 +4,11 @@ import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.inventories.AllSpawnsInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
-import me.kayoz.bedwars.utils.spawns.Spawn;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.inventories.AllSpawnsInv;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Spawn;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,7 +60,7 @@ public class SpawnSubCommand extends SubCommand {
                 Color color = ColorManager.getColor(colorStr);
 
                 if (color == null) {
-                    Chat.sendPrefixMessage(p, "&cIncorrect Color Type, please refer to this link for the colors. TODO ADD LINK");
+                    Chat.sendPrefixMessage(p, "&cIncorrect Color Type, please refer to this link for the colors. https://pastebin.com/TRQZ5DXw");
                     return;
                 }
 
@@ -71,7 +71,7 @@ public class SpawnSubCommand extends SubCommand {
                     }
                 }
 
-                Spawn spawn = new Spawn(String.valueOf(map.getSpawns().size()), color, map, p.getLocation());
+                Spawn spawn = new Spawn(String.valueOf(map.getSpawns().size()), color, p.getLocation());
 
                 map.addSpawn(spawn);
 

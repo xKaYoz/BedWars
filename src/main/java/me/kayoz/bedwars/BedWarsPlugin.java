@@ -1,42 +1,38 @@
 package me.kayoz.bedwars;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.kayoz.bedwars.commands.BedWarsCommand;
 import me.kayoz.bedwars.commands.subcommands.AdminSubCommand;
 import me.kayoz.bedwars.events.*;
-import me.kayoz.bedwars.events.shops.ShopEvents;
+import me.kayoz.bedwars.events.shops.*;
+import me.kayoz.bedwars.game.GameManager;
 import me.kayoz.bedwars.game.GameState;
 import me.kayoz.bedwars.game.timers.LobbyTimer;
+import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.VaultManager;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.shops.Shop;
-import me.kayoz.bedwars.utils.spawns.Spawn;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
-import me.kayoz.bedwars.utils.users.UserState;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 public final class BedWarsPlugin extends JavaPlugin {
 
-    @Getter
     private static BedWarsPlugin instance;
-    @Getter
-    @Setter
+
     private GameState state;
+
+    public static BedWarsPlugin getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -45,114 +41,22 @@ public final class BedWarsPlugin extends JavaPlugin {
         registerCommands();
         state = GameState.LOBBY;
         VaultManager.setup();
-        loadMaps();
+        MapManager.loadMaps();
         new UserManager();
         checkFiles();
 
         AdminSubCommand.check(Bukkit.getConsoleSender());
 
         teleportLobby();
-        createUsers();
+        UserManager.createUsers();
 
-    }
-
-    private void loadMaps() {
-
-        File f = new File(this.getDataFolder() + File.separator + "maps");
-
-        if (f.listFiles() == null) {
-            return;
-        }
-
-        String[] fileList = f.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return new File(dir, name).isDirectory();
-            }
-        });
-
-        for (String str : fileList) {
-
-            File y = new File("/maps/" + str);
-
-            File gens = new File(y.getPath() + "/gens");
-            File gensD = new File(this.getDataFolder() + y.getPath() + "/gens");
-            File spawns = new File(y.getPath() + "/spawns");
-            File spawnsD = new File(this.getDataFolder() + y.getPath() + "/spawns");
-            File shops = new File(y.getPath() + "/shops");
-            File shopsD = new File(this.getDataFolder() + y.getPath() + "/shops");
-            Files files = new Files();
-            YamlConfiguration config = files.getConfig(y.getPath(), str);
-
-            File[] genFiles = gensD.listFiles();
-            File[] spawnFiles = spawnsD.listFiles();
-            File[] shopFiles = shopsD.listFiles();
-
-            /**
-             * Loading Maps
-             */
-
-            java.util.Map<String, Object> mapList = config.getValues(false);
-
-            Map map = Map.deserialize(mapList);
-
-            /**
-             * Loading Gens
-             */
-
-            if (genFiles != null) {
-
-                for (File file : genFiles) {
-                    if (!file.isDirectory()) {
-                        YamlConfiguration genConfig = files.getConfig(gens.getPath(), file.getName().replace(".yml", ""));
-
-                        java.util.Map<String, Object> genList = genConfig.getValues(false);
-
-                        Generator gen = Generator.deserialize(String.valueOf(map.getGens().size()), genList);
-
-                        map.addGenerator(gen);
-                    }
-                }
-            }
-
-            if (spawnFiles != null) {
-
-                for (File file : spawnFiles) {
-                    if (!file.isDirectory()) {
-                        YamlConfiguration spawnConfig = files.getConfig(spawns.getPath(), file.getName().replace(".yml", ""));
-
-                        java.util.Map<String, Object> spawnList = spawnConfig.getValues(false);
-
-                        Spawn spawn = Spawn.deserialize(String.valueOf(map.getSpawns().size()), spawnList);
-
-                        map.addSpawn(spawn);
-                    }
-                }
-            }
-
-            if (shopFiles != null) {
-
-                for (File file : shopFiles) {
-
-                    if (!file.isDirectory()) {
-                        YamlConfiguration shopConfig = files.getConfig(shops.getPath(), file.getName().replace(".yml", ""));
-
-                        java.util.Map<String, Object> shopList = shopConfig.getValues(false);
-
-                        Shop shop = Shop.deserialize(shopList);
-
-                        map.addShop(shop);
-
-                        getLogger().info("A shop has been loaded for map " + map.getName() + ".");
-                    }
-                }
-            }
-
-        }
     }
 
     @Override
     public void onDisable() {
+
+        GameManager.stop();
+
         instance = null;
     }
 
@@ -174,6 +78,12 @@ public final class BedWarsPlugin extends JavaPlugin {
         pm.registerEvents(new DeathEvent(), this);
         pm.registerEvents(new ShopEvents(), this);
         pm.registerEvents(new MapResetEvents(), this);
+
+        pm.registerEvents(new BlockShop(), this);
+        pm.registerEvents(new SwordShop(), this);
+        pm.registerEvents(new RangedShop(), this);
+        pm.registerEvents(new FoodShop(), this);
+        pm.registerEvents(new ArmorShop(), this);
 
         pm.registerEvents(new PlayerCountCheck(), this);
     }
@@ -236,24 +146,6 @@ public final class BedWarsPlugin extends JavaPlugin {
         }
     }
 
-    public void createUsers() {
-
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-
-            if (UserManager.getInstance().getUser(p) == null) {
-
-                User u = new User(p);
-
-                u.setState(UserState.LOBBY);
-
-            }
-
-            p.setGameMode(GameMode.SURVIVAL);
-
-        }
-
-    }
-
     public void teleportLobby() {
 
         Files files = new Files();
@@ -281,10 +173,18 @@ public final class BedWarsPlugin extends JavaPlugin {
 
             }
 
-            if (Bukkit.getServer().getOnlinePlayers().size() == Configuration.MAX_PLAYERS) {
+            if (Bukkit.getServer().getOnlinePlayers().size() == Settings.MAX_PLAYERS) {
                 LobbyTimer.start();
             }
         }
 
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
     }
 }

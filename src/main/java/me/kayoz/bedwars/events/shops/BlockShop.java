@@ -2,10 +2,10 @@ package me.kayoz.bedwars.events.shops;
 
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.team.Team;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Team;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,12 +32,11 @@ public class BlockShop implements Listener {
 
         Inventory inv = Bukkit.createInventory(null, 36, Chat.format("&6&lBlocks"));
 
-        User u = UserManager.getInstance().getUser(player);
+        User u = UserManager.getUser(player);
 
         String canBuy;
         int iron = 0;
         int gold = 0;
-        int diamond = 0;
         int emerald = 0;
 
         for (ItemStack item : player.getInventory().getContents()) {
@@ -47,9 +46,6 @@ public class BlockShop implements Listener {
             }
             if (item != null && item.getType() == Material.GOLD_INGOT) {
                 gold += item.getAmount();
-            }
-            if (item != null && item.getType() == Material.DIAMOND) {
-                diamond += item.getAmount();
             }
             if (item != null && item.getType() == Material.EMERALD) {
                 emerald += item.getAmount();
@@ -121,8 +117,7 @@ public class BlockShop implements Listener {
         Player p = (Player) e.getWhoClicked();
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
-        User u = UserManager.getInstance().getUser(p);
-        Team team = u.getTeam();
+        User u = UserManager.getUser(p);
 
         if (inv.getName().equals(Chat.format("&6&lBlocks"))) {
 
@@ -146,12 +141,6 @@ public class BlockShop implements Listener {
                     emerald += t.getAmount();
                 }
 
-            }
-
-            if (!team.isHasPlacedBed()) {
-                Chat.sendColoredMessage(p, "&cYou must place your bed before you can buy blocks.");
-                e.setCancelled(true);
-                return;
             }
 
             if (item.getType() == Material.WOOL) {

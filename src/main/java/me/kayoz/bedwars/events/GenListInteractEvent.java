@@ -1,10 +1,10 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.inventories.GenInfoInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Generator;
+import me.kayoz.bedwars.inventories.GenInfoInv;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -47,7 +47,7 @@ public class GenListInteractEvent implements Listener {
             Map map = MapManager.getMap(mapName);
             Generator generator = null;
 
-            for (Generator gen : map.getGens()) {
+            for (Generator gen : map.getGenerators()) {
 
                 if (gen.getName().equals(genName)) {
                     generator = gen;

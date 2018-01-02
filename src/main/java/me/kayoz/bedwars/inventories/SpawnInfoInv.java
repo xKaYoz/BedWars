@@ -1,9 +1,9 @@
-package me.kayoz.bedwars.utils.inventories;
+package me.kayoz.bedwars.inventories;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.spawns.Spawn;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.objects.Spawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,10 +28,10 @@ public class SpawnInfoInv {
         ));
 
         ItemStack location = ItemBuilder.build(Material.COMPASS, 1, "&6Location", Arrays.asList(
-                "&eWorld&8: &7" + spawn.getWorld().getName(),
-                "&eX&8: &7" + spawn.getX(),
-                "&eY&8: &7" + spawn.getY(),
-                "&eZ&8: &7" + spawn.getZ(),
+                "&eWorld&8: &7" + spawn.getLoc().getWorld().getName(),
+                "&eX&8: &7" + spawn.getLoc().getX(),
+                "&eY&8: &7" + spawn.getLoc().getY(),
+                "&eZ&8: &7" + spawn.getLoc().getZ(),
                 "&7Click to teleport. &8(&4&lIn Development&8)"
         ));
 

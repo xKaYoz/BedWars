@@ -1,33 +1,24 @@
 package me.kayoz.bedwars.game;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.Configuration;
+import me.kayoz.bedwars.Settings;
+import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.managers.TeamManager;
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.managers.UserState;
+import me.kayoz.bedwars.objects.*;
+import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
-import me.kayoz.bedwars.utils.shops.Shop;
-import me.kayoz.bedwars.utils.spawns.Spawn;
-import me.kayoz.bedwars.utils.team.Team;
-import me.kayoz.bedwars.utils.team.TeamManager;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
-import me.kayoz.bedwars.utils.users.UserState;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -40,92 +31,9 @@ import java.util.Random;
 
 public class GameManager {
 
-    @Getter
-    @Setter
     private static Map map;
 
-    public static void start() {
-
-        BedWarsPlugin.getInstance().setState(GameState.INGAME);
-
-        selectMap();
-
-        placeGens();
-
-        manageTeams();
-
-        spawnShops();
-
-        teleport();
-
-        manageInventory();
-
-    }
-
-    public static void stop() {
-
-        Bukkit.getServer().reload();
-
-    }
-
-    public static void selectMap() {
-        Random ran = new Random();
-
-        int mapNum = ran.nextInt(MapManager.getMaps().size());
-
-        map = MapManager.getMaps().get(mapNum);
-
-        ColorManager.addColors(map);
-    }
-
-    public static void placeGens() {
-        for (Generator gen : map.getGens()) {
-            gen.update();
-        }
-    }
-
-    public static void manageTeams() {
-        for (User u : UserManager.getInstance().getUsers()) {
-            if (!Configuration.TEAM) {
-                if (u.getState() != UserState.LOBBY) {
-                    return;
-                }
-
-                u.setState(UserState.GAME);
-
-                Team team = new Team(u);
-
-                Color color = ColorManager.nextColor();
-
-                team.setColor(color);
-                team.setColorRGB(color.asRGB());
-                team.setName(ColorManager.getColorName(color.asRGB()));
-
-                u.setColor(color);
-
-            }
-        }
-    }
-
-    public static void spawnShops() {
-
-        for (Shop shop : map.getShops()) {
-
-            Villager villager = (Villager) map.getLoc().getWorld().spawnEntity(new Location(shop.getWorld(), shop.getX(), shop.getY(), shop.getZ()), EntityType.VILLAGER);
-
-            villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 1000));
-
-            villager.setCustomName(Chat.format("&e&lShop"));
-
-            villager.setCustomNameVisible(true);
-
-            map.addVillager(villager);
-
-        }
-
-    }
-
-    public static void teleport() {
+    public static void teleport(Map map) {
         for (Team team : TeamManager.getTeams()) {
             for (User u : team.getMembers()) {
                 if (u.getState() != UserState.GAME) {
@@ -135,7 +43,7 @@ public class GameManager {
                     if (s.getColorRGB() == team.getColorRGB()) {
                         Player p = u.getPlayer();
 
-                        Location loc = new Location(s.getWorld(), s.getX(), s.getY(), s.getZ(), s.getYaw(), s.getPitch()).add(.5, 1, .5);
+                        Location loc = new Location(s.getLoc().getWorld(), s.getLoc().getX(), s.getLoc().getY(), s.getLoc().getZ(), s.getLoc().getYaw(), s.getLoc().getPitch());
 
                         p.sendMessage(Chat.createLine("&8"));
                         Chat.sendCenteredMessage(p, "&6&lBedWars");
@@ -143,7 +51,7 @@ public class GameManager {
                         Chat.sendCenteredMessage(p, "&eProtect your bed by getting minerals from your generator.");
                         Chat.sendCenteredMessage(p, "&eWith these minerals, you can buy blocks.");
                         Chat.sendCenteredMessage(p, "&eGo to your opponents' island and destroy their bed.");
-                        Chat.sendCenteredMessage(p, "&eThe last person alive wins.");
+                        Chat.sendCenteredMessage(p, "&eThe last team alive wins.");
                         Chat.sendCenteredMessage(p, "&eGood luck!");
                         p.sendMessage(Chat.createLine("&8"));
 
@@ -155,9 +63,9 @@ public class GameManager {
         }
     }
 
-    public static void manageInventory() {
+    public static void manageGameInventory() {
 
-        for (User u : UserManager.getInstance().getUsers()) {
+        for (User u : UserManager.getUsers()) {
 
             if (u.getState() == UserState.GAME) {
 
@@ -183,13 +91,9 @@ public class GameManager {
                 bootsmeta.setColor(u.getColor());
                 boots.setItemMeta(bootsmeta);
 
-                ItemStack bed = ItemBuilder.build(Material.BED, 1, ColorManager.getChatColor(u.getColor().asRGB()) + "&l" + ColorManager.getColorName(u.getColor().asRGB()) + "'s Bed",
-                        Arrays.asList("&7Place this where you would like your bed to be."));
-
                 ItemStack sword = ItemBuilder.build(Material.WOOD_SWORD, 1, "&eStarting Sword", Arrays.asList("&7This is your beginning sword"));
 
                 u.getPlayer().getInventory().setItem(0, sword);
-                u.getPlayer().getInventory().setItem(8, bed);
                 u.getPlayer().getInventory().setHelmet(helm);
                 u.getPlayer().getInventory().setChestplate(chest);
                 u.getPlayer().getInventory().setLeggings(leg);
@@ -203,9 +107,176 @@ public class GameManager {
 
     }
 
+    public static void stopGenerators(Map map) {
+
+        for (Generator gen : map.getGenerators()) {
+
+            Bukkit.getServer().getScheduler().cancelTask(gen.getTimerID());
+
+        }
+
+    }
+
+    //Start the game.
+    public static void start() {
+
+        Chat.sendColoredBroadcast("&aCheck 0");
+
+        Map map = selectMap();
+
+        GameManager.map = map;
+
+        Chat.sendColoredBroadcast("&aCheck 1");
+
+        ColorManager.addColors(map);
+
+        Chat.sendColoredBroadcast("&aCheck 2");
+
+        loadGens(map);
+
+        Chat.sendColoredBroadcast("&aCheck 3");
+
+        loadShops(map);
+
+        Chat.sendColoredBroadcast("&aCheck 4");
+
+        arrangeTeams();
+
+        Chat.sendColoredBroadcast("&aCheck 5");
+
+        teleport(map);
+
+        Chat.sendColoredBroadcast("&aCheck 5");
+
+        manageGameInventory();
+
+        BedWarsPlugin.getInstance().setState(GameState.INGAME);
+
+    }
+
+    public static void stop() {
+
+        if(BedWarsPlugin.getInstance().getState() != GameState.RESTARTING){
+
+            BedWarsPlugin.getInstance().setState(GameState.RESTARTING);
+
+            Chat.sendColoredBroadcast("&aCheck 1");
+
+            stopGenerators();
+
+            Chat.sendColoredBroadcast("&aCheck 2");
+
+            despawnShops();
+
+            Chat.sendColoredBroadcast("&aCheck 3");
+
+            clearDrops();
+
+            Chat.sendColoredBroadcast("&aCheck 4");
+
+            manageLobbyInventory();
+
+            Chat.sendColoredBroadcast("&aCheck 5");
+
+            BedWarsPlugin.getInstance().teleportLobby();
+
+            Chat.sendColoredBroadcast("&aCheck 6");
+
+            Bukkit.getServer().reload();
+
+        }
+
+    }
+
+    private static void clearDrops() {
+
+        for(Entity e : map.getLoc().getWorld().getEntities()){
+            if(e.getType() == EntityType.DROPPED_ITEM){
+                e.remove();
+            }
+        }
+
+    }
+
+    private static void manageLobbyInventory() {
+
+        for(Player p : Bukkit.getOnlinePlayers()){
+
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(null);
+
+            p.updateInventory();
+
+        }
+
+    }
+
+    private static void despawnShops() {
+
+        for (Shop shop : map.getShops()) {
+            shop.despawn();
+        }
+
+    }
+
+    //This will determine if there is voting allowed. If allowed, see what has more votes. If not allowed, pick a random map.
+    private static Map selectMap() {
+        if (Settings.VOTE_MAP) {
+            //TODO Get the highest voted map.
+        } else {
+            Random ran = new Random();
+
+            int mapNum = ran.nextInt(MapManager.getMaps().size());
+
+            return MapManager.getMaps().get(mapNum);
+        }
+        return null;
+    }
+
+    private static void loadGens(Map map) {
+        for (Generator generator : map.getGenerators()) {
+            generator.start();
+        }
+    }
+
+    private static void loadShops(Map map) {
+        for (Shop shop : map.getShops()) {
+            shop.spawn();
+        }
+    }
+
+    private static void arrangeTeams() {
+        for (User u : UserManager.getUsers()) {
+
+            if (!Settings.TEAM) {
+                if (u.getState() != UserState.LOBBY) {
+                    return;
+                }
+
+                u.setState(UserState.GAME);
+
+                Team team = new Team(u);
+
+                Color color = ColorManager.nextColor();
+
+                team.setColor(color);
+                team.setColorRGB(color.asRGB());
+                team.setName(ColorManager.getColorName(color.asRGB()));
+
+                u.setColor(color);
+
+            }
+
+        }
+    }
+
+    public static Map getMap() {
+        return map;
+    }
+
     public static void stopGenerators() {
 
-        for (Generator gen : map.getGens()) {
+        for (Generator gen : map.getGenerators()) {
 
             Bukkit.getServer().getScheduler().cancelTask(gen.getTimerID());
 

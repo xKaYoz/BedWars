@@ -1,9 +1,9 @@
-package me.kayoz.bedwars.utils.inventories;
+package me.kayoz.bedwars.inventories;
 
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.generators.Generator;
-import me.kayoz.bedwars.utils.maps.Map;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Generator;
+import me.kayoz.bedwars.objects.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class MapInfoInv {
         int diamondGens = 0;
         int emeraldGens = 0;
 
-        for (Generator gen : map.getGens()) {
+        for (Generator gen : map.getGenerators()) {
             if (gen.getDrop() == Material.IRON_INGOT) {
                 ironGens++;
             } else if (gen.getDrop() == Material.GOLD_INGOT) {

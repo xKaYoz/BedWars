@@ -4,10 +4,10 @@ import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.game.GameManager;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.spawns.Spawn;
-import me.kayoz.bedwars.utils.users.User;
-import me.kayoz.bedwars.utils.users.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.objects.Spawn;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -41,7 +41,7 @@ public class RespawnTimer {
                 public void run() {
                     if (time.get(p) == 0) {
 
-                        User u = UserManager.getInstance().getUser(p);
+                        User u = UserManager.getUser(p);
 
                         Chat.sendColoredMessage(p, "&eRespawning...");
 
@@ -49,7 +49,7 @@ public class RespawnTimer {
 
                             if (spawn.getColorRGB() == u.getTeam().getColorRGB()) {
 
-                                p.teleport(new Location(spawn.getWorld(), spawn.getX(), spawn.getY(), spawn.getZ(), spawn.getYaw(), spawn.getPitch()).add(0, 2, 0));
+                                p.teleport(new Location(spawn.getLoc().getWorld(), spawn.getLoc().getX(), spawn.getLoc().getY(), spawn.getLoc().getZ(), spawn.getLoc().getYaw(), spawn.getLoc().getPitch()).add(0, 2, 0));
 
                                 p.setGameMode(GameMode.SURVIVAL);
 

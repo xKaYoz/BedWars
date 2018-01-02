@@ -4,10 +4,10 @@ import lombok.Getter;
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.chat.Chat;
-import me.kayoz.bedwars.utils.inventories.AllMapsInv;
-import me.kayoz.bedwars.utils.maps.Map;
-import me.kayoz.bedwars.utils.maps.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.inventories.AllMapsInv;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -48,9 +48,7 @@ public class MapSubCommand extends SubCommand {
                     return;
                 }
 
-                Map map = new Map(p.getName(), name);
-
-                map.setLoc(p.getLocation());
+                Map map = new Map(name, p.getName(), p.getLocation());
 
                 if (files.getFile("maps/" + name, name) == null) {
 
