@@ -60,8 +60,6 @@ public class GenListInteractEvent implements Listener {
                 return;
             }
 
-            //MapInfoInv.create(p, map);
-
         }
 
     }

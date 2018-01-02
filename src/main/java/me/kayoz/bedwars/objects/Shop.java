@@ -78,7 +78,6 @@ public class Shop implements Serializable {
 
     public void despawn() {
         v.remove();
-        //v.setHealth(0);
     }
 
 }

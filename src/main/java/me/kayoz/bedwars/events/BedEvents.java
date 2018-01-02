@@ -50,15 +50,11 @@ public class BedEvents implements Listener {
 
             team.setCanRespawn(true);
 
-            //team.setHasPlacedBed(true);
-
             team.getBed().add(loc);
 
             Location nextLoc = getBedHead(block).getLocation();
 
             team.getBed().add(nextLoc);
-
-            //team.msg("&6" + p.getName() + "&e has placed the team's bed.");
 
             for (User user : team.getMembers()) {
 
