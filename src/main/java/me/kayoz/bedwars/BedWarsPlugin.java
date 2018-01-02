@@ -74,7 +74,6 @@ public final class BedWarsPlugin extends JavaPlugin {
         pm.registerEvents(new GenInfoInteractEvent(), this);
         pm.registerEvents(new SpawnListInteractEvent(), this);
         pm.registerEvents(new SpawnInfoInteractEvent(), this);
-        pm.registerEvents(new BedEvents(), this);
         pm.registerEvents(new DeathEvent(), this);
         pm.registerEvents(new ShopEvents(), this);
         pm.registerEvents(new MapResetEvents(), this);
@@ -115,13 +114,6 @@ public final class BedWarsPlugin extends JavaPlugin {
         }
         return getDirection(rot);
     }
-
-    /**
-     * Converts a rotation to a cardinal direction name.
-     *
-     * @param rot
-     * @return
-     */
     private String getDirection(double rot) {
         if (0 <= rot && rot < 22.5) {
             return "North";
