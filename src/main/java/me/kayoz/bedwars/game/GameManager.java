@@ -222,7 +222,7 @@ public class GameManager {
     //This will determine if there is voting allowed. If allowed, see what has more votes. If not allowed, pick a random map.
     private static Map selectMap() {
         if (Settings.VOTE_MAP) {
-            //TODO Get the highest voted map.
+            //Get the highest voted map.
         } else {
             Random ran = new Random();
 
