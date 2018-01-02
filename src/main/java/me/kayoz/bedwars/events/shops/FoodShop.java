@@ -99,7 +99,7 @@ public class FoodShop implements Listener {
         Inventory inv = e.getClickedInventory();
         ItemStack item = e.getCurrentItem();
 
-        if (inv.getName().equals(Chat.format("&6&lRanged"))) {
+        if (inv.getName().equals(Chat.format("&6&lFood"))) {
 
             int iron = 0;
             int gold = 0;
