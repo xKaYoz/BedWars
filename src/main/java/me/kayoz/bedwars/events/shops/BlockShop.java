@@ -1,11 +1,10 @@
 package me.kayoz.bedwars.events.shops;
 
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.objects.Team;
-import me.kayoz.bedwars.objects.User;
-import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;

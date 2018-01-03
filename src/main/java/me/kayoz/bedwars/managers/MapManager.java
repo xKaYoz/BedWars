@@ -49,8 +49,8 @@ public class MapManager {
         return maps;
     }
 
-    public static void loadMaps(){
-        if(loaded) return;
+    public static void loadMaps() {
+        if (loaded) return;
         File f = new File(plugin.getDataFolder() + File.separator + "maps");
 
         if (f.listFiles() == null) {

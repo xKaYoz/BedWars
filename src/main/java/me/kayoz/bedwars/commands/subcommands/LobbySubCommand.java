@@ -2,8 +2,8 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -2,10 +2,10 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.Files;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,12 +22,12 @@ import java.util.ArrayList;
 public class AdminSubCommand extends SubCommand {
 
     @Getter
-    private String name = "adminmode";
+    private String name = "admin";
     @Getter
     private String permission = "bedwars.admin.lobby";
 
     public AdminSubCommand() {
-        super("adminmode", "bedwars.admin");
+        super("admin", "bedwars.admin");
     }
 
     public static void check(CommandSender sender) {
@@ -41,10 +41,9 @@ public class AdminSubCommand extends SubCommand {
         Chat.sendPrefixMessage(sender, "&eDetermining if the server matches the criteria for Admin Mode to be enabled...");
 
         if (files.getFile("lobby") == null) {
+            allowed = false;
             errors.add("&cA lobby has not yet been setup.");
             errors.add(Chat.createLine("&8"));
-        } else {
-            YamlConfiguration lobby = files.getConfig("lobby");
         }
 
         if (MapManager.getMaps().size() == 0) {
@@ -83,7 +82,7 @@ public class AdminSubCommand extends SubCommand {
             }
             return;
         } else {
-            Chat.sendPrefixMessage(sender, "&eThe server has &c&lFAILED&e the checks and Admin Mode will remain enabled. Please read below to see what the server is lacking!");
+            Chat.sendPrefixMessage(sender, "&eThe server has &c&lFAILED&e the checks and Admin Mode will remain enabled. Please read below to see what needs to be changed!");
             Chat.sendColoredMessage(sender, Chat.createLine("&8"));
             Chat.sendColoredMessages(sender, errors);
             Chat.sendPrefixMessage(sender, "&eWhen these changes have been fixed, you can retry to see if the server passes.");
@@ -129,10 +128,10 @@ public class AdminSubCommand extends SubCommand {
             } else {
                 p.sendMessage(Chat.createLine("&8"));
                 Chat.sendColoredMessage(p, "&6AdminMode Help &7(Page 1/1)");
-                Chat.sendColoredMessage(p, "   &e/bw adminmode enable &8- &7Enables AdminMode.");
-                Chat.sendColoredMessage(p, "   &e/bw adminmode disable &8- &7Disables AdminMode.");
-                Chat.sendColoredMessage(p, "   &e/bw adminmode toggle &8- &7Toggles AdminMode.");
-                Chat.sendColoredMessage(p, "   &e/bw adminmode requirements &8- &7Informs you of what needs to be finished to disable AdminMode.");
+                Chat.sendColoredMessage(p, "   &e/bw admin enable &8- &7Enables Admin Mode.");
+                Chat.sendColoredMessage(p, "   &e/bw admin disable &8- &7Disables Admin Mode.");
+                Chat.sendColoredMessage(p, "   &e/bw admin toggle &8- &7Toggles Admin Mode.");
+                Chat.sendColoredMessage(p, "   &e/bw admin requirements &8- &7Informs you of what needs to be finished to disable Admin Mode.");
                 p.sendMessage(Chat.createLine("&8"));
                 Chat.sendColoredMessage(p, "&6Admin mode is " + config.getBoolean("Admin Mode"));
                 p.sendMessage(Chat.createLine("&8"));

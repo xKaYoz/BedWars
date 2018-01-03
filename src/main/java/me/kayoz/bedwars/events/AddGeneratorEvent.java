@@ -1,12 +1,12 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.BedWarsPlugin;
-import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.managers.MapManager;
 import me.kayoz.bedwars.objects.Generator;
 import me.kayoz.bedwars.objects.Map;
-import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.Files;
+import me.kayoz.bedwars.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -283,7 +282,7 @@ public class AddGeneratorEvent implements Listener {
         }
     }
 
-    private void addTask(Map map, Player p, ItemStack gen){
+    private void addTask(Map map, Player p, ItemStack gen) {
 
         int i = p.getInventory().firstEmpty();
 

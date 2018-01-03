@@ -156,7 +156,7 @@ public class GameManager {
 
     public static void stop() {
 
-        if(BedWarsPlugin.getInstance().getState() != GameState.RESTARTING){
+        if (BedWarsPlugin.getInstance().getState() != GameState.RESTARTING) {
 
             BedWarsPlugin.getInstance().setState(GameState.RESTARTING);
 
@@ -190,8 +190,8 @@ public class GameManager {
 
     private static void clearDrops() {
 
-        for(Entity e : map.getLoc().getWorld().getEntities()){
-            if(e.getType() == EntityType.DROPPED_ITEM){
+        for (Entity e : map.getLoc().getWorld().getEntities()) {
+            if (e.getType() == EntityType.DROPPED_ITEM) {
                 e.remove();
             }
         }
@@ -200,7 +200,7 @@ public class GameManager {
 
     private static void manageLobbyInventory() {
 
-        for(Player p : Bukkit.getOnlinePlayers()){
+        for (Player p : Bukkit.getOnlinePlayers()) {
 
             p.getInventory().clear();
             p.getInventory().setArmorContents(null);

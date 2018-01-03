@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.utils;
 
+import me.kayoz.bedwars.managers.TeamManager;
 import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.objects.Spawn;
 import me.kayoz.bedwars.objects.Team;
-import me.kayoz.bedwars.managers.TeamManager;
 import me.kayoz.bedwars.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;

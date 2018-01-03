@@ -1,6 +1,5 @@
 package me.kayoz.bedwars.managers;
 
-import lombok.Getter;
 import me.kayoz.bedwars.objects.User;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

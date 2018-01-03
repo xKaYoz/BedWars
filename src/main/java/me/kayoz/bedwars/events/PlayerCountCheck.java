@@ -1,8 +1,8 @@
 package me.kayoz.bedwars.events;
 
 import me.kayoz.bedwars.Settings;
-import me.kayoz.bedwars.utils.VaultManager;
 import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.VaultManager;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

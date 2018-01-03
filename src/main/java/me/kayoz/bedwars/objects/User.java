@@ -1,7 +1,5 @@
 package me.kayoz.bedwars.objects;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.kayoz.bedwars.managers.UserManager;
 import me.kayoz.bedwars.managers.UserState;
 import org.bukkit.Color;

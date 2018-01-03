@@ -9,15 +9,12 @@ import me.kayoz.bedwars.game.GameState;
 import me.kayoz.bedwars.game.timers.LobbyTimer;
 import me.kayoz.bedwars.managers.MapManager;
 import me.kayoz.bedwars.managers.UserManager;
-import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.Files;
 import me.kayoz.bedwars.utils.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -114,6 +111,7 @@ public final class BedWarsPlugin extends JavaPlugin {
         }
         return getDirection(rot);
     }
+
     private String getDirection(double rot) {
         if (0 <= rot && rot < 22.5) {
             return "North";

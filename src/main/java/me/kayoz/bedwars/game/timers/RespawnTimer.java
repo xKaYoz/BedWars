@@ -2,12 +2,12 @@ package me.kayoz.bedwars.game.timers;
 
 import me.kayoz.bedwars.BedWarsPlugin;
 import me.kayoz.bedwars.game.GameManager;
-import me.kayoz.bedwars.utils.ColorManager;
-import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.managers.UserManager;
 import me.kayoz.bedwars.objects.Spawn;
 import me.kayoz.bedwars.objects.User;
-import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.ColorManager;
+import me.kayoz.bedwars.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

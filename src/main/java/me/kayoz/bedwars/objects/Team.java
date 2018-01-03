@@ -1,13 +1,8 @@
 package me.kayoz.bedwars.objects;
 
-import lombok.Getter;
-import lombok.Setter;
-import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.managers.TeamManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,9 @@
 package me.kayoz.bedwars.inventories;
 
-import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.objects.Generator;
 import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,17 +20,17 @@ import java.util.Arrays;
 
 public class GenInfoInv {
 
-    public static void create(Player p, Map map, Generator gen){
+    public static void create(Player p, Map map, Generator gen) {
 
         Inventory inv = Bukkit.createInventory(null, 45, Chat.format("&6" + gen.getName() + " Info"));
 
         Material block;
 
-        if(gen.getDrop() == Material.DIAMOND){
+        if (gen.getDrop() == Material.DIAMOND) {
             block = Material.DIAMOND_BLOCK;
-        } else if(gen.getDrop() == Material.EMERALD){
+        } else if (gen.getDrop() == Material.EMERALD) {
             block = Material.EMERALD_BLOCK;
-        } else if(gen.getDrop() == Material.IRON_INGOT){
+        } else if (gen.getDrop() == Material.IRON_INGOT) {
             block = Material.IRON_BLOCK;
         } else {
             block = Material.GOLD_BLOCK;

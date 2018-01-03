@@ -4,9 +4,9 @@ import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
 import me.kayoz.bedwars.inventories.AddGenInv;
 import me.kayoz.bedwars.inventories.AllGensInv;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.utils.Chat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -43,7 +43,7 @@ public class Map implements Serializable {
             throw new IllegalArgumentException("unknown world");
         }
 
-        Location loc = new Location(world, NumberConversions.toDouble(data.get("x")),  NumberConversions.toDouble(data.get("y")),  NumberConversions.toDouble(data.get("z")));
+        Location loc = new Location(world, NumberConversions.toDouble(data.get("x")), NumberConversions.toDouble(data.get("y")), NumberConversions.toDouble(data.get("z")));
 
         return new Map((String) data.get("name"), (String) data.get("creator"), loc);
     }

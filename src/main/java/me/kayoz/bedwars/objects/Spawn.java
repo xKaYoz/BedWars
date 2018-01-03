@@ -1,8 +1,5 @@
 package me.kayoz.bedwars.objects;
 
-import lombok.Getter;
-import lombok.Setter;
-import me.kayoz.bedwars.managers.MapManager;
 import org.bukkit.*;
 import org.bukkit.util.NumberConversions;
 

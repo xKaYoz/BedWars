@@ -1,10 +1,10 @@
 package me.kayoz.bedwars.events;
 
-import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.inventories.MapInfoInv;
-import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.objects.Spawn;
+import me.kayoz.bedwars.utils.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -62,7 +62,8 @@ public class SpawnInfoInteractEvent implements Listener {
                 for (Spawn s : map.getSpawns()) {
 
                     if (s.getName().equalsIgnoreCase(spawnName)) {
-                        p.teleport(new Location(s.getLoc().getWorld(), s.getLoc().getX(), s.getLoc().getY(), s.getLoc().getZ(), s.getLoc().getYaw(), s.getLoc().getPitch()));
+                        p.teleport(new Location(s.getLoc().getWorld(), s.getLoc().getX(), s.getLoc().getY(), s.getLoc().getZ(), s.getLoc().getYaw(), s.getLoc()
+                                .getPitch()));
                         p.sendMessage(Chat.format("&eYou have been teleported to the spawn point " + spawnName));
                         p.getOpenInventory().close();
                     }

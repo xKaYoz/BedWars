@@ -35,6 +35,8 @@ public class HelpSubCommand extends SubCommand {
             Chat.sendColoredMessage(p, "   &e/bw map &8- &7Command to manage the maps");
             Chat.sendColoredMessage(p, "   &e/bw generator &8- &7Command to manage the generators");
             Chat.sendColoredMessage(p, "   &e/bw spawn &8- &7Command to manage the spawn points");
+            Chat.sendColoredMessage(p, "   &e/bw shop &8- &7Command to manage the spawn points");
+            Chat.sendColoredMessage(p, "   &e/bw admin &8- &7Command to manage the spawn points");
             p.sendMessage(Chat.createLine("&8"));
 
         } else {

@@ -2,11 +2,11 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
-import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Map;
 import me.kayoz.bedwars.objects.Shop;
+import me.kayoz.bedwars.utils.Chat;
+import me.kayoz.bedwars.utils.Files;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -67,6 +67,21 @@ public class ShopSubCommand extends SubCommand {
 
                 Chat.sendPrefixMessage(p, "&eYou have created a &6Shop&e for the map &6" + map.getName() + "&e.");
 
+            } else if (args.length == 3 && args[1].equalsIgnoreCase("delete")) {
+                Map map = MapManager.getMap(args[2]);
+
+                if (map == null) {
+                    Chat.sendPrefixMessage(p, "&cThere is not a map with that name.");
+                    return;
+                }
+
+
+            } else {
+                p.sendMessage(Chat.createLine("&8"));
+                Chat.sendColoredMessage(p, "&Shop Help &7(Page 1/1)");
+                Chat.sendColoredMessage(p, "   &e/bw shop create <map> &8- &7Creates a shop.");
+                Chat.sendColoredMessage(p, "   &e/bw shop delete <map> &8- &7Deletes a shop.");
+                p.sendMessage(Chat.createLine("&8"));
             }
 
         }

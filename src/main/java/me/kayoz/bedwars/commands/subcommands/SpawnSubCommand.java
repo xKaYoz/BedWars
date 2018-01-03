@@ -2,13 +2,13 @@ package me.kayoz.bedwars.commands.subcommands;
 
 import lombok.Getter;
 import me.kayoz.bedwars.commands.SubCommand;
+import me.kayoz.bedwars.inventories.AllSpawnsInv;
+import me.kayoz.bedwars.managers.MapManager;
+import me.kayoz.bedwars.objects.Map;
+import me.kayoz.bedwars.objects.Spawn;
+import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.Files;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.inventories.AllSpawnsInv;
-import me.kayoz.bedwars.objects.Map;
-import me.kayoz.bedwars.managers.MapManager;
-import me.kayoz.bedwars.objects.Spawn;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;

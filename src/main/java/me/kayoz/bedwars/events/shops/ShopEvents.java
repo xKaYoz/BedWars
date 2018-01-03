@@ -1,10 +1,10 @@
 package me.kayoz.bedwars.events.shops;
 
+import me.kayoz.bedwars.managers.UserManager;
+import me.kayoz.bedwars.objects.User;
+import me.kayoz.bedwars.utils.Chat;
 import me.kayoz.bedwars.utils.ColorManager;
 import me.kayoz.bedwars.utils.ItemBuilder;
-import me.kayoz.bedwars.utils.Chat;
-import me.kayoz.bedwars.objects.User;
-import me.kayoz.bedwars.managers.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -66,6 +66,16 @@ public class ShopEvents implements Listener {
         return 0;
     }
 
+    public static int getItem(Material i, Player p) {
+        int item = 0;
+        for (ItemStack t : p.getInventory().getContents()) {
+            if (t != null && t.getType() == i) {
+                item += t.getAmount();
+            }
+        }
+        return item;
+    }
+
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
 
@@ -94,16 +104,6 @@ public class ShopEvents implements Listener {
 
         }
 
-    }
-
-    public static int getItem(Material i, Player p){
-        int item = 0;
-        for(ItemStack t : p.getInventory().getContents()){
-            if(t != null && t.getType() == i){
-                item += t.getAmount();
-            }
-        }
-        return item;
     }
 
     @EventHandler
