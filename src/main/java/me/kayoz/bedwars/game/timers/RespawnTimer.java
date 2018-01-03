@@ -47,47 +47,13 @@ public class RespawnTimer {
 
                         for (Spawn spawn : GameManager.getMap().getSpawns()) {
 
-                            if (spawn.getColorRGB() == u.getTeam().getColorRGB()) {
+                            if (u.getTeam() != null && spawn.getColorRGB() == u.getTeam().getColorRGB()) {
 
                                 p.teleport(new Location(spawn.getLoc().getWorld(), spawn.getLoc().getX(), spawn.getLoc().getY(), spawn.getLoc().getZ(), spawn.getLoc().getYaw(), spawn.getLoc().getPitch()).add(0, 2, 0));
 
                                 p.setGameMode(GameMode.SURVIVAL);
 
-                                u.getPlayer().getInventory().clear();
-
-                                ItemStack helm = new ItemStack(Material.LEATHER_HELMET);
-                                LeatherArmorMeta helmmeta = (LeatherArmorMeta) helm.getItemMeta();
-                                helmmeta.setColor(u.getColor());
-                                helm.setItemMeta(helmmeta);
-
-                                ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
-                                LeatherArmorMeta chestmeta = (LeatherArmorMeta) chest.getItemMeta();
-                                chestmeta.setColor(u.getColor());
-                                chest.setItemMeta(chestmeta);
-
-                                ItemStack leg = new ItemStack(Material.LEATHER_LEGGINGS);
-                                LeatherArmorMeta legmeta = (LeatherArmorMeta) leg.getItemMeta();
-                                legmeta.setColor(u.getColor());
-                                leg.setItemMeta(legmeta);
-
-                                ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-                                LeatherArmorMeta bootsmeta = (LeatherArmorMeta) boots.getItemMeta();
-                                bootsmeta.setColor(u.getColor());
-                                boots.setItemMeta(bootsmeta);
-
-                                ItemStack bed = ItemBuilder.build(Material.BED, 1, ColorManager.getChatColor(u.getColor().asRGB()) + "&l" + ColorManager.getColorName(u.getColor().asRGB()) + "'s Bed",
-                                        Arrays.asList("&7Place this where you would like your bed to be."));
-
-                                ItemStack sword = ItemBuilder.build(Material.WOOD_SWORD, 1, "&eStarting Sword", Arrays.asList("&7This is your beginning sword"));
-
-                                u.getPlayer().getInventory().setItem(0, sword);
-                                u.getPlayer().getInventory().setItem(8, bed);
-                                u.getPlayer().getInventory().setHelmet(helm);
-                                u.getPlayer().getInventory().setChestplate(chest);
-                                u.getPlayer().getInventory().setLeggings(leg);
-                                u.getPlayer().getInventory().setBoots(boots);
-
-                                u.getPlayer().updateInventory();
+                               GameManager.giveItems(u);
 
                             }
 

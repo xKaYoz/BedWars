@@ -69,37 +69,7 @@ public class GameManager {
 
             if (u.getState() == UserState.GAME) {
 
-                u.getPlayer().getInventory().clear();
-
-                ItemStack helm = new ItemStack(Material.LEATHER_HELMET);
-                LeatherArmorMeta helmmeta = (LeatherArmorMeta) helm.getItemMeta();
-                helmmeta.setColor(u.getColor());
-                helm.setItemMeta(helmmeta);
-
-                ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
-                LeatherArmorMeta chestmeta = (LeatherArmorMeta) chest.getItemMeta();
-                chestmeta.setColor(u.getColor());
-                chest.setItemMeta(chestmeta);
-
-                ItemStack leg = new ItemStack(Material.LEATHER_LEGGINGS);
-                LeatherArmorMeta legmeta = (LeatherArmorMeta) leg.getItemMeta();
-                legmeta.setColor(u.getColor());
-                leg.setItemMeta(legmeta);
-
-                ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-                LeatherArmorMeta bootsmeta = (LeatherArmorMeta) boots.getItemMeta();
-                bootsmeta.setColor(u.getColor());
-                boots.setItemMeta(bootsmeta);
-
-                ItemStack sword = ItemBuilder.build(Material.WOOD_SWORD, 1, "&eStarting Sword", Arrays.asList("&7This is your beginning sword"));
-
-                u.getPlayer().getInventory().setItem(0, sword);
-                u.getPlayer().getInventory().setHelmet(helm);
-                u.getPlayer().getInventory().setChestplate(chest);
-                u.getPlayer().getInventory().setLeggings(leg);
-                u.getPlayer().getInventory().setBoots(boots);
-
-                u.getPlayer().updateInventory();
+                giveItems(u);
 
             }
 
@@ -281,6 +251,42 @@ public class GameManager {
             Bukkit.getServer().getScheduler().cancelTask(gen.getTimerID());
 
         }
+
+    }
+
+    public static void giveItems(User u){
+
+        u.getPlayer().getInventory().clear();
+
+        ItemStack helm = new ItemStack(Material.LEATHER_HELMET);
+        LeatherArmorMeta helmmeta = (LeatherArmorMeta) helm.getItemMeta();
+        helmmeta.setColor(u.getColor());
+        helm.setItemMeta(helmmeta);
+
+        ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta chestmeta = (LeatherArmorMeta) chest.getItemMeta();
+        chestmeta.setColor(u.getColor());
+        chest.setItemMeta(chestmeta);
+
+        ItemStack leg = new ItemStack(Material.LEATHER_LEGGINGS);
+        LeatherArmorMeta legmeta = (LeatherArmorMeta) leg.getItemMeta();
+        legmeta.setColor(u.getColor());
+        leg.setItemMeta(legmeta);
+
+        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+        LeatherArmorMeta bootsmeta = (LeatherArmorMeta) boots.getItemMeta();
+        bootsmeta.setColor(u.getColor());
+        boots.setItemMeta(bootsmeta);
+
+        ItemStack sword = ItemBuilder.build(Material.WOOD_SWORD, 1, "&eStarting Sword", Arrays.asList("&7This is your starting sword.", "&7You can purchase a better one at the shop."));
+
+        u.getPlayer().getInventory().setItem(0, sword);
+        u.getPlayer().getInventory().setHelmet(helm);
+        u.getPlayer().getInventory().setChestplate(chest);
+        u.getPlayer().getInventory().setLeggings(leg);
+        u.getPlayer().getInventory().setBoots(boots);
+
+        u.getPlayer().updateInventory();
 
     }
 
